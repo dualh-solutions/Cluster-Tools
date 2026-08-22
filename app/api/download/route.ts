@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import youtubedl from 'youtube-dl-exec';
 import ytdl from '@distube/ytdl-core';
+import fs from 'fs';
+import path from 'path';
 
 export async function POST(request: Request) {
   let url = '';
@@ -30,7 +32,7 @@ export async function POST(request: Request) {
       }
     }
 
-    const meta = await youtubedl(url, {
+    const options: any = {
       dumpJson: true,
       noWarnings: true,
       noCheckCertificate: true,
@@ -38,7 +40,15 @@ export async function POST(request: Request) {
       preferFreeFormats: true,
       forceIpv4: true,
       extractorArgs: 'youtube:player_client=default', // Bypass bot block
-    } as any) as any;
+    };
+
+    if (process.env.YOUTUBE_COOKIES) {
+      const cookiePath = path.join('/tmp', 'youtube-cookies.txt');
+      fs.writeFileSync(cookiePath, process.env.YOUTUBE_COOKIES);
+      options.cookies = cookiePath;
+    }
+
+    const meta = await youtubedl(url, options) as any;
 
     if (!meta) return NextResponse.json({ error: 'Failed to fetch video info.' }, { status: 400 });
 

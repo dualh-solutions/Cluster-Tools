@@ -3,6 +3,8 @@ import { spawn } from 'child_process';
 import youtubedl from 'youtube-dl-exec';
 import ytdl from '@distube/ytdl-core';
 import ffmpegPath from 'ffmpeg-static';
+import fs from 'fs';
+import path from 'path';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
@@ -56,7 +58,7 @@ export async function GET(req: NextRequest) {
           targetVideoUrl = combinedFmt.url;
         }
       } else {
-        const meta = await youtubedl(sourceUrl, { 
+        const options: any = { 
           dumpJson: true, 
           noWarnings: true, 
           noCheckCertificate: true,
@@ -64,7 +66,15 @@ export async function GET(req: NextRequest) {
           preferFreeFormats: true,
           forceIpv4: true,
           extractorArgs: 'youtube:player_client=default', // Bypass bot block
-        } as any) as any;
+        };
+
+        if (process.env.YOUTUBE_COOKIES) {
+          const cookiePath = path.join('/tmp', 'youtube-cookies.txt');
+          fs.writeFileSync(cookiePath, process.env.YOUTUBE_COOKIES);
+          options.cookies = cookiePath;
+        }
+
+        const meta = await youtubedl(sourceUrl, options) as any;
         const formats: any[] = meta.formats || [];
 
         const isGoodProtocol = (f: any) => f.url && (f.protocol === 'https' || f.protocol === 'http' || (f.protocol || '').includes('m3u8'));
