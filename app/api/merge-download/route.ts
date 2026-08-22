@@ -65,7 +65,6 @@ export async function GET(req: NextRequest) {
           noCacheDir: true,
           preferFreeFormats: true,
           forceIpv4: true,
-          extractorArgs: 'youtube:player_client=default', // Bypass bot block
         };
 
         if (process.env.YOUTUBE_COOKIES) {
