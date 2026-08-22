@@ -1,42 +1,63 @@
 ---
-title: "Text Diff Checker Online | Pressto"
-description: "Compare two texts side-by-side to find additions, removals, and changes instantly."
-keywords: ["text diff","diff checker","compare text","find differences in text"]
+title: "Text Diff Checker — Compare Two Texts Online | Cluster Tools"
+description: "Find the differences between two blocks of text side by side. Highlights additions, deletions, and changes. Free, private, browser-based."
+keywords: ["text diff checker","compare text online","text comparison","find differences in text","diff tool","text diff online"]
 ---
 
+## Compare Two Texts and Find the Differences
 
-## Why Use the Pressto Text Diff Checker?
+The Cluster Tools Text Diff Checker shows you exactly what changed between two versions of a text — line by line and character by character. Additions are highlighted in green, deletions in red, unchanged sections in neutral. There's no guessing involved.
 
-The **Text Diff Checker** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+This runs entirely in JavaScript in your browser using the Myers diff algorithm. Your text — which might contain confidential contracts, source code with credentials, or proprietary content — is never sent to a server.
 
-Most traditional online text tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## The Myers Diff Algorithm
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the Text Diff Checker operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+Cluster Tools uses the **Myers diff algorithm** (Eugene Myers, 1986), the same algorithm used by Git for showing file changes. It finds the shortest edit script — the minimum number of line insertions and deletions needed to transform text A into text B. This gives intuitive, meaningful diffs rather than arbitrary change representations.
 
-## What is a Text Diff Checker?
+## When to Use a Text Diff Tool
 
-The Text Diff Checker is an essential utility for anyone working with text files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+**Reviewing document revisions** — a client returns a contract with "some small changes." Instead of reading every line, paste both versions and see exactly what changed.
 
-## How to use the Diff Checker
+**Comparing code snippets** — checking the difference between two versions of a function, a configuration file, or a SQL query.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+**Verifying copy changes** — comparing the original and final versions of web page copy, email campaigns, or blog posts before publishing.
 
-## Frequently Asked Questions (FAQ)
+**Catching plagiarism or unauthorized changes** — comparing a submitted document against an original to identify differences.
 
-**Is the Text Diff Checker completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+**Translation verification** — comparing translated content against the source to identify passages that may have been added or omitted.
 
-**Is my data safe and private?**
-Absolutely. The Text Diff Checker processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+## View Modes
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+**Side-by-side** — the two texts are shown in parallel columns, with differences highlighted. Best for understanding context around changes.
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+**Inline** — changes are shown in a single column, with additions and deletions interleaved. Compact and efficient for dense comparisons.
+
+**Character-level diff** — within changed lines, highlights exactly which characters differ (not just which lines). Critical for catching single-character typos, punctuation changes, or number substitutions.
+
+## Step-by-Step: How to Compare
+
+1. **Paste your original text** into the left panel.
+2. **Paste the revised text** into the right panel.
+3. The differences are highlighted automatically as you type.
+4. Use the diff mode selector to switch between side-by-side and inline views.
+
+## Frequently Asked Questions
+
+**Does it compare by line or by character?**
+By default, it diffs by line and then performs character-level diffing within changed lines. The character-level view is shown on request.
+
+**Can it compare code?**
+Yes — it treats code as plain text and diffs it accordingly. It doesn't understand programming language syntax; for semantic code diffs, you'd need language-aware tools.
+
+**What about whitespace differences?**
+By default, whitespace changes (extra spaces, tabs, trailing spaces) are shown as changes. You can enable "ignore whitespace" mode to hide these and focus on substantive content differences.
+
+**What's the maximum text length?**
+No hard limit. The Myers algorithm is O(ND) where N is the number of elements and D is the edit distance. Very large texts with many differences may be slower to compute but will complete correctly.
+
+## Related Tools
+
+- [Word Counter](/tools/text/word-counter) — count words in each version before comparing.
+- [Remove Duplicate Lines](/tools/text/remove-duplicate-lines) — clean up text before diffing.
+- [JSON Formatter](/tools/developer/json-formatter) — format JSON from both versions before comparing them.
+- [Case Converter](/tools/text/case-converter) — normalize capitalization before comparing.

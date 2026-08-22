@@ -19,7 +19,7 @@ keywords: ${JSON.stringify(tool.keywords)}
 }
 
 function generateValueProp(tool: any) {
-  return `## Why Use the Pressto ${tool.name}?
+  return `## Why Use the Cluster Tools ${tool.name}?
 
 The **${tool.name}** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
 
@@ -81,7 +81,7 @@ function generateFAQ(tool: any) {
   return `## Frequently Asked Questions (FAQ)
 
 **Is the ${tool.name} completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+Yes! Cluster Tools provides this tool completely free of charge, with no hidden limits or premium paywalls.
 
 **Is my data safe and private?**
 Absolutely. The ${tool.name} processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.

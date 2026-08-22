@@ -8,7 +8,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     
     // Default values if not provided
-    const title = searchParams.get('title') || 'Pressto - Fast, Private Online Tools';
+    const title = searchParams.get('title') || 'Cluster Tools - Fast, Private Online Tools';
     const description = searchParams.get('description') || 'Convert, compress, and edit files entirely in your browser. 100% private, no uploads.';
     const category = searchParams.get('category') || 'Tools';
 
@@ -46,7 +46,7 @@ export async function GET(req: NextRequest) {
               </svg>
             </div>
             <span style={{ fontSize: '48px', fontWeight: 800, color: '#E6EDF3', letterSpacing: '-0.05em' }}>
-              Pressto
+              Cluster Tools
             </span>
           </div>
           

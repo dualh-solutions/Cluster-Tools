@@ -23,7 +23,7 @@ export function downloadResult(blob: Blob, filename: string) {
  */
 export async function downloadAllAsZip(
   files: { blob: Blob; filename: string }[],
-  zipFilename: string = "pressto_results.zip"
+  zipFilename: string = "cluster-tools_results.zip"
 ) {
   const zip = new JSZip();
   

@@ -1,37 +1,108 @@
 ---
-title: "Meta Tag Generator — SEO, Open Graph & Twitter Card | Pressto"
-description: "Generate SEO meta tags, Open Graph, and Twitter Card HTML markup for any web page. Free, private, no signup."
-keywords: ["meta tag generator","seo meta tags","open graph generator","twitter card generator"]
+title: "Meta Tag Generator — Create SEO Meta Tags Online | Cluster Tools"
+description: "Generate HTML meta title and description tags with real-time Google snippet preview. Check character counts and Open Graph tags. Free."
+keywords: ["meta tag generator","seo meta tags","meta description generator","generate meta tags","html meta tags","open graph tags"]
 ---
 
+## Generate Optimized Meta Tags — With Live SERP Preview
 
-## Why Use the Pressto Meta Tag Generator?
+Meta tags are the first thing a search engine reads and the first thing a user sees in search results. Getting them right is one of the highest-leverage technical SEO tasks you can do.
 
-The **Meta Tag Generator** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Cluster Tools's Meta Tag Generator creates properly formatted HTML meta tags with a live preview showing exactly how your page would appear in Google search results — including automatic character-limit warnings.
 
-Most traditional online seo tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## What Meta Tags Does This Generate?
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the Meta Tag Generator operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+### Meta Title (`<title>`)
+The page title shown in browser tabs, search engine results, and when the page is bookmarked. **This is the single most important on-page SEO element** — the primary signal Google uses to understand what a page is about.
 
-## What is a Meta Tag Generator?
+```html
+<title>Free Image Compressor — Compress JPG, PNG Online | Cluster Tools</title>
+```
 
-The Meta Tag Generator is an essential utility for anyone working with seo files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+**Optimal length:** 50–60 characters. Google truncates titles at approximately 580px display width (roughly 60 characters for standard fonts). Titles that are too short miss keyword opportunities; titles that are too long get cut off in results.
 
-## How to use the Meta Tags
+### Meta Description (`<meta name="description">`)
+The description shown below the title in search results. **Not a direct ranking signal**, but directly affects click-through rate (CTR) — a poorly written description means fewer people click even if you rank well.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+```html
+<meta name="description" content="Compress JPG, PNG, and WebP images in your browser. No upload. Set a target file size. Batch process. 100% private, free forever." />
+```
 
-## Frequently Asked Questions (FAQ)
+**Optimal length:** 150–160 characters. Google truncates at approximately 920px display width.
 
-**Do meta tags guarantee better rankings?**
-No. Meta tags provide signals to search engines and social platforms, but rankings depend on many other factors including content quality and backlinks.
+### Open Graph Tags
+Meta tags that control how your page appears when shared on social media (Facebook, LinkedIn, Slack, iMessage, WhatsApp).
 
-**Is my page content sent anywhere?**
-No. All generation happens in your browser. Nothing is transmitted.
+```html
+<meta property="og:title" content="..." />
+<meta property="og:description" content="..." />
+<meta property="og:image" content="https://example.com/og-image.jpg" />
+<meta property="og:url" content="https://example.com/your-page" />
+<meta property="og:type" content="website" />
+```
 
+The `og:image` tag controls the image that appears in link previews. Recommended dimensions: **1200×630px** (16:9 ish ratio) for Facebook/LinkedIn; Twitter/X can use the same but recommends 1200×675px.
+
+### Twitter Card Tags
+Twitter's own meta tag system, which takes precedence over Open Graph for Twitter previews.
+
+```html
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="..." />
+<meta name="twitter:description" content="..." />
+<meta name="twitter:image" content="..." />
+```
+
+## Writing Effective Meta Titles
+
+Good meta titles follow this pattern: **Primary Keyword — Modifiers | Brand**
+
+- `Free PDF Compressor — Reduce File Size Online | Cluster Tools`
+- `JPG to WebP Converter — Fast & Private | Cluster Tools`
+- `Word Counter — Words, Characters, Reading Time | Cluster Tools`
+
+Principles:
+- **Lead with the primary keyword** — Google gives more weight to words earlier in the title.
+- **Add differentiating modifiers** — Free, Fast, Online, Without Signup — these improve CTR.
+- **Include your brand name** — usually at the end, separated by `|` or `—`.
+- **Don't keyword stuff** — "PDF Compressor PDF Compress Free PDF" is worse than one clean title.
+
+## Writing Effective Meta Descriptions
+
+A meta description is **sales copy** for your page. It should:
+
+- Confirm what the page is about (matching the title's promise).
+- State the primary benefit the visitor gets.
+- Include a subtle CTA: "Try it free," "No signup required," "Compress now."
+- Use naturally occurring secondary keywords that might appear in the user's search query (Google bolds these).
+
+**Example of a poor meta description:**
+> "This is our free online image compressor. It compresses images. Try it now."
+
+**Example of a strong meta description:**
+> "Compress JPG, PNG, and WebP images directly in your browser — no upload, no signup. Set a target file size in KB and let the algorithm find the best quality. Completely free."
+
+## Step-by-Step: How to Use the Generator
+
+1. **Enter your page title** — the generator shows a character count and warns if you're over the recommended limit.
+2. **Write your meta description** — the live preview updates in real time, showing the Google snippet.
+3. **Fill in Open Graph fields** — title, description, image URL, and page URL for social sharing.
+4. **Copy the generated HTML** — paste it into your page's `<head>`.
+
+## Frequently Asked Questions
+
+**Does Google always use the title and description I write?**
+No. Google may rewrite your title and description if it deems its version more relevant to the user's query. Writing good titles and descriptions reduces how often this happens, but doesn't eliminate it. Google rewrites titles in roughly 60–70% of cases, and meta descriptions in 60–70% of cases, according to various studies.
+
+**What's the difference between meta description and og:description?**
+`meta name="description"` is used by search engines. `og:description` is used by social platforms for link previews. They're separate and can have different copy — though using the same or similar text is common.
+
+**Does meta description length matter for SEO?**
+It doesn't directly affect rankings, but it affects CTR. A description that's cut off mid-sentence looks unprofessional and may reduce clicks. Keep it under 160 characters.
+
+## Related Tools
+
+- [SEO Snippet Preview](/tools/seo/seo-snippet-preview) — preview how your full page listing looks in Google.
+- [Slug Generator](/tools/seo/slug-generator) — generate the URL slug for the page.
+- [Keyword Density Checker](/tools/seo/keyword-density-checker) — check keyword distribution in your page content.
+- [XML Sitemap Generator](/tools/seo/xml-sitemap-generator) — generate a sitemap listing your pages for Google.

@@ -1,42 +1,79 @@
 ---
-title: "URL Encoder & Decoder Online | Pressto"
-description: "Encode URLs safely or decode percent-encoded strings directly in your browser."
-keywords: ["url encoder","url decoder","percent encoding","url escape"]
+title: "URL Encoder & Decoder Online — Free, Private | Cluster Tools"
+description: "Encode or decode URL percent-encoded strings instantly in your browser. Handles query parameters, path segments, and full URLs. Free."
+keywords: ["url encoder","url decoder","percent encoding","url encode decode","encode url online","urlencode","decode url"]
 ---
 
+## Encode and Decode URLs — No Server Required
 
-## Why Use the Pressto URL Encoder & Decoder?
+URL encoding (formally **percent-encoding**) is the process of converting characters that are unsafe in URLs into a safe, universally transmittable format. Cluster Tools's URL encoder/decoder handles this instantly in your browser — no data is sent anywhere.
 
-The **URL Encoder & Decoder** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+## Why URLs Need Encoding
 
-Most traditional online developer tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+URLs can only legally contain a specific subset of ASCII characters. Characters outside this set — spaces, accented letters, emoji, symbols like `&`, `=`, `?`, and `#` — must be encoded before being included in a URL.
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the URL Encoder & Decoder operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+The encoding format: each unsafe byte is replaced with `%` followed by its two-digit hexadecimal value. A space (`0x20`) becomes `%20`. An ampersand (`&`, `0x26`) becomes `%26`. The French character `é` (two bytes: `0xC3 0xA9` in UTF-8) becomes `%C3%A9`.
 
-## What is a URL Encoder & Decoder?
+## When You Need URL Encoding
 
-A converter is designed to seamlessly translate files or data from one format into another. In today's digital landscape, different applications, platforms, and devices require specific formats to function correctly. A URL Encoder & Decoder bridges this gap, allowing you to convert your files quickly and accurately without losing quality.
+**Query parameter values** — if you're building a URL like `https://example.com/search?q=hello world`, the space in the search term must be encoded: `?q=hello%20world`. Without encoding, the URL is technically malformed and may be interpreted differently by different servers.
 
-## How to use the URL Encoder
+**Path segments** — URLs like `/files/my document.pdf` need the space encoded: `/files/my%20document.pdf`.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+**Passing URLs as parameter values** — if you're passing a URL inside another URL (e.g., a redirect parameter), the inner URL must be fully encoded so the outer URL parser doesn't misinterpret its delimiters: `?redirect=https%3A%2F%2Fexample.com%2Fpath`.
 
-## Frequently Asked Questions (FAQ)
+**API construction** — when programmatically building API request URLs, encoding the parameter values ensures special characters don't break the query string parsing.
 
-**Is the URL Encoder & Decoder completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+**Debugging API responses** — percent-encoded strings in API responses, error messages, or logs often need decoding to read them as human text.
 
-**Is my data safe and private?**
-Absolutely. The URL Encoder & Decoder processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+## Encode vs. Encode URI Component
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+There are two levels of URL encoding:
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+- **encodeURIComponent** (what most people need) — encodes everything except `A-Z a-z 0-9 - _ . ! ~ * ' ( )`. Suitable for encoding individual query parameter names and values.
+- **encodeURI** — also preserves URL structural characters like `:`, `/`, `?`, `#`, `&`, `=`. Suitable for encoding a full URL without breaking its structure.
+
+Cluster Tools offers both modes.
+
+## Step-by-Step: How to Use
+
+**Encoding:**
+1. Paste the text, query string value, or full URL into the input.
+2. Select your encoding mode (full URL or component).
+3. The encoded output appears instantly. Copy it.
+
+**Decoding:**
+1. Paste a percent-encoded string into the input.
+2. Click "Decode" — all `%XX` sequences are replaced with their original characters.
+
+## Common Encoded Characters Reference
+
+| Original | Encoded |
+|---|---|
+| Space | `%20` or `+` in form data |
+| `&` | `%26` |
+| `=` | `%3D` |
+| `?` | `%3F` |
+| `#` | `%23` |
+| `/` | `%2F` |
+| `+` | `%2B` |
+| `@` | `%40` |
+| `:` | `%3A` |
+
+## Frequently Asked Questions
+
+**What's the difference between `%20` and `+` for spaces?**
+Both represent spaces, but in different contexts. `%20` is the correct percent-encoding for a space anywhere in a URL. `+` represents a space only within the query string of an HTML form submission (application/x-www-form-urlencoded format). In modern APIs and URLs, `%20` is preferred.
+
+**Why does my URL look different after encoding a URL versus encoding a component?**
+When encoding a full URL (`encodeURI`), characters like `/`, `?`, `#`, and `:` are preserved because they're structural URL characters. When encoding a component (`encodeURIComponent`), these are encoded too, because a component value shouldn't contain raw structural characters.
+
+**Can I decode a partially-encoded URL?**
+Yes — the decoder processes all `%XX` sequences it finds in the input, leaving already-decoded characters unchanged.
+
+## Related Tools
+
+- [Base64 Encoder/Decoder](/tools/developer/base64-encoder-decoder) — encode binary data or text to Base64.
+- [JSON Formatter](/tools/developer/json-formatter) — format JSON that often appears in decoded URL parameters.
+- [Slug Generator](/tools/seo/slug-generator) — generate URL-safe slugs from titles.
+- [Keyword Density Checker](/tools/seo/keyword-density-checker) — analyze text from URLs and landing pages.

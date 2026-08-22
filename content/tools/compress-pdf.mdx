@@ -1,42 +1,66 @@
 ---
-title: "Compress PDF Online, Free & Private | Pressto"
-description: "Reduce PDF file size securely in your browser. No upload, free, and private structural optimization."
-keywords: ["compress pdf","reduce pdf size","shrink pdf","pdf compressor online"]
+title: "Compress PDF Online — Reduce File Size, Free & Private | Cluster Tools"
+description: "Reduce PDF file size without uploading to a server. Browser-based PDF compression that keeps your documents private. Free, no limits."
+keywords: ["compress pdf","reduce pdf file size","shrink pdf","pdf compressor online","make pdf smaller"]
 ---
 
+## Reduce PDF File Size — Without Sending It Anywhere
 
-## Why Use the Pressto Compress PDF?
+Email attachments have size limits. Website upload forms cap file sizes. Google Drive and Dropbox storage fills up. PDF compression is a practical, constant need — and yet most tools that do it well require you to hand over your documents to a third-party server.
 
-The **Compress PDF** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Cluster Tools compresses PDFs directly in your browser using [PDF-lib](https://pdf-lib.js.org/) and an optimized WebAssembly pipeline. The process happens entirely in your device's memory. No server receives your file.
 
-Most traditional online pdf tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## What PDF Compression Actually Does
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the Compress PDF operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+"Compressing a PDF" usually means one or more of the following:
 
-## What is a Compress PDF?
+- **Image resampling and re-encoding** — images embedded in a PDF are often stored at print resolution (300 DPI), which is overkill for screen viewing. Downsampling to 96–150 DPI and re-encoding at reduced JPEG quality can cut file size by 60–80% for image-heavy PDFs.
+- **Removing embedded metadata** — PDFs can store thumbnails, version history, XML metadata, and embedded color profiles that add kilobytes of overhead.
+- **Subsetting embedded fonts** — PDFs often embed entire font files even when only a few characters are used. Font subsetting keeps only the required glyphs.
+- **Flattening layers and annotations** — interactive elements like form fields and annotations add binary data. Flattening them into the page content removes this overhead.
 
-File size optimization is crucial for web performance, email attachments, and storage management. A Compress PDF uses advanced algorithms to reduce the overall byte size of your file while aiming to preserve as much of the original quality as possible.
+Cluster Tools performs image resampling and metadata removal. For most PDFs that are large because of high-resolution embedded images (scans, screenshots, exported presentations), this delivers significant size reduction.
 
-## How to use the Compress
+## Step-by-Step: How to Compress Your PDF
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+1. **Drop your PDF** into the upload zone above.
+2. **Choose a compression level** — "Screen" (~72 DPI equivalent) for maximum reduction, "eBook" (~96 DPI) for balanced quality, or "Printer" (~150 DPI) for higher fidelity.
+3. **Click "Compress"** — the browser processes the file and shows you the before and after file size.
+4. **Download** — if you're happy with the result, download the compressed PDF.
 
-## Frequently Asked Questions (FAQ)
+## Realistic Expectations for File Size Reduction
 
-**Is the Compress PDF completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+Results vary significantly depending on what's inside the PDF:
 
-**Is my data safe and private?**
-Absolutely. The Compress PDF processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+| PDF Type | Typical Size Reduction |
+|---|---|
+| Scanned document (photos of pages) | 50–80% |
+| Exported PowerPoint/Keynote | 40–70% |
+| Digital PDF (text + vector graphics) | 5–20% |
+| PDF with embedded fonts only, no images | Very little (already efficient) |
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+If your PDF is already a lean digital document (generated by Word, InDesign, or LaTeX), the headroom for compression is small. If it's a scanned document or exported from a presentation tool, the reduction will be dramatic.
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+## Frequently Asked Questions
+
+**Will compression make text blurry or unreadable?**
+At the "eBook" and "Printer" settings, text rendered as vector graphics is never affected — vector content is lossless. Only embedded raster images are resampled. At "Screen" quality, photos may show mild compression artifacts if zoomed in very close, but standard reading is unaffected.
+
+**Can I compress a password-protected PDF?**
+No. Encrypted PDFs cannot be processed without the decryption key. You'd need to remove the password first.
+
+**My PDF didn't get much smaller. Why?**
+Your PDF likely contains mostly vector text and graphics, not high-resolution images. In this case the file is already efficient and there's little data to remove.
+
+**Will I lose form fields or annotations?**
+Cluster Tools's compression preserves form fields and annotation layers. Only image data is resampled. If you specifically need to flatten forms, use a dedicated form-flattening tool.
+
+**Is there a maximum file size?**
+No server-side limit. Processing happens in your browser, so the only constraint is your device's available RAM. Most modern browsers can handle PDFs up to 500MB without issues.
+
+## Related Tools
+
+- [Merge PDF](/tools/pdf/merge-pdf) — combine multiple PDFs, then compress the result.
+- [Extract PDF Pages](/tools/pdf/extract-pdf-pages) — sometimes removing unnecessary pages is more effective than compressing.
+- [PDF to JPG](/tools/pdf/pdf-to-jpg) — if you only need specific pages as images, this avoids the need to keep the full PDF.
+- [Image Compressor](/tools/image/image-compressor) — if you need to compress images before inserting them into a PDF.

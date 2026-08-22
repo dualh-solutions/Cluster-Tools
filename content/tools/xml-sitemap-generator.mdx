@@ -1,42 +1,80 @@
 ---
-title: "XML Sitemap Generator — Free & Private | Pressto"
-description: "Generate a valid XML sitemap with custom URLs, last-modified dates, change frequencies, and priority values."
-keywords: ["xml sitemap generator","create sitemap","sitemap.xml","seo sitemap"]
+title: "XML Sitemap Generator — Create Sitemaps Online | Cluster Tools"
+description: "Generate an XML sitemap for your website. Add URLs manually or import from text. Control priority, change frequency, and last-modified dates. Free."
+keywords: ["xml sitemap generator","create sitemap","sitemap xml","generate sitemap","website sitemap","seo sitemap"]
 ---
 
+## Generate an XML Sitemap — Help Google Find Your Pages
 
-## Why Use the Pressto XML Sitemap Generator?
+An XML sitemap is a structured list of your website's URLs that tells search engines which pages exist, how important they are relative to each other, and when they were last updated. While Google can discover most pages through crawling, a sitemap acts as an explicit index — ensuring pages that are hard to reach through internal links don't get missed.
 
-The **XML Sitemap Generator** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+## What a Sitemap Contains
 
-Most traditional online seo tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+A standard XML sitemap follows the [sitemaps.org](https://www.sitemaps.org/) protocol. Each URL entry (`<url>`) can include:
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the XML Sitemap Generator operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+```xml
+<url>
+  <loc>https://example.com/tools/pdf/compress-pdf</loc>
+  <lastmod>2026-01-15</lastmod>
+  <changefreq>monthly</changefreq>
+  <priority>0.8</priority>
+</url>
+```
 
-## What is a XML Sitemap Generator?
+- **`<loc>`** (required) — the URL of the page. Must be fully qualified (including `https://`).
+- **`<lastmod>`** (optional) — the date the page was last meaningfully modified (ISO 8601 format: `YYYY-MM-DD`). Used by Google to decide how often to re-crawl.
+- **`<changefreq>`** (optional, advisory) — how often the page typically changes: `always`, `hourly`, `daily`, `weekly`, `monthly`, `yearly`, `never`.
+- **`<priority>`** (optional) — the priority of this URL relative to other URLs on your site, from 0.0 to 1.0. Default is 0.5. Google uses this only as a hint, not a ranking signal.
 
-The XML Sitemap Generator is an essential utility for anyone working with seo files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+## Sitemap Limits and Scale
 
-## How to use the Sitemap
+A single sitemap file can contain up to **50,000 URLs** and must be under **50MB** uncompressed. If your site is larger, you use a Sitemap Index file that references multiple individual sitemaps.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+Cluster Tools's generator is suitable for sites up to a few thousand URLs entered manually or imported from a URL list.
 
-## Frequently Asked Questions (FAQ)
+## What to Include (and What Not to Include)
 
-**Is the XML Sitemap Generator completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+**Include:** every canonical, indexable, 200-status URL — your homepage, category pages, individual content pages, and tool pages.
 
-**Is my data safe and private?**
-Absolutely. The XML Sitemap Generator processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+**Do NOT include:**
+- Redirect URLs (301/302) — only the final destination.
+- Noindexed pages (`<meta name="robots" content="noindex">`) — including them signals conflicting instructions.
+- Pages that return 404 or 5xx errors.
+- Duplicate content pages that have a canonical pointing elsewhere.
+- Admin or login pages.
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+Including non-indexable URLs in your sitemap makes it "dirty" — Google may start ignoring your sitemap entirely if it consistently lists pages Google doesn't index.
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+## Step-by-Step: How to Generate
+
+1. **Enter your website's base URL**.
+2. **Add your pages** — type or paste a list of paths (e.g., `/about`, `/tools/pdf`, `/tools/pdf/compress-pdf`).
+3. **Set optional metadata** — last modified date, change frequency, and priority for each URL or as a batch default.
+4. **Generate** — the valid XML sitemap is created in your browser.
+5. **Download the sitemap.xml** and upload it to your web root.
+6. **Submit to Google Search Console** — go to Search Console → Sitemaps → submit `https://yourdomain.com/sitemap.xml`.
+
+## After Generating: Submitting Your Sitemap
+
+Three ways to make search engines aware of your sitemap:
+
+1. **Google Search Console** — most reliable. Go to your property, select "Sitemaps," and submit the URL.
+2. **robots.txt** — add `Sitemap: https://example.com/sitemap.xml` to your robots.txt file. Every crawler that reads robots.txt will discover it automatically.
+3. **HTTP ping** — for Google: `https://www.google.com/ping?sitemap=https://example.com/sitemap.xml`
+
+## Frequently Asked Questions
+
+**Does submitting a sitemap guarantee indexing?**
+No — a sitemap tells Google which pages exist, but indexing is Google's decision. Google indexes pages it finds valuable to users. A sitemap is a request, not a command.
+
+**How often should I resubmit my sitemap?**
+Many CMSes and frameworks auto-generate and update sitemaps dynamically. If you're using a static sitemap, resubmit whenever you add significant new content. Search Console shows when Google last successfully fetched your sitemap.
+
+**Do I need a sitemap if my site is small?**
+A sitemap helps but isn't mandatory for small sites with good internal linking. It becomes increasingly important as site size grows, for sites with orphan pages (low internal links), or for new sites that haven't been indexed yet.
+
+## Related Tools
+
+- [Robots.txt Generator](/tools/seo/robots-txt-generator) — reference your sitemap URL in robots.txt.
+- [Meta Tag Generator](/tools/seo/meta-tag-generator) — ensure each URL has correct meta tags before submitting.
+- [Slug Generator](/tools/seo/slug-generator) — create clean URL slugs for your sitemap entries.

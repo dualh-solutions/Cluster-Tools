@@ -168,7 +168,7 @@ export default function ImageToPdfTool() {
               </button>
             ) : (
               <button
-                onClick={() => downloadResult(resultPdf, "pressto_document.pdf")}
+                onClick={() => downloadResult(resultPdf, "cluster-tools_document.pdf")}
                 className="bg-success text-surface px-6 py-2.5 rounded-[var(--radius-sm)] font-medium transition-colors hover:bg-success/90 flex items-center gap-2"
               >
                 Download PDF

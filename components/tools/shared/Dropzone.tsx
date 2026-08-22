@@ -22,43 +22,79 @@ export function Dropzone({
   fileInputNode,
   acceptText = "Drop a file here",
 }: DropzoneProps) {
+  let formats: string[] = [];
+  if (React.isValidElement(fileInputNode) && fileInputNode.props.accept) {
+    const acceptStr = fileInputNode.props.accept as string;
+    const exts = acceptStr
+      .split(",")
+      .filter((a) => a.trim().startsWith("."))
+      .map((a) => a.trim().replace(".", "")); // keep lowercase for matching, will capitalize in render
+    formats = Array.from(new Set(exts));
+  }
+
   return (
-    <div
-      className={`w-full bg-surface-container-lowest border-2 border-dashed rounded-2xl p-3xl flex flex-col items-center justify-center min-h-[320px] transition-all duration-200 ease-out cursor-pointer group shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:outline-none ${
-        isDragActive
-          ? "border-primary bg-primary-container/10 scale-[1.02]"
-          : "border-outline-variant hover:border-primary hover:bg-surface-container-low"
-      }`}
-      onDragOver={onDragOver}
-      onDragLeave={onDragLeave}
-      onDrop={onDrop}
-      onClick={onBrowseClick}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          onBrowseClick?.();
-        }
-      }}
-    >
+    <div className="w-full flex flex-col items-center">
+      {/* Upload Area */}
       <div
-        className={`mb-lg p-md rounded-full transition-all duration-200 ease-out ${
+        className={`w-full bg-[#F8FAFC] dark:bg-transparent border border-dashed rounded-[20px] p-10 flex flex-col items-center justify-center min-h-[260px] transition-all duration-200 ease-out cursor-pointer outline-none ${
           isDragActive
-            ? "-translate-y-2 text-on-primary bg-primary scale-110 shadow-md"
-            : "text-primary bg-primary-container/20 group-hover:-translate-y-1 group-hover:bg-primary-container/40"
+            ? "border-primary bg-[#EFF6FF] dark:bg-primary/10"
+            : "border-primary hover:bg-[#F1F5F9] dark:hover:bg-white/5"
         }`}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+        onDrop={onDrop}
+        onClick={onBrowseClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            onBrowseClick?.();
+          }
+        }}
       >
-        <UploadCloud className="w-8 h-8 md:w-12 md:h-12" strokeWidth={1.5} />
+        <div className="mb-4 w-16 h-16 rounded-full bg-[#EFF6FF] dark:bg-primary/10 flex items-center justify-center text-primary">
+          <UploadCloud size={32} strokeWidth={2} />
+        </div>
+        <p className="text-[18px] font-bold text-ink mb-1">{acceptText}</p>
+        <p className="text-[14px] text-ink-muted">
+          or{" "}
+          <span className="text-primary font-semibold underline decoration-1 underline-offset-2">
+            click to browse
+          </span>
+        </p>
+        {fileInputNode}
       </div>
-      <p className="text-h3 font-h3 font-bold text-on-surface mb-xs">{acceptText}</p>
-      <p className="text-body-md font-body-md text-on-surface-variant">
-        or{" "}
-        <span className="text-primary font-bold hover:text-primary-fixed-variant transition-colors underline underline-offset-4 decoration-primary/30 decoration-2 group-hover:decoration-primary/80">
-          click to browse
-        </span>
-      </p>
-      {fileInputNode}
+
+      {/* Formats */}
+      {formats.length > 0 && (
+        <div className="mt-6 flex flex-col items-center">
+          <p className="text-[12px] text-ink-muted mb-3">Supported formats</p>
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            {formats.map((format) => {
+              const f = format.toUpperCase();
+              let style = "bg-[#F3F4F6] dark:bg-white/10 text-ink";
+              if (f === "JPG" || f === "JPEG") style = "bg-[#FEF3C7] dark:bg-[#FEF3C7]/20 text-ink";
+              else if (f === "PNG") style = "bg-[#DCFCE7] dark:bg-[#DCFCE7]/20 text-ink";
+              else if (f === "WEBP") style = "bg-[#E0E7FF] dark:bg-[#E0E7FF]/20 text-ink";
+              else if (f === "PDF") style = "bg-[#FEE2E2] dark:bg-[#FEE2E2]/20 text-ink";
+
+              // Capitalize first letter, rest lowercase for WebP etc? Image shows JPG, PNG, WebP
+              const displayText = f === "WEBP" ? "WebP" : f;
+
+              return (
+                <span
+                  key={format}
+                  className={`px-5 py-1.5 rounded-full text-[13px] font-bold ${style}`}
+                >
+                  {displayText}
+                </span>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

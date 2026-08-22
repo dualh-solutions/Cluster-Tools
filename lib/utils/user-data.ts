@@ -1,7 +1,7 @@
 import { TOOLS_REGISTRY } from "../tools/registry";
 
-const RECENT_TOOLS_KEY = "pressto_recent_tools";
-const FAVORITE_TOOLS_KEY = "pressto_favorite_tools";
+const RECENT_TOOLS_KEY = "cluster-tools_recent_tools";
+const FAVORITE_TOOLS_KEY = "cluster-tools_favorite_tools";
 const MAX_RECENT = 10;
 
 /**

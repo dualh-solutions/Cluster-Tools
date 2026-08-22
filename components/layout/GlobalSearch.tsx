@@ -88,29 +88,32 @@ export function GlobalSearch({ variant = "header" }: { variant?: "header" | "her
           onClick={() => setIsOpen(true)}
           className="w-full max-w-[640px] mx-auto group cursor-text"
         >
-          <div className="flex items-center bg-surface border border-outline-variant rounded-full px-6 py-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] hover:border-primary/50 transition-all duration-300">
-            <Search size={24} className="text-secondary mr-4 shrink-0 group-hover:text-primary transition-colors" />
+          <div className="flex items-center bg-surface border border-black/5 rounded-full px-5 py-4 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] transition-all duration-300">
+            <Search size={22} className="text-ink-muted/70 mr-3 shrink-0" />
             <input 
               type="text" 
-              placeholder={`Search ${TOOLS_REGISTRY.length}+ tools (PDF, Image, SEO...)`} 
-              className="flex-grow bg-transparent border-none outline-none text-[18px] text-on-surface placeholder:text-outline focus:ring-0 p-0 cursor-pointer w-full min-w-0"
+              placeholder={`Search 48+ tools...`}
+              className="flex-grow bg-transparent border-none outline-none text-[16px] text-ink placeholder:text-ink-muted/70 font-medium p-0 cursor-pointer w-full min-w-0"
               readOnly
+              style={{ fontSize: '16px' }}
             />
-            <div className="flex items-center gap-1 opacity-50 ml-4 shrink-0">
-              <span className="border border-outline-variant rounded px-1.5 py-0.5 text-xs bg-surface-container font-medium">⌘</span>
-              <span className="border border-outline-variant rounded px-1.5 py-0.5 text-xs bg-surface-container font-medium">K</span>
+            {/* Hide ⌘K badge on mobile — irrelevant on touch devices */}
+            <div className="hidden md:flex items-center gap-1 ml-4 shrink-0">
+              <span className="border border-gray-200 rounded-[6px] px-2 py-1 text-xs bg-surface text-ink-muted font-semibold shadow-sm">⌘</span>
+              <span className="border border-gray-200 rounded-[6px] px-2 py-1 text-xs bg-surface text-ink-muted font-semibold shadow-sm">K</span>
             </div>
           </div>
         </div>
       ) : (
         <button
           onClick={() => setIsOpen(true)}
-          className="flex items-center gap-2 px-md py-sm text-label-md font-label-md text-on-surface-variant bg-surface hover:bg-surface-container-low border border-outline-variant rounded-full transition-colors w-full md:w-64 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+          className="flex items-center justify-center md:justify-start gap-2 w-10 h-10 md:w-64 md:h-auto md:px-md md:py-sm text-label-md font-label-md text-on-surface-variant bg-surface hover:bg-surface-container-low border border-outline-variant rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary shrink-0"
+          aria-label="Search tools"
         >
           <Search size={18} />
-          <span className="flex-1 text-left">Search tools...</span>
-          <span className="hidden md:flex items-center gap-0.5 text-metadata font-metadata opacity-60">
-            <Command size={14} />K
+          <span className="hidden md:block flex-1 text-left">Search tools...</span>
+          <span className="hidden md:flex items-center gap-0.5 bg-gray-100 text-ink-muted rounded-md px-1.5 py-0.5 text-[11px] font-semibold border border-gray-200 shadow-sm opacity-80">
+            <Command size={12} />K
           </span>
         </button>
       )}

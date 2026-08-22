@@ -1,42 +1,56 @@
 ---
-title: "Merge PDF Files Online, Free & Private | Pressto"
-description: "Combine multiple PDFs into a single document entirely in your browser. Fast, private, and secure."
-keywords: ["merge pdf","combine pdf files","join pdf","pdf merger online"]
+title: "Merge PDF Files Online — Free, Private, No Upload | Cluster Tools"
+description: "Combine multiple PDF files into a single document directly in your browser. Drag to reorder pages. No upload, no signup. Free forever."
+keywords: ["merge pdf","combine pdf","join pdf files","pdf merger online","merge pdf free"]
 ---
 
+## Merge Multiple PDFs into One File — No Upload Required
 
-## Why Use the Pressto Merge PDF?
+Merging PDFs is one of those tasks that sounds simple but trips people up every day. Most tools either require a paid subscription, impose a file-size cap, or send your documents to a cloud server. Cluster Tools does none of that.
 
-The **Merge PDF** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Using [PDF-lib](https://pdf-lib.js.org/) — a pure-JavaScript PDF manipulation library — Cluster Tools reads your PDF files directly in your browser, combines their pages in memory, and writes the merged output as a new PDF binary. Your files never leave your device.
 
-Most traditional online pdf tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## What "Merging" Actually Does
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the Merge PDF operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+When you merge PDFs, you're taking the **page tree** from each source document and copying those page objects into a new, unified PDF structure. Text, images, vector graphics, embedded fonts, and annotations are all preserved exactly as they appear in the originals.
 
-## What is a Merge PDF?
+Cluster Tools merges PDFs page-by-page in the order you arrange them. If Document A has 5 pages and Document B has 3 pages, the result is an 8-page PDF: pages 1–5 from A followed by pages 1–3 from B.
 
-The Merge PDF is an essential utility for anyone working with pdf files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+## Step-by-Step: How to Merge Your PDFs
 
-## How to use the Merge
+1. **Add your PDF files** — drag and drop them into the tool above, or use the file picker. You can add as many files as you need.
+2. **Arrange the order** — drag file thumbnails to set the sequence. The merge follows this order precisely.
+3. **Click "Merge PDF"** — processing takes 1–3 seconds for typical document sizes.
+4. **Download your merged PDF** — it arrives as a single download, named `merged.pdf` by default.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+## Common Reasons to Merge PDFs
 
-## Frequently Asked Questions (FAQ)
+- **Combining a cover letter and CV** — most job applications require a single PDF attachment.
+- **Assembling contracts with annexures** — main agreement + appendices + signature pages as one clean document.
+- **Collating research papers** — merging journal articles for offline reading on an e-reader.
+- **Bundling receipts and invoices** — accountants and finance teams commonly need to submit expense claims as a single PDF.
+- **Combining scanned documents** — multiple scan sessions that produced separate files from a single multi-page original.
 
-**Is the Merge PDF completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+## Frequently Asked Questions
 
-**Is my data safe and private?**
-Absolutely. The Merge PDF processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+**Does merging damage the PDF contents?**
+No. Cluster Tools uses PDF-lib which performs a faithful copy of each page's content stream. Fonts, images, vector artwork, and formatting are preserved. Hyperlinks and bookmarks within each source document are also maintained.
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+**Can I merge password-protected PDFs?**
+Only if you unlock them first. PDF-lib cannot read encrypted PDFs without the password. If your PDF requires a password to open, you'll need to remove the password protection before merging.
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+**Is there a file size or page count limit?**
+No. Because processing happens in your browser, the only limit is the RAM available on your device. Practically, you can comfortably merge documents totalling 500–800MB without issues on a modern laptop.
+
+**Will the merged PDF maintain the same file size as the sum of the originals?**
+Approximately yes, sometimes slightly smaller due to deduplication of shared resources (like common fonts). It won't be dramatically smaller — to reduce the merged PDF's size, run it through [Compress PDF](/tools/pdf/compress-pdf) afterward.
+
+**Can I reorder the pages after merging?**
+Not within this tool — you'd need to re-merge with a different order, or use the [Extract PDF Pages](/tools/pdf/extract-pdf-pages) tool to pull out specific pages and then re-merge them.
+
+## Related Tools
+
+- [Compress PDF](/tools/pdf/compress-pdf) — reduce the file size of your merged document before sending.
+- [Extract PDF Pages](/tools/pdf/extract-pdf-pages) — pull out specific pages from a PDF into a new file.
+- [Split PDF](/tools/pdf/split-pdf) — divide a large PDF into separate, smaller documents.
+- [PDF to JPG](/tools/pdf/pdf-to-jpg) — convert PDF pages to images for use in presentations or websites.

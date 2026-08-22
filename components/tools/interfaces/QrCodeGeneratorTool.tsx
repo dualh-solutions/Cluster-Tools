@@ -464,7 +464,7 @@ const eclLabels = ["L (Low)", "M (Medium)", "Q (Quartile)", "H (High)"];
 const eclMap = [1, 0, 3, 2];
 
 export default function QrCodeGeneratorTool() {
-  const [text, setText] = useState("https://pressto.com");
+  const [text, setText] = useState("https://Cluster Tools.com");
   const [size, setSize] = useState(256);
   const [eclIndex, setEclIndex] = useState(1); // M
   const canvasRef = useRef<HTMLCanvasElement>(null);

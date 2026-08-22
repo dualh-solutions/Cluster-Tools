@@ -1,51 +1,75 @@
 ---
-title: "Compress JPG Online, Free & Private | Pressto"
-description: "Reduce image file size instantly in your browser. Compress JPG, PNG, and WebP without quality guesswork. No upload, free, and private."
-keywords: ["compress jpg", "compress image", "reduce image size", "image compressor online"]
+title: "Image Compressor — Compress JPG, PNG, WebP Online | Cluster Tools"
+description: "Reduce image file size without visible quality loss. Set a target file size in KB or MB. Batch process multiple images. 100% private, no upload."
+keywords: ["compress image","image compressor","reduce image size","compress jpg online","compress png","optimize images for web","image size reducer"]
 ---
 
-## Why Use the Pressto Image Compressor?
+## Compress Images Without Uploading Them
 
-When optimizing images for the web, sending photos over email, or trying to save disk space, **image compression** is essential. The Pressto Image Compressor offers a uniquely powerful, entirely private way to reduce your image file sizes directly in your browser.
+Image compression is one of the most important tasks for web performance, but most online compressors are a privacy problem: they upload your photos to a remote server to process them. Your personal photos, client work, confidential screenshots — all traveling to an unknown machine.
 
-Most online image compressors require you to upload your personal photos to their servers. This is slow, requires internet bandwidth, and compromises your privacy.
+Cluster Tools's Image Compressor runs the entire compression pipeline in your browser using WebAssembly. No upload happens. The compressed image is written directly to your device.
 
-**Our tool is different:**
-- **100% Private:** Your images never leave your device. All compression happens securely in your own browser using WebAssembly.
-- **Lightning Fast:** Because there are no uploads or downloads, compression happens almost instantly.
-- **Target File Size:** Simply type in the exact file size you want (e.g., "500 KB"), and our smart algorithm will automatically find the best quality setting to hit your target.
-- **Batch Processing:** Drop as many images as you want into the tool. Process them all at once and download them in a single ZIP file.
-- **Format Support:** We natively support JPG, PNG, and WebP formats.
+## How the Compression Works
 
-## What is Image Compression?
+For **JPG compression**, Cluster Tools re-encodes the image using the libjpeg algorithm compiled to WebAssembly. This is the same algorithm used by Photoshop, ImageMagick, and virtually every professional image tool. The quality factor controls how aggressively redundant frequency data is removed from the image's DCT coefficients. At 80% quality, compression artifacts are rarely perceptible; at 60% they start appearing in areas of subtle color gradients.
 
-Image compression reduces the file size of a graphic in bytes without degrading the quality of the image to an unacceptable level. The reduction in file size allows more images to be stored in a given amount of disk or memory space. It also reduces the time required for images to be sent over the internet or downloaded from web pages.
+For **PNG compression**, lossless re-encoding applies [DEFLATE](https://en.wikipedia.org/wiki/Deflate) compression to the image's pixel data. PNGs can't be lossy-compressed without changing the format, so size reduction is more modest (typically 10–30%). For dramatic size reduction of PNG files, consider converting to WebP or JPG.
 
-### Lossy vs. Lossless Compression
-- **Lossy Compression:** (Like JPG) Removes some data from the original image to dramatically reduce file size. You lose some quality, but it's often imperceptible to the human eye.
-- **Lossless Compression:** (Like PNG) Compresses the image without losing any data. The file size is reduced, but not as much as lossy compression.
+For **WebP**, the tool uses the libwebp encoder. WebP achieves the same visual quality as JPG at about 25–35% smaller file sizes, making it the superior format for web use.
 
-The Pressto Image Compressor primarily uses lossy compression techniques tailored to output incredibly small files while maintaining excellent visual fidelity.
+### Target File Size Mode
 
-## How to Compress Images Online (Step-by-Step)
+The most powerful feature: you specify a target file size in KB or MB (e.g., "under 500 KB for a profile photo upload"), and the tool runs a **binary search** over quality levels — compressing at, say, 80%, checking the size, adjusting up or down — until it lands on the smallest quality setting that meets your target. This runs 5–8 iterations in about 100–200ms.
 
-1. **Upload Your Images:** Drag and drop your images into the dropzone above, or click to select files from your device.
-2. **Choose Your Settings:** 
-   - Use the **Quality Slider** if you want manual control over the visual quality.
-   - Use the **Target Size** input if you need the image to be under a specific file size (like 2MB for an avatar upload).
-3. **Compare the Results:** The tool will automatically process the image. You can see a real-time comparison of the original size versus the new compressed size.
-4. **Download:** Click the "Download" button to save the compressed image back to your device instantly.
+## Step-by-Step: How to Compress Images
 
-## Frequently Asked Questions (FAQ)
+1. **Drop your images** into the upload zone — JPG, PNG, or WebP. Batch mode supports any number of files.
+2. **Choose your compression mode:**
+   - **Quality slider** — set a quality percentage (70–95% is the practical range for most use cases).
+   - **Target size** — type in a file size (e.g., "200 KB") and let the tool find the best quality.
+3. **Review the before/after** — the tool shows original size, compressed size, and the percentage saved.
+4. **Download** — single files download directly; multiple files are packaged as a ZIP.
 
-**How does the target size feature work?**
-The compressor runs a fast binary search algorithm locally on your device to find the optimal quality setting that brings your image down to the requested file size.
+## Practical Compression Targets by Use Case
 
-**Do you store my compressed images?**
-No. Processing happens entirely on your device. We do not have servers to store your images.
+| Use Case | Recommended Target |
+|---|---|
+| Web hero image (full width) | 150–300 KB |
+| Blog inline image | 50–150 KB |
+| E-commerce product photo | 100–250 KB |
+| Profile / avatar photo | 30–80 KB |
+| Email attachment | Under 1 MB total |
+| Google PageSpeed optimization | Under 100 KB per image |
+
+## Lossy vs. Lossless: Choosing the Right Approach
+
+**Lossy compression** (JPG, WebP lossy) removes image data permanently to achieve smaller files. The removed data is chosen based on what the human visual system is least sensitive to — high-frequency detail in smooth areas, subtle color gradients. The results are visually excellent at quality ≥80%.
+
+**Lossless compression** (PNG, WebP lossless) reorganizes the image's data to be stored more efficiently without removing anything. The quality is bit-perfect identical to the original. The tradeoff: file sizes are larger.
+
+For most web and sharing use cases, lossy compression at 80–90% quality is the right choice. For images where pixel-perfect accuracy matters (medical imaging, scientific data, design source files), lossless is necessary.
+
+## Frequently Asked Questions
+
+**Will I notice any quality difference after compression?**
+At quality settings of 80% and above, the difference is rarely visible without zooming in and specifically looking for compression artifacts. Side-by-side on a calibrated monitor, trained eyes might spot subtle differences in areas of smooth color gradients. For web use, 80% is effectively transparent quality loss.
 
 **Can I compress multiple images at once?**
-Yes, you can drop as many images as you like into the tool. Once processed, you can download them all together in a single ZIP file.
+Yes. Drop as many images as you like into the tool. Each is compressed independently, and the results are collected in a ZIP file for download.
 
 **Is there a file size limit?**
-Because the processing happens locally on your device, the only limit is the memory available in your web browser. You can typically compress images up to 50MB without issues.
+No server-imposed limit. The practical limit is your device's browser memory — typically you can comfortably compress images up to 30–50MB each without issues.
+
+**Does it work on RAW camera files (CR2, NEF, ARW)?**
+Not currently. RAW files require specialized decoding that goes beyond standard browser APIs. Convert to JPG or PNG first using your camera software, then compress with Cluster Tools.
+
+**Why is my PNG not getting much smaller?**
+PNG is already a lossless format with efficient DEFLATE compression. Further lossless compression has limited headroom. For dramatic size reduction, convert the PNG to JPG (if it has no transparency) or WebP.
+
+## Related Tools
+
+- [PNG to JPG](/tools/image/png-to-jpg) — convert PNG to a lossy format for maximum compression.
+- [JPG to WebP](/tools/image/jpg-to-webp) — convert to WebP for 25–35% smaller files at equivalent quality.
+- [Image Resizer](/tools/image/image-resizer) — if your image dimensions are larger than needed, resizing first reduces size more than compression alone.
+- [Compress PDF](/tools/pdf/compress-pdf) — reduce PDF file size by resampling the images embedded within.

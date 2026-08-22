@@ -1,37 +1,75 @@
 ---
-title: "JWT Decoder — Decode JSON Web Tokens | Pressto"
-description: "Decode JWT header and payload in your browser. Local only — no data is sent anywhere. Signature is NOT verified."
-keywords: ["jwt decoder","decode jwt","json web token decoder","jwt inspector"]
+title: "JWT Decoder — Decode & Inspect JWT Tokens Online | Cluster Tools"
+description: "Decode and inspect JSON Web Token (JWT) header, payload, and signature instantly in your browser. No server, completely private."
+keywords: ["jwt decoder","decode jwt","json web token decoder","jwt inspector","jwt parser","jwt claims"]
 ---
 
+## Decode JWT Tokens — Completely in Your Browser
 
-## Why Use the Pressto JWT Decoder?
+JSON Web Tokens (JWTs) are ubiquitous in modern authentication systems — every OAuth 2.0 access token, OpenID Connect ID token, and most API authorization tokens are JWTs. When debugging authentication issues, auditing token claims, or understanding what a service's tokens contain, you need to decode them.
 
-The **JWT Decoder** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Cluster Tools decodes JWTs entirely in JavaScript running in your browser. **Your token never leaves your device.** This is critical: JWTs encode authentication credentials. Pasting a valid, unexpired JWT into a server-side tool is a real security risk — the server could replay that token against the API it authenticates.
 
-Most traditional online developer tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## What is a JWT?
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the JWT Decoder operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+A JWT is a compact, self-contained token for transmitting claims (assertions about a subject) between parties. A token looks like:
 
-## What is a JWT Decoder?
+```
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkFsaWNlIiwiaWF0IjoxNzI2MDE1NjU3fQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+```
 
-The JWT Decoder is an essential utility for anyone working with developer files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+It has three parts separated by dots:
 
-## How to use the JWT
+1. **Header** — metadata about the token: the signing algorithm (`alg`) and token type (`typ`). Base64URL-decoded, it's JSON like `{"alg":"RS256","typ":"JWT"}`.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+2. **Payload** — the claims: the actual data the token asserts. Decoded, it's JSON like `{"sub":"user_123","name":"Alice","email":"alice@example.com","exp":1726015657,"iat":1726012057}`.
 
-## Frequently Asked Questions (FAQ)
+3. **Signature** — cryptographic proof that the header and payload haven't been tampered with. Created by signing the first two parts with the issuer's private key. **Cluster Tools cannot verify this signature** without the public key.
 
-**Does this verify the JWT signature?**
-No. This tool only decodes the header and payload for inspection. Signature verification requires the secret or public key, which must be done server-side.
+## Standard JWT Claims Explained
 
-**Is my JWT sent to a server?**
-No. All decoding happens in your browser using base64url decoding and JSON.parse. Nothing leaves your device.
+| Claim | Name | Meaning |
+|---|---|---|
+| `iss` | Issuer | Who issued this token (e.g., `https://auth.example.com`) |
+| `sub` | Subject | Who the token is about (usually a user ID) |
+| `aud` | Audience | Who the token is intended for |
+| `exp` | Expiration | Unix timestamp when the token expires |
+| `iat` | Issued At | Unix timestamp when the token was issued |
+| `nbf` | Not Before | Token is invalid before this timestamp |
+| `jti` | JWT ID | A unique identifier for this specific token |
 
+Cluster Tools automatically decodes `exp`, `iat`, and `nbf` from Unix timestamps to human-readable dates, and shows you whether the token is currently expired.
+
+## Step-by-Step: How to Decode
+
+1. **Paste your JWT** into the input field above.
+2. **Cluster Tools splits the token** at the dots and Base64URL-decodes the header and payload.
+3. **Review the claims** — the decoded JSON is formatted and displayed. Timestamps are shown as both Unix epoch and human-readable dates.
+4. **Check expiration** — if the `exp` claim is in the past, the token is expired and will be flagged.
+
+## Important Security Notes
+
+**Cluster Tools can decode but not verify JWTs.** Decoding only reads the claims — it doesn't verify the signature. A tampered or forged JWT looks identical to a valid one when decoded. Always verify the signature server-side using the issuer's public key before trusting any claims.
+
+**Treat JWTs like passwords.** A valid, unexpired JWT often grants the same access as a username and password. If a JWT is compromised (leaked to a server-side decoder, included in a bug report, or accidentally logged), revoke it immediately and issue a new one.
+
+## Frequently Asked Questions
+
+**Can you verify the JWT signature?**
+Not without the public key. Cluster Tools decodes and displays claims only. Signature verification requires the issuer's public key, which Cluster Tools doesn't have. Use a library like `jsonwebtoken` (Node.js) or `python-jose` (Python) to verify signatures in your code.
+
+**What's Base64URL vs. Base64?**
+Base64URL is a URL-safe variant: `+` becomes `-`, `/` becomes `_`, and padding `=` is omitted. JWTs use Base64URL for their three components.
+
+**Why does the payload show a number for `exp`?**
+JWT timestamps are Unix epoch time — the number of seconds since January 1, 1970 UTC. Cluster Tools converts these to readable dates automatically.
+
+**Can I create or sign JWTs here?**
+Not currently. JWT signing requires a private key, which you should never paste into a web tool. Sign JWTs server-side using your secure key management system.
+
+## Related Tools
+
+- [Base64 Encoder/Decoder](/tools/developer/base64-encoder-decoder) — decode individual Base64URL components manually.
+- [JSON Formatter](/tools/developer/json-formatter) — format the decoded payload JSON for readability.
+- [URL Encoder/Decoder](/tools/developer/url-encoder-decoder) — decode URL-encoded strings that sometimes appear in token parameters.
+- [Password Generator](/tools/developer/password-generator) — generate cryptographically secure secrets for JWT signing.

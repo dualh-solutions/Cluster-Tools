@@ -1,42 +1,75 @@
 ---
-title: "Character Counter Online | Pressto"
-description: "Accurately count characters, graphemes, and lines. Handles emojis and Unicode perfectly."
-keywords: ["character counter","count characters","letter counter"]
+title: "Character Counter Online — Count Characters, Words & More | Cluster Tools"
+description: "Count characters, words, sentences, and lines in real time. See character limits for Twitter, LinkedIn, SMS, and more. Free, private."
+keywords: ["character counter","count characters online","character count","twitter character counter","sms character counter","text length counter"]
 ---
 
+## Count Characters in Real Time — With Platform Limits
 
-## Why Use the Pressto Character Counter?
+The Cluster Tools Character Counter gives you instant counts for characters (with and without spaces), words, sentences, lines, and paragraphs as you type. Unlike a simple character counter, it also shows you how your text compares against the character limits of the platforms you're writing for.
 
-The **Character Counter** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Everything runs in your browser — your text is never sent anywhere.
 
-Most traditional online text tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## Platform Character Limits at a Glance
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the Character Counter operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+Different platforms have different limits, and they're not all straightforward:
 
-## What is a Character Counter?
+| Platform | Limit | Notes |
+|---|---|---|
+| Twitter/X | 280 characters | Counts characters not words; some Unicode chars count as 2 |
+| LinkedIn post | 3,000 characters | First 210 chars visible before "See more" |
+| Instagram caption | 2,200 characters | First 125 chars visible without tapping |
+| Instagram bio | 150 characters | Hard limit |
+| Facebook post | 63,206 characters | Practical limit; link previews affect display |
+| YouTube description | 5,000 characters | First 100–150 chars visible in search results |
+| Google Business description | 750 characters | |
+| Meta title tag | ~60 characters | Google truncates after ~580px display width |
+| Meta description | ~160 characters | Google truncates after ~920px display width |
+| SMS (standard) | 160 characters | Goes multi-part above 153 (3 chars reserved for concatenation) |
+| SMS (Unicode) | 70 characters | Drops to 70 if any character isn't GSM-7 |
 
-The Character Counter is an essential utility for anyone working with text files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+## Why Character Count ≠ Word Count (for Social Media)
 
-## How to use the Characters
+Twitter's 280 "character" limit isn't purely character-based. Twitter uses a weighted system:
+- Standard ASCII characters count as 1.
+- Some special Unicode characters (emoji, many CJK characters) count as 2.
+- URLs are shortened to 23 characters regardless of actual length (via t.co).
+- Usernames in @mentions don't count toward the limit.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+The Cluster Tools counter shows raw character count. For final Twitter copy, verify in the actual tweet composer.
 
-## Frequently Asked Questions (FAQ)
+## SMS Character Counting — More Complex Than You Think
 
-**Is the Character Counter completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+SMS character counting is surprisingly nuanced:
 
-**Is my data safe and private?**
-Absolutely. The Character Counter processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+A standard SMS uses **GSM-7 encoding** — a 7-bit alphabet of 128 characters covering basic Latin, digits, and common punctuation. A single SMS can carry 160 GSM-7 characters.
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+If you include **any character not in the GSM-7 set** — an emoji, a curly quote (`"`), an en dash (–), or characters like `é` (actually fine) — the entire message switches to **Unicode (UCS-2)** encoding, which drops the limit to 70 characters per segment.
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+When a message exceeds one segment, carrier concatenation headers consume 7 characters per segment, reducing usable content to 153 characters per segment (GSM-7) or 67 characters per segment (Unicode).
+
+Cluster Tools detects non-GSM-7 characters and shows you when your message will trigger Unicode encoding.
+
+## Step-by-Step: How to Use
+
+1. **Type or paste your text** into the input field.
+2. **Counts update instantly** — characters (with spaces), characters (without spaces), words, sentences, lines.
+3. **Compare against platform limits** — select a platform from the dropdown to see a visual indicator of how close you are to the limit.
+
+## Frequently Asked Questions
+
+**Does it count emoji as one character?**
+Emoji count as one character in most counting systems, but as two "code points" in Twitter's system, and some complex emoji (like family emoji using ZWJ sequences) are multiple code points. Cluster Tools counts by UTF-16 code units, which matches how most platforms (including Twitter) count them.
+
+**What's the difference between characters with and without spaces?**
+"Characters with spaces" is the raw string length — every character including spaces is counted. "Without spaces" removes all space characters before counting. Most platform limits use "with spaces."
+
+**Can I check multiple text versions at once?**
+Not in the same view, but you can use the [Text Diff Checker](/tools/text/text-diff-checker) to compare two versions side by side.
+
+## Related Tools
+
+- [Word Counter](/tools/text/word-counter) — focuses on words, reading time, and paragraph analysis.
+- [Case Converter](/tools/text/case-converter) — change text capitalization.
+- [Meta Tag Generator](/tools/seo/meta-tag-generator) — write and preview meta title and description tags within character limits.
+- [SEO Snippet Preview](/tools/seo/seo-snippet-preview) — see how your page will appear in Google search results with character-limit guidance.

@@ -1,5 +1,5 @@
 /**
- * Simple, lightweight analytics abstraction for Pressto.
+ * Simple, lightweight analytics abstraction for Cluster Tools.
  * Currently provider-agnostic. Can be wired up to Vercel Analytics or PostHog later.
  * 
  * Privacy constraints:

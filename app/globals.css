@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-canvas: #F6F7F9;
@@ -154,4 +155,13 @@ body {
   .font-label-sm { font-family: var(--font-inter), sans-serif; }
   .font-display-lg { font-family: var(--font-manrope), sans-serif; }
   .font-h2 { font-family: var(--font-manrope), sans-serif; }
+
+  /* Hide scrollbar for category snap scroll on mobile */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }

@@ -1,3 +1,4 @@
+import { Home, ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
 import { getToolBySlug } from "@/lib/tools/registry";
 import React from "react";
@@ -8,14 +9,16 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { getToolMDXContent } from "@/lib/mdx";
 import { MDXRemote } from "next-mdx-remote/rsc";
+import { ScrollToBottom } from "@/components/ui/ScrollToBottom";
 
 const mdxComponents = {
-  h2: (props: any) => <h2 className="text-2xl font-h2 font-extrabold mt-12 mb-4 text-on-surface" {...props} />,
-  h3: (props: any) => <h3 className="text-xl font-h3 font-bold mt-8 mb-4 text-on-surface" {...props} />,
-  p: (props: any) => <p className="mb-6 text-on-surface-variant text-lg leading-relaxed" {...props} />,
-  ul: (props: any) => <ul className="list-disc pl-5 space-y-2 mb-8 text-on-surface-variant" {...props} />,
-  ol: (props: any) => <ol className="list-decimal pl-5 space-y-3 mb-10 text-on-surface-variant" {...props} />,
-  li: (props: any) => <li className="pl-2" {...props} />,
+  h1: (props: any) => <h1 className="text-[24px] md:text-[32px] font-extrabold mt-8 md:mt-12 mb-4 text-on-surface" {...props} />,
+  h2: (props: any) => <h2 className="text-[20px] md:text-[28px] font-extrabold mt-8 md:mt-12 mb-4 text-on-surface tracking-tight" {...props} />,
+  h3: (props: any) => <h3 className="text-[18px] md:text-[22px] font-bold mt-6 md:mt-8 mb-4 text-on-surface" {...props} />,
+  p: (props: any) => <p className="mb-4 md:mb-6 text-on-surface-variant text-[16px] md:text-[18px] leading-[1.6]" {...props} />,
+  ul: (props: any) => <ul className="list-disc pl-5 space-y-2 mb-6 md:mb-8 text-[16px] md:text-[18px] text-on-surface-variant leading-[1.6]" {...props} />,
+  ol: (props: any) => <ol className="list-decimal pl-5 space-y-2 md:space-y-3 mb-8 md:mb-10 text-[16px] md:text-[18px] text-on-surface-variant leading-[1.6]" {...props} />,
+  li: (props: any) => <li className="pl-1 md:pl-2" {...props} />,
   strong: (props: any) => <strong className="text-on-surface font-bold" {...props} />,
 };
 
@@ -30,7 +33,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const resolvedParams = await params;
   const tool = getToolBySlug(resolvedParams.slug);
   if (!tool) {
-    return { title: "Tool Not Found | Pressto" };
+    return { title: "Tool Not Found | Cluster Tools" };
   }
   return generateToolMetadata(tool);
 }
@@ -55,27 +58,28 @@ export default async function ToolPage({ params }: PageProps) {
   // 4 & 5. Render the standard tool page and relevant content
   return (
     <div className="w-full flex-1 flex flex-col motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300 ease-out">
+      <ScrollToBottom />
       
+      {/* Visual Breadcrumb */}
+      <div className="w-full max-w-[896px] mx-auto px-4 mt-6 md:mt-10 text-[13px] font-medium text-gray-500 flex items-center gap-2">
+        <Home size={14} className="text-gray-400" />
+        <Link href="/" className="hover:text-[#2E5CFF] transition-colors">Home</Link>
+        <ChevronRight size={14} className="text-gray-400" />
+        <Link href="/tools" className="hover:text-[#2E5CFF] transition-colors">Tools</Link>
+        <ChevronRight size={14} className="text-gray-400" />
+        <Link href={`/tools/${tool.category}`} className="hover:text-[#2E5CFF] transition-colors capitalize">{tool.category}</Link>
+        <ChevronRight size={14} className="text-gray-400" />
+        <span className="text-[#2E5CFF] font-semibold">{tool.name}</span>
+      </div>
+
       {/* Tool Interface */}
-      <div className="bg-canvas border-b border-border">
-        {/* We let the ToolComponent render its ToolShell (which has dropzone etc) */}
-        {/* If we remove title/desc from ToolShell, we can render them here. For now, ToolComponent renders it. */}
+      <div className="w-full pb-12">
         {React.createElement(dynamicTool)}
       </div>
 
       {/* Content Section */}
-      <section className="w-full max-w-[768px] mx-auto px-4 py-12 text-on-surface">
+      <section className="w-full max-w-[768px] mx-auto px-4 py-8 text-on-surface">
         <div className="prose prose-slate dark:prose-invert max-w-none">
-          
-          <div className="flex items-center gap-2 text-sm text-on-surface-variant mb-8 font-medium">
-            <span className="flex items-center gap-2 bg-surface-container px-3 py-1.5 rounded-full">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
-              {tool.processingMode === "client" ? "100% Private (Processed in browser)" : "Secure server-side processing"}
-            </span>
-          </div>
-
-          <h2 className="text-2xl font-h2 font-extrabold mb-4 text-on-surface">About {tool.name}</h2>
-          <p className="mb-8 text-on-surface-variant text-lg leading-relaxed">{tool.description}</p>
           
           {mdxContent ? (
             <div className="mdx-content">
@@ -85,10 +89,10 @@ export default async function ToolPage({ params }: PageProps) {
             <>
               {tool.howTo && tool.howTo.length > 0 && (
                 <>
-                  <h3 className="text-xl font-h3 font-bold mb-4 text-on-surface">How to use {tool.shortName}</h3>
-                  <ol className="list-decimal pl-5 space-y-3 mb-10 text-on-surface-variant">
+                  <h2 className="text-[20px] md:text-[28px] font-extrabold mb-3 md:mb-4 text-on-surface tracking-tight">How to use {tool.shortName}</h2>
+                  <ol className="list-decimal pl-5 space-y-2 md:space-y-3 mb-8 md:mb-10 text-[16px] md:text-[18px] text-on-surface-variant leading-[1.6]">
                     {tool.howTo.map((step, i) => (
-                      <li key={i} className="pl-2">
+                      <li key={i} className="pl-1 md:pl-2">
                         <strong className="text-on-surface">{step.name}:</strong> {step.text}
                       </li>
                     ))}
@@ -98,12 +102,12 @@ export default async function ToolPage({ params }: PageProps) {
 
               {tool.faqs && tool.faqs.length > 0 && (
                 <>
-                  <h3 className="text-xl font-h3 font-bold mb-4 text-on-surface">Frequently Asked Questions</h3>
-                  <div className="space-y-6 mb-10">
+                  <h2 className="text-[20px] md:text-[28px] font-extrabold mb-3 md:mb-4 text-on-surface tracking-tight">Frequently Asked Questions</h2>
+                  <div className="space-y-4 md:space-y-6 mb-8 md:mb-10">
                     {tool.faqs.map((faq, i) => (
-                      <div key={i} className="bg-surface border border-outline-variant rounded-xl p-5 shadow-sm">
-                        <strong className="block text-on-surface font-bold text-lg mb-2">{faq.question}</strong>
-                        <p className="text-on-surface-variant m-0 leading-relaxed">{faq.answer}</p>
+                      <div key={i} className="bg-surface border border-outline-variant rounded-xl p-4 md:p-5 shadow-sm">
+                        <strong className="block text-on-surface font-bold text-[16px] md:text-[18px] mb-2">{faq.question}</strong>
+                        <p className="text-on-surface-variant text-[15px] md:text-[16px] m-0 leading-[1.6]">{faq.answer}</p>
                       </div>
                     ))}
                   </div>
@@ -133,79 +137,6 @@ export default async function ToolPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* JSON-LD Schemas */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": tool.name,
-            "applicationCategory": "BrowserApplication",
-            "operatingSystem": "Any (runs in browser)",
-            "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-            "description": tool.description,
-            "url": `https://pressto.dev/tools/${tool.category}/${tool.slug}`
-          })
-        }}
-      />
-      
-      {tool.faqs && tool.faqs.length > 0 && (
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "FAQPage",
-              "mainEntity": tool.faqs.map(faq => ({
-                "@type": "Question",
-                "name": faq.question,
-                "acceptedAnswer": {
-                  "@type": "Answer",
-                  "text": faq.answer
-                }
-              }))
-            })
-          }}
-        />
-      )}
-
-      {/* Breadcrumb Schema */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "BreadcrumbList",
-            "itemListElement": [
-              {
-                "@type": "ListItem",
-                "position": 1,
-                "name": "Home",
-                "item": "https://pressto.dev"
-              },
-              {
-                "@type": "ListItem",
-                "position": 2,
-                "name": "Tools",
-                "item": "https://pressto.dev/tools"
-              },
-              {
-                "@type": "ListItem",
-                "position": 3,
-                "name": tool.category.charAt(0).toUpperCase() + tool.category.slice(1),
-                "item": `https://pressto.dev/tools/${tool.category}`
-              },
-              {
-                "@type": "ListItem",
-                "position": 4,
-                "name": tool.name,
-                "item": `https://pressto.dev/tools/${tool.category}/${tool.slug}`
-              }
-            ]
-          })
-        }}
-      />
     </div>
   );
 }

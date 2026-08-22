@@ -1,42 +1,67 @@
 ---
-title: "Resize Image Online, Free & Private | Pressto"
-description: "Change image dimensions instantly in your browser. Free and private."
-keywords: ["resize image","change image dimensions","scale image online"]
+title: "Image Resizer — Resize Images Online, Free & Private | Cluster Tools"
+description: "Resize JPG, PNG, and WebP images to exact pixel dimensions or by percentage. Maintain aspect ratio. No upload, browser-based, free."
+keywords: ["image resizer","resize image online","resize photo","resize jpg","resize png","change image dimensions","scale image"]
 ---
 
+## Resize Images to Exact Dimensions — In Your Browser
 
-## Why Use the Pressto Resize Image?
+Whether you need a profile photo at exactly 400×400px, a banner at 1200×628px for Open Graph, or you want to halve the dimensions of a large photo before sending it, the Cluster Tools Image Resizer handles it in seconds — entirely in your browser.
 
-The **Resize Image** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Your image is drawn onto an HTML canvas at the target dimensions using the browser's built-in bilinear/bicubic scaling algorithms, then exported as a new file. No image data is sent to a server.
 
-Most traditional online image tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## Resize Modes
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the Resize Image operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+### By Pixel Dimensions
+Specify an exact width, height, or both. Options:
+- **Width only** — the height is calculated automatically to maintain aspect ratio.
+- **Height only** — the width is calculated automatically to maintain aspect ratio.
+- **Both (stretch)** — forces exact dimensions regardless of aspect ratio. Useful for specific size requirements where distortion is acceptable.
+- **Both (fit within)** — scales the image to fit inside the bounding box while preserving aspect ratio. The shorter dimension may not reach the target, but no part of the image is cropped.
 
-## What is a Resize Image?
+### By Percentage
+Scale the image to a percentage of its original dimensions — 50% halves both width and height, 200% doubles them. This is useful when you need to reduce a large batch of images to a standard proportion without knowing exact pixel targets.
 
-The Resize Image is an essential utility for anyone working with image files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+## Common Resizing Use Cases
 
-## How to use the Resize
+**Social media profile photos** — most platforms have specific requirements: Twitter/X is 400×400px, LinkedIn is 400×400px, Instagram profile is 110×110px (but uploading at 400×400 is recommended for quality).
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+**Open Graph and social sharing images** — the recommended size is 1200×628px for Facebook and LinkedIn, 1200×675px for Twitter/X. Using the wrong dimensions causes ugly crops in link previews.
 
-## Frequently Asked Questions (FAQ)
+**E-commerce product images** — Shopify recommends 2048×2048px; Etsy uses 2000px on the long edge. Standardizing your product photos to consistent dimensions makes your shop look professional.
 
-**Is the Resize Image completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+**Email images** — images wider than 600px often overflow in narrow email clients. Resizing to 600px or 580px maximum width is standard practice in email design.
 
-**Is my data safe and private?**
-Absolutely. The Resize Image processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+**Website thumbnails** — blog post and article thumbnails are often displayed at 400×250 or 800×450 (16:9 ratio). Resizing to exact display dimensions prevents the browser from scaling down a 4000px image to 400px, which wastes bandwidth.
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+## Understanding Aspect Ratio
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+Aspect ratio is the proportional relationship between an image's width and height. A 1920×1080 image has a 16:9 ratio. A 1000×1000 image is 1:1 (square).
+
+When you resize an image and change one dimension without the other, the aspect ratio changes — resulting in a stretched or squished image. To avoid distortion, always resize both dimensions proportionally, or constrain to one dimension and let the other adjust automatically.
+
+Cluster Tools's "maintain aspect ratio" mode is enabled by default for this reason.
+
+## Frequently Asked Questions
+
+**Will resizing upscale (enlarge) an image?**
+Yes, but with caveats. Upscaling rasterizes the image at a larger size using interpolation — the algorithm guesses what the new pixels should look like. This makes images softer and less detailed at large upscale factors (above 2×). There's no AI upscaling here; for that you'd need specialized tools.
+
+**Does resizing change the file format?**
+No — if you input a JPG you get a JPG back, same for PNG. To change format, use the dedicated converter tools.
+
+**Can I resize multiple images at once?**
+Yes — batch mode is supported. All files are resized to the same target dimensions.
+
+**What happens to EXIF metadata (GPS, camera info)?**
+The resized image is generated fresh from the canvas, so EXIF metadata is stripped. If you need to preserve metadata, you'd need a specialized tool.
+
+**What's the maximum input image size?**
+No server-side limit. Practically, the browser can handle images up to about 100MP (e.g., 10000×10000px) on most modern devices. Extremely large images may cause the canvas operation to run out of GPU memory on lower-spec devices.
+
+## Related Tools
+
+- [Image Compressor](/tools/image/image-compressor) — reduce file size after resizing.
+- [Image Cropper](/tools/image/image-cropper) — crop to a specific region instead of scaling.
+- [JPG to WebP](/tools/image/jpg-to-webp) — after resizing, convert to WebP for optimal web performance.
+- [Compress PDF](/tools/pdf/compress-pdf) — if your resized images are going into a PDF, compress the PDF afterward.

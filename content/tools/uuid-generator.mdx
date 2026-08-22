@@ -1,42 +1,69 @@
 ---
-title: "UUID Generator — Version 4 UUIDs | Pressto"
-description: "Generate version 4 UUIDs in your browser using the Web Crypto API. Generate up to 100 at once. No server required."
-keywords: ["uuid generator","guid generator","random uuid","v4 uuid"]
+title: "UUID Generator — Generate UUIDs v4 & v1 Online | Cluster Tools"
+description: "Generate cryptographically random UUID v4 and timestamp-based UUID v1 identifiers. Bulk generate, copy all. Free, private, no upload."
+keywords: ["uuid generator","generate uuid","uuid v4 generator","random uuid","guid generator","unique id generator"]
 ---
 
+## Generate UUIDs — Cryptographically Random, In Your Browser
 
-## Why Use the Pressto UUID Generator?
+A UUID (Universally Unique Identifier) is a 128-bit identifier formatted as `xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx` — for example: `550e8400-e29b-41d4-a716-446655440000`. The "universally unique" part isn't marketing: the collision probability of randomly generated UUIDs is so vanishingly small that for all practical purposes, you can generate them indefinitely without ever producing the same one twice.
 
-The **UUID Generator** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Cluster Tools generates UUIDs using the **Web Crypto API** (`crypto.randomUUID()` for v4, `crypto.getRandomValues()` for custom implementations). This uses your device's OS-level cryptographic entropy, not JavaScript's predictable `Math.random()`.
 
-Most traditional online general tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## UUID Versions
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the UUID Generator operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+### UUID v4 (Random)
+The most commonly used version. 122 bits of cryptographic randomness, with 6 bits used for version and variant identification. The only structure is the format.
 
-## What is a UUID Generator?
+`f47ac10b-58cc-4372-a567-0e02b2c3d479`
 
-The UUID Generator is an essential utility for anyone working with general files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+**Use when:** you need a unique ID and don't need it to be sortable or have any inherent meaning.
 
-## How to use the UUID
+### UUID v1 (Timestamp-based)
+Combines the current timestamp (in 100-nanosecond intervals since October 15, 1582) with the MAC address of the generating machine (or a random node ID in browser environments). The result encodes when it was generated.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+`6ba7b810-9dad-11d1-80b4-00c04fd430c8`
 
-## Frequently Asked Questions (FAQ)
+**Use when:** you need IDs that are sortable by creation time (though ULIDs are better for this use case). Note: in browser environments without MAC address access, the node portion is random.
 
-**Is the UUID Generator completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+### UUID v7 (Monotonic Time-ordered) [coming]
+A newer UUID version (RFC 9562, 2024) with a Unix millisecond timestamp in the most-significant bits, making them lexicographically sortable — ideal for database primary keys. Better than v1 for modern use.
 
-**Is my data safe and private?**
-Absolutely. The UUID Generator processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+## When to Use UUIDs
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+**Database primary keys** — UUIDs as primary keys avoid the predictability problem of sequential integers. Users can't guess other record IDs by incrementing yours. They also work for distributed systems where multiple nodes generate IDs independently without coordination.
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+**API resource identifiers** — exposing sequential IDs in your API (`/users/1`, `/users/2`) reveals business metrics (how many users you have) and enables enumeration attacks. UUIDs prevent both.
+
+**Session tokens and correlation IDs** — a UUID per request lets you trace a specific request through distributed logs without revealing user information.
+
+**File naming** — naming uploaded files with UUIDs prevents filename collisions and prevents users from guessing other uploaded files' names.
+
+**Idempotency keys** — include a UUID in requests to guarantee a server can detect and ignore duplicate submissions (e.g., avoiding double-charging on payment retries).
+
+## Bulk Generation
+
+Cluster Tools generates 1 to 1,000 UUIDs at once. Bulk generation is useful for:
+- Pre-generating IDs for a database seed script.
+- Generating test data for development environments.
+- Creating multiple session tokens for testing.
+
+## Frequently Asked Questions
+
+**What's the probability of a UUID v4 collision?**
+For 103 trillion UUIDs (generating one per second for 3.26 million years), the probability of a single collision reaches just 50%. For any realistic application, collisions are impossible in practice.
+
+**Are Cluster Tools's UUIDs cryptographically secure?**
+UUID v4 generated with `crypto.randomUUID()` uses the browser's CSPRNG — the same entropy source as cryptographic key generation. They're suitable for security-sensitive use cases.
+
+**What's the difference between UUID and GUID?**
+They're the same thing. GUID (Globally Unique Identifier) is Microsoft's name for the same 128-bit identifier format. The format is identical; the term differs by platform.
+
+**Should I use UUID v4 or v7 for database primary keys?**
+UUID v7 is better for databases because it's time-ordered — this means new rows are inserted at the end of the index, reducing B-tree fragmentation (the "UUID primary key performance problem" with v4). UUID v7 support is growing as of 2024.
+
+## Related Tools
+
+- [Password Generator](/tools/developer/password-generator) — generate secure random strings for secrets and API keys.
+- [Base64 Encoder/Decoder](/tools/developer/base64-encoder-decoder) — encode UUID bytes as Base64 for compact storage.
+- [JSON Formatter](/tools/developer/json-formatter) — format JSON documents that include UUID fields.

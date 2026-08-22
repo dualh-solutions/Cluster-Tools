@@ -1,37 +1,81 @@
 ---
-title: "QR Code Generator — Free, Private & Offline | Pressto"
-description: "Generate QR codes entirely in your browser. No upload, no tracking. Enter any text or URL and download as PNG."
-keywords: ["qr code generator","free qr code","qr code maker","generate qr code"]
+title: "QR Code Generator — Create QR Codes Free & Private | Cluster Tools"
+description: "Generate QR codes for URLs, text, emails, phone numbers, and more. Download as PNG or SVG. No upload, no tracking, free forever."
+keywords: ["qr code generator","create qr code","free qr code generator","qr code maker","generate qr code online"]
 ---
 
+## Generate QR Codes — No Tracking, No Server
 
-## Why Use the Pressto QR Code Generator?
+QR codes (Quick Response codes) are 2D barcodes that any smartphone camera can read. They're used everywhere: restaurant menus, business cards, event tickets, product packaging, and digital-to-physical marketing bridges.
 
-The **QR Code Generator** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Cluster Tools generates QR codes using the [qrcode.js](https://github.com/soldair/node-qrcode) library running directly in your browser. The data you encode (your URL, email address, WiFi credentials, etc.) is never sent to a server. This matters particularly for sensitive uses like WiFi passwords or private contact information.
 
-Most traditional online general tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+Many "free" QR code generators are actually monetization tools: they redirect through their own server so they can track how many times your QR code was scanned, then upsell you to a paid plan to see the analytics. Cluster Tools generates **static QR codes** that link directly to your destination — no server in the middle, no scan tracking, no subscription required.
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the QR Code Generator operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+## What You Can Encode in a QR Code
 
-## What is a QR Code Generator?
+**URLs** — the most common use. Encode any web address, from simple URLs to complex ones with query parameters. The QR code becomes a bridge from print to web.
 
-The QR Code Generator is an essential utility for anyone working with general files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+**Plain text** — encode a note, an address, a product serial number, or any text up to about 4,000 characters (capacity decreases as you add more error correction).
 
-## How to use the QR Code
+**Email addresses** — encode a `mailto:` link that opens the user's email app pre-addressed when scanned.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+**Phone numbers** — encode a `tel:` number that dials when scanned on a mobile device. Common for business cards.
 
-## Frequently Asked Questions (FAQ)
+**SMS messages** — encode an `sms:` URI that opens the messaging app with a pre-filled number and message.
 
-**Is my data sent to a server to generate the QR code?**
-No. QR codes are generated entirely on your device using a pure JavaScript algorithm. No data leaves your browser.
+**WiFi credentials** — encode SSID, password, and security type (WPA2/WPA3) in the format `WIFI:T:WPA;S:MyNetwork;P:MyPassword;;`. Most modern phones auto-connect to the WiFi when the QR code is scanned — no typing required.
 
-**What text length is supported?**
-This tool supports up to approximately 100 bytes of input for reliable generation across QR versions 1–10.
+**VCard contacts** — encode a complete contact card (name, phone, email, address) in vCard format. When scanned, the user can save the contact directly to their phone.
 
+**Geographic coordinates** — encode a `geo:` URI to open the user's maps app pointing to a specific location.
+
+## QR Code Error Correction Levels
+
+QR codes have built-in redundancy that allows them to be read even when partially damaged or obscured. Four error correction levels:
+
+| Level | Recovery Capability | Use Case |
+|---|---|---|
+| L (Low) | 7% data recovery | Maximum capacity, ideal conditions |
+| M (Medium) | 15% data recovery | Default — good balance |
+| Q (Quartile) | 25% data recovery | Outdoor printing, some damage expected |
+| H (High) | 30% data recovery | Logos overlaid on QR code, rough conditions |
+
+Higher error correction = more redundancy = more complex QR code = smaller data capacity. For most URL QR codes, level M is ideal. If you're embedding a logo in the center of the QR code, use level H.
+
+## Step-by-Step: How to Generate
+
+1. **Select content type** — URL, text, email, phone, WiFi, etc.
+2. **Enter your data** — the QR code preview updates in real time.
+3. **Adjust settings** — error correction level, size (pixels), foreground/background colors.
+4. **Download** — choose PNG for raster output (printing, digital) or SVG for scalable, print-ready vector output.
+
+## Tips for Using QR Codes Effectively
+
+**Test before printing** — always scan your generated QR code with at least two different phones before printing thousands of flyers.
+
+**Size matters** — the minimum recommended print size is 2cm × 2cm for a QR code that will be scanned at arm's length. For wall posters or signage scanned from a distance, scale up proportionally.
+
+**Contrast is critical** — high contrast between foreground (default: black) and background (default: white) is essential for reliable scanning. Avoid pastel foregrounds or tinted backgrounds.
+
+**Short URLs scan faster** — less data = less complex QR = faster scan. If your URL is very long (especially with UTM parameters), use a URL shortener first.
+
+## Frequently Asked Questions
+
+**Will my QR code stop working if Cluster Tools goes down?**
+No. The QR codes Cluster Tools generates are static — they encode data directly. If you encoded a URL, the code links directly to that URL. There's no Cluster Tools server involved in the redirect.
+
+**Can I add a logo to the center of the QR code?**
+Download the SVG or PNG and overlay your logo in a design tool. Use error correction level H when generating, as the logo will cover part of the code.
+
+**Do QR codes expire?**
+Static QR codes (like the ones Cluster Tools generates) never expire. They encode data directly. Only "dynamic" QR codes from tracking services expire if you stop paying.
+
+**What's the maximum amount of data I can encode?**
+~4,296 alphanumeric characters (lower with binary data). In practice, QR codes work best with under 300 characters — longer data results in a very dense, harder-to-scan code.
+
+## Related Tools
+
+- [Slug Generator](/tools/seo/slug-generator) — create clean URLs to encode in your QR codes.
+- [URL Encoder/Decoder](/tools/developer/url-encoder-decoder) — encode URLs with special characters before creating QR codes.
+- [Meta Tag Generator](/tools/seo/meta-tag-generator) — ensure the landing page your QR code points to is well-optimized.

@@ -113,7 +113,7 @@ export default function CompressImagePage() {
 
   return (
     <ToolLayout
-      title="Compress JPG Online"
+      title="Compress Image Online"
       description="Shrink JPG, PNG, and WebP images instantly in your browser."
     >
       {files.length === 0 && (

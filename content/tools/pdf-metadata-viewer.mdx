@@ -1,42 +1,57 @@
 ---
-title: "View PDF Metadata Online | Pressto"
-description: "View properties and metadata hidden inside your PDF documents."
-keywords: ["pdf metadata viewer","view pdf properties"]
+title: "PDF Metadata Viewer — View PDF Author, Title & Properties | Cluster Tools"
+description: "Inspect the hidden metadata inside any PDF file: author, title, creation date, creator app, and more. Browser-based, private, free."
+keywords: ["pdf metadata viewer","pdf properties","pdf author viewer","view pdf metadata","pdf info reader"]
 ---
 
+## Inspect PDF Metadata — Without Uploading the File
 
-## Why Use the Pressto PDF Metadata Viewer?
+Every PDF contains a metadata layer with information about the document: its title, author, the software that created it, creation and modification dates, and more. This metadata is often invisible to readers but can reveal surprising information.
 
-The **PDF Metadata Viewer** is built to be the fastest, most private, and easiest-to-use tool of its kind on the internet. Whether you are a professional, a student, or just someone trying to get things done quickly, our tool provides immediate value without any of the typical drawbacks of online utilities.
+Cluster Tools reads and displays PDF metadata entirely in your browser using [PDF-lib](https://pdf-lib.js.org/). Your PDF is never uploaded.
 
-Most traditional online pdf tools require you to upload your files or data to a remote server. This process is inherently slow, consumes your internet bandwidth, and critically, exposes your personal or sensitive data to third parties.
+## What PDF Metadata Contains
 
-**Our tool is different:**
-- **100% Private Processing:** Your data never leaves your device. All processing happens entirely within your own browser.
-- **Lightning Fast:** Because there is zero upload or download time, the PDF Metadata Viewer operates almost instantly.
-- **No Limits or Paywalls:** We believe in free access to essential utilities. There are no hidden fees or strict usage limits.
-- **Cross-Platform:** Works perfectly on Windows, Mac, Linux, iOS, and Android without needing to install any apps.
+| Metadata Field | Description |
+|---|---|
+| Title | The document's official title (often different from the filename) |
+| Author | The person or entity who authored the content |
+| Subject | A brief description of the document's subject |
+| Creator | The application that created the original document (e.g., "Microsoft Word 2021") |
+| Producer | The software that converted or generated the PDF (e.g., "Adobe PDF Library") |
+| Creation Date | When the PDF was first created |
+| Modification Date | When the PDF was last modified |
+| Keywords | Embedded keyword tags (rarely used in practice) |
 
-## What is a PDF Metadata Viewer?
+## Why PDF Metadata Matters
 
-The PDF Metadata Viewer is an essential utility for anyone working with pdf files. It streamlines your workflow by providing exactly what you need in a simple, intuitive interface, eliminating the need for bulky desktop software.
+**Legal and confidentiality** — documents that have been through multiple revisions may have author names, internal system names, or modification timestamps that reveal more than intended. Before sharing a sensitive PDF externally, reviewing its metadata is good practice.
 
-## How to use the Metadata
+**Identifying document authenticity** — the creation date and producer fields can help verify (or question) when and how a document was generated. A "2015" contract with a 2024 creation date is worth scrutinizing.
 
-1. **Input Your Data:** Simply paste your text, enter your numbers, or drag and drop your files into the designated input area.
-2. **Adjust Settings:** (If applicable) Configure any specific options, such as quality sliders, target formats, or calculation variables.
-3. **Process & Copy:** The tool will instantly process your input. You can then copy the result to your clipboard or download the generated file directly to your device.
+**Research and journalism** — metadata has been the source of numerous newsworthy revelations: the ILOVEYOU virus creator was identified through Word metadata, and numerous political documents have been caught with revealing metadata attached.
 
-## Frequently Asked Questions (FAQ)
+**Troubleshooting PDF issues** — knowing what software created a PDF often explains why it displays oddly or has specific compatibility problems.
 
-**Is the PDF Metadata Viewer completely free to use?**
-Yes! Pressto provides this tool completely free of charge, with no hidden limits or premium paywalls.
+## Step-by-Step: How to View PDF Metadata
 
-**Is my data safe and private?**
-Absolutely. The PDF Metadata Viewer processes everything locally in your browser. Your files, text, or data are never uploaded to any external servers.
+1. **Drop your PDF** into the tool above.
+2. All metadata fields are displayed instantly.
+3. **Copy individual fields** or export all metadata as JSON.
 
-**Do I need to install any software?**
-No installation is required. This tool functions entirely online and is compatible with all modern web browsers including Chrome, Firefox, Safari, and Edge.
+## Frequently Asked Questions
 
-**Can I use this tool on my mobile device?**
-Yes, the interface is fully responsive and optimized for mobile devices, tablets, and desktops alike.
+**Can I edit or remove PDF metadata?**
+The viewer is read-only. To strip or edit metadata, you would need a PDF editing tool — many PDF printers and export options have a "remove metadata" setting, or you can use command-line tools like `exiftool`.
+
+**What if the metadata fields are empty?**
+Many PDFs have empty metadata — the creator application didn't populate the fields. Empty fields are normal and not indicative of anything suspicious.
+
+**Can this read XMP metadata?**
+Standard metadata fields yes; extended XMP (Adobe's XML-based metadata format embedded in some PDFs) is partially supported depending on the PDF-lib version.
+
+## Related Tools
+
+- [PDF Page Counter](/tools/pdf/pdf-page-counter) — quickly count pages without opening the PDF.
+- [Compress PDF](/tools/pdf/compress-pdf) — reduce file size, which also strips some metadata.
+- [Merge PDF](/tools/pdf/merge-pdf) — combine PDFs; the resulting file's metadata can be set during merge.
