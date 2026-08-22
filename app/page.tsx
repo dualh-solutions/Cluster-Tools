@@ -4,7 +4,7 @@ import { GlobalSearch } from "@/components/layout/GlobalSearch";
 import {
   ArrowRight, Sparkles, Image as ImageIcon, FileText, Type, Code2,
   TrendingUp, Calculator, LayoutGrid, Upload, Sliders, CheckCircle2,
-  Lock, Zap, Users, Gift, ShieldCheck, Rocket, Globe, Heart
+  Lock, Zap, Users, Gift, ShieldCheck, Rocket, Globe, Heart, Download
 } from "lucide-react";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/animations/Stagger";
@@ -29,9 +29,10 @@ export default function Home() {
     { id: "pdf", name: "PDF", icon: FileText, color: "text-red-500", bg: "bg-red-50 dark:bg-red-900/20" },
     { id: "text", name: "Text", icon: Type, color: "text-purple-500", bg: "bg-purple-50 dark:bg-purple-900/20" },
     { id: "developer", name: "Developer", icon: Code2, color: "text-green-500", bg: "bg-green-50 dark:bg-green-900/20" },
+    { id: "downloader", name: "Downloader", icon: Download, color: "text-pink-500", bg: "bg-pink-50 dark:bg-pink-900/20" },
     { id: "seo", name: "SEO / Web", icon: TrendingUp, color: "text-orange-500", bg: "bg-orange-50 dark:bg-orange-900/20" },
     { id: "calculators", name: "Calculator", icon: Calculator, color: "text-indigo-500", bg: "bg-indigo-50 dark:bg-indigo-900/20" },
-    { id: "general", name: "General", icon: LayoutGrid, color: "text-pink-500", bg: "bg-pink-50 dark:bg-pink-900/20" },
+    { id: "general", name: "General", icon: LayoutGrid, color: "text-slate-500", bg: "bg-slate-50 dark:bg-slate-900/20" },
   ];
 
   const categoryToolCounts = displayCategories.map(cat => ({
@@ -45,9 +46,10 @@ export default function Home() {
       case "pdf": return "text-red-600 bg-red-50 dark:bg-red-900/20 dark:text-red-400";
       case "text": return "text-purple-600 bg-purple-50 dark:bg-purple-900/20 dark:text-purple-400";
       case "developer": return "text-green-600 bg-green-50 dark:bg-green-900/20 dark:text-green-400";
+      case "downloader": return "text-pink-600 bg-pink-50 dark:bg-pink-900/20 dark:text-pink-400";
       case "seo": return "text-orange-600 bg-orange-50 dark:bg-orange-900/20 dark:text-orange-400";
       case "calculators": return "text-indigo-600 bg-indigo-50 dark:bg-indigo-900/20 dark:text-indigo-400";
-      default: return "text-purple-600 bg-purple-50 dark:bg-purple-900/20 dark:text-purple-400";
+      default: return "text-slate-600 bg-slate-50 dark:bg-slate-900/20 dark:text-slate-400";
     }
   };
 
@@ -57,9 +59,10 @@ export default function Home() {
       case "pdf": return <FileText size={20} className="text-red-500 md:w-6 md:h-6" />;
       case "text": return <Type size={20} className="text-purple-500 md:w-6 md:h-6" />;
       case "developer": return <Code2 size={20} className="text-green-500 md:w-6 md:h-6" />;
+      case "downloader": return <Download size={20} className="text-pink-500 md:w-6 md:h-6" />;
       case "seo": return <TrendingUp size={20} className="text-orange-500 md:w-6 md:h-6" />;
       case "calculators": return <Calculator size={20} className="text-indigo-500 md:w-6 md:h-6" />;
-      default: return <LayoutGrid size={20} className="text-pink-500 md:w-6 md:h-6" />;
+      default: return <LayoutGrid size={20} className="text-slate-500 md:w-6 md:h-6" />;
     }
   };
 

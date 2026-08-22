@@ -18,24 +18,53 @@ export async function GET(req: NextRequest) {
   const filename = `${safeTitle}.mp4`;
 
   try {
-    const meta = await youtubedl(sourceUrl, { dumpJson: true, noWarnings: true, noCheckCertificate: true } as any) as any;
-    const formats: any[] = meta.formats || [];
+    let targetVideoUrl: string | undefined = undefined;
+    let audioUrl: string | undefined = undefined;
 
-    const videoFmt = formats
-      .filter(f => f.vcodec !== 'none' && f.acodec === 'none' && f.url && f.protocol === 'https' && f.ext === 'mp4')
-      .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
-      .find(f => (f.height ?? 9999) <= 720 && (f.vcodec || '').startsWith('avc'))
-      ?? formats.filter(f => f.vcodec !== 'none' && f.acodec === 'none' && f.url && f.protocol === 'https')
-        .sort((a, b) => (b.height ?? 0) - (a.height ?? 0)).find(f => (f.height ?? 9999) <= 720);
+    if (sourceUrl.includes('tiktok.com') || sp.get('isTikTok') === 'true') {
+      const tikwmRes = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(sourceUrl)}`);
+      const tikwmData = await tikwmRes.json();
+      if (tikwmData.code === 0 && tikwmData.data && tikwmData.data.play) {
+        targetVideoUrl = tikwmData.data.play;
+      }
+    }
 
-    const audioFmt = formats.find(f => f.format_id === '140' && f.url) 
-      ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && f.url && f.ext === 'm4a')[0]
-      ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && f.url && f.protocol === 'https')[0];
+    if (!targetVideoUrl) {
+      const meta = await youtubedl(sourceUrl, { dumpJson: true, noWarnings: true, noCheckCertificate: true } as any) as any;
+      const formats: any[] = meta.formats || [];
 
-    // For sites like TikTok/Instagram that sometimes return a single combined stream instead of split
-    const combinedFmt = formats.find(f => f.acodec !== 'none' && f.vcodec !== 'none' && f.url && f.protocol === 'https');
-    
-    const targetVideoUrl = videoFmt?.url || combinedFmt?.url;
+      const isGoodProtocol = (f: any) => f.url && (f.protocol === 'https' || f.protocol === 'http' || (f.protocol || '').includes('m3u8'));
+
+      const combinedFmt = formats
+        .filter(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f) && f.ext === 'mp4')
+        .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
+        .find(f => (f.height ?? 9999) <= 720)
+        ?? formats.find(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f));
+
+      const videoFmt = formats
+        .filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f) && f.ext === 'mp4')
+        .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
+        .find(f => (f.height ?? 9999) <= 720 && (f.vcodec || '').startsWith('avc'))
+        ?? formats.filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f))
+          .sort((a, b) => (b.height ?? 0) - (a.height ?? 0)).find(f => (f.height ?? 9999) <= 720)
+        ?? formats.find(f => f.vcodec !== 'none' && isGoodProtocol(f));
+
+      const audioFmt = formats.find(f => f.format_id === '140' && f.url) 
+        ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f) && f.ext === 'm4a')[0]
+        ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f))[0];
+
+      if (combinedFmt) {
+        targetVideoUrl = combinedFmt.url;
+        audioUrl = undefined;
+      } else if (videoFmt && audioFmt) {
+        targetVideoUrl = videoFmt.url;
+        audioUrl = audioFmt.url;
+      } else if (videoFmt) {
+        targetVideoUrl = videoFmt.url;
+        audioUrl = undefined;
+      }
+    }
+
     if (!targetVideoUrl) return new Response('No downloadable stream found.', { status: 400 });
 
     const args: string[] = [
@@ -44,8 +73,8 @@ export async function GET(req: NextRequest) {
       '-i', targetVideoUrl,
     ];
 
-    if (audioFmt && !combinedFmt) {
-      args.push('-user_agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', '-i', audioFmt.url);
+    if (audioUrl) {
+      args.push('-user_agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', '-i', audioUrl);
       args.push('-c:v', 'copy', '-c:a', 'copy'); // Copy streams directly to save CPU
     } else {
       args.push('-c:v', 'copy', '-c:a', 'copy');
@@ -64,7 +93,9 @@ export async function GET(req: NextRequest) {
     const stream = new ReadableStream({
       start(controller) {
         const proc = spawn(ffmpeg, args, { stdio: ['ignore', 'pipe', 'pipe'] });
-        proc.stdout.on('data', (chunk: Buffer) => controller.enqueue(chunk));
+        proc.stdout.on('data', (chunk: Buffer) => {
+          try { controller.enqueue(chunk); } catch {}
+        });
         proc.stdout.on('end', () => { try { controller.close(); } catch {} });
         proc.on('error', (err) => { try { controller.error(err); } catch {} });
       },

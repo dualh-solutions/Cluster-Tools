@@ -79,6 +79,38 @@ export default async function ToolPage({ params }: PageProps) {
 
       {/* Content Section */}
       <section className="w-full max-w-[768px] mx-auto px-4 py-8 text-on-surface">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "SoftwareApplication",
+              "name": tool.name,
+              "description": tool.description,
+              "applicationCategory": "UtilitiesApplication",
+              "operatingSystem": "All",
+              "offers": {
+                "@type": "Offer",
+                "price": "0",
+                "priceCurrency": "USD"
+              },
+              "url": `https://clustertools.online/tools/${tool.category}/${tool.slug}`,
+              "dateModified": tool.lastModified ? new Date(tool.lastModified).toISOString() : undefined
+            })
+          }}
+        />
+
+        {tool.lastModified && (
+          <div className="flex items-center gap-2 mb-8 text-sm text-on-surface-variant font-medium bg-surface p-3 rounded-lg border border-outline-variant w-fit shadow-sm">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-[#2E5CFF]">
+              <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
+              <path d="M12 6v6l4 2" />
+            </svg>
+            Last Updated: {new Date(tool.lastModified).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            <span className="ml-2 px-2 py-0.5 rounded-md bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-bold uppercase tracking-wider">Verified</span>
+          </div>
+        )}
+
         <div className="prose prose-slate dark:prose-invert max-w-none">
           
           {mdxContent ? (

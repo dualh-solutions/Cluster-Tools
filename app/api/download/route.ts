@@ -6,6 +6,27 @@ export async function POST(request: Request) {
     const { url } = await request.json();
     if (!url) return NextResponse.json({ error: 'URL required' }, { status: 400 });
 
+    // TikWM Fallback for TikTok
+    if (url.includes('tiktok.com')) {
+      const tikwmRes = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(url)}`);
+      const tikwmData = await tikwmRes.json();
+      
+      if (tikwmData.code === 0 && tikwmData.data) {
+        const data = tikwmData.data;
+        const safeTitle = (data.title || 'tiktok_video').replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_').slice(0, 100);
+        
+        return NextResponse.json({
+          status: 'success',
+          title: data.title || 'TikTok Video',
+          thumbnail: data.cover,
+          duration: data.duration,
+          quality: 'HD',
+          downloadUrl: `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(safeTitle)}&isTikTok=true`,
+          filename: `${safeTitle}.mp4`,
+        });
+      }
+    }
+
     const meta = await youtubedl(url, {
       dumpJson: true,
       noWarnings: true,
@@ -14,9 +35,11 @@ export async function POST(request: Request) {
 
     if (!meta) return NextResponse.json({ error: 'Failed to fetch video info.' }, { status: 400 });
 
+    const isGoodProtocol = (f: any) => f.url && (f.protocol === 'https' || f.protocol === 'http' || (f.protocol || '').includes('m3u8'));
+
     const formats: any[] = meta.formats || [];
     const videoFmt = formats
-      .filter(f => f.vcodec !== 'none' && f.acodec === 'none' && f.protocol === 'https')
+      .filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f))
       .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
       .find(f => (f.height ?? 9999) <= 720);
 

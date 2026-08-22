@@ -164,4 +164,12 @@ body {
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
+  
+  @keyframes progressSlide {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(250%); }
+  }
+  .animate-progress-slide {
+    animation: progressSlide 1.5s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  }
 }

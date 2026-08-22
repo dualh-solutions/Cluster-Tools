@@ -15,6 +15,9 @@ export interface ToolLayoutProps {
   categoryName?: string;
   categorySlug?: string;
   children: React.ReactNode;
+  hideSafetyBox?: boolean;
+  hideHowItWorks?: boolean;
+  noChildrenBox?: boolean;
 }
 
 export function ToolLayout({
@@ -23,6 +26,9 @@ export function ToolLayout({
   categoryName,
   categorySlug,
   children,
+  hideSafetyBox,
+  hideHowItWorks,
+  noChildrenBox,
 }: ToolLayoutProps) {
   const params = useParams();
   const slug = params?.slug as string;
@@ -120,11 +126,18 @@ export function ToolLayout({
         </p>
       </div>
 
-      <div className="w-full bg-surface rounded-[24px] shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-border p-6 flex flex-col items-center mb-4">
-        {children}
-      </div>
+      {noChildrenBox ? (
+        <div className="w-full flex flex-col mb-4">
+          {children}
+        </div>
+      ) : (
+        <div className="w-full bg-surface rounded-[24px] shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-border p-6 flex flex-col mb-4">
+          {children}
+        </div>
+      )}
 
       {/* Safety Box */}
+      {!hideSafetyBox && (
       <div className="w-full bg-[#F0FDF4] dark:bg-[#F0FDF4]/5 border border-[#DCFCE7] dark:border-[#DCFCE7]/10 rounded-[24px] p-6 flex items-start gap-4 mb-4">
         <div className="w-10 h-10 rounded-full bg-[#22C55E] flex items-center justify-center text-white shrink-0 mt-0.5">
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
@@ -136,8 +149,10 @@ export function ToolLayout({
           </p>
         </div>
       </div>
+      )}
 
       {/* How it works section */}
+      {!hideHowItWorks && (
       <div className="w-full bg-surface rounded-[24px] shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-border pt-6 flex flex-col mb-12 overflow-hidden">
         <div className="flex items-center gap-3 mb-6 px-6">
           <div className="w-8 h-8 rounded-lg bg-[#EFF6FF] dark:bg-[#EFF6FF]/10 flex items-center justify-center text-primary">
@@ -192,6 +207,7 @@ export function ToolLayout({
           <span>100% Private (Processed in browser)</span>
         </div>
       </div>
+      )}
     </div>
   );
 }

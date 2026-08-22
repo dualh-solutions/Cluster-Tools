@@ -70,7 +70,7 @@ export const CATEGORIES: CategoryDefinition[] = [
   {
     id: "downloader",
     slug: "downloader",
-    name: "Downloader Tools",
+    name: "Social Media Downloaders",
     description: "Download videos and media from various social platforms.",
   },
   {
