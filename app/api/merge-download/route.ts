@@ -36,6 +36,7 @@ export async function GET(req: NextRequest) {
         noCheckCertificate: true,
         noCacheDir: true,
         preferFreeFormats: true,
+        extractorArgs: 'youtube:player_client=android', // Bypass bot block
       } as any) as any;
       const formats: any[] = meta.formats || [];
 
