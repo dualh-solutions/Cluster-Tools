@@ -31,6 +31,8 @@ export async function POST(request: Request) {
       dumpJson: true,
       noWarnings: true,
       noCheckCertificate: true,
+      noCacheDir: true,
+      preferFreeFormats: true,
     } as any) as any;
 
     if (!meta) return NextResponse.json({ error: 'Failed to fetch video info.' }, { status: 400 });
@@ -64,10 +66,14 @@ export async function POST(request: Request) {
     let msg = 'Failed to process video. Make sure the URL is public.';
     if (error.stderr) {
       const line = (error.stderr as string).split('\n').find((l: string) => l.includes('ERROR:'));
-      if (line) msg = line.replace('ERROR:', '').trim();
+      if (line) {
+        msg = line.replace('ERROR:', '').trim();
+      } else {
+        msg = error.message || msg; // Fallback to message if no ERROR: string
+      }
     } else if (error.message) {
       msg = error.message;
     }
-    return NextResponse.json({ error: msg, fullError: error.toString() }, { status: 500 });
+    return NextResponse.json({ error: msg, fullError: error.toString(), stderr: error.stderr }, { status: 500 });
   }
 }

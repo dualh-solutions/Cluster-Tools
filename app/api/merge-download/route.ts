@@ -30,7 +30,13 @@ export async function GET(req: NextRequest) {
     }
 
     if (!targetVideoUrl) {
-      const meta = await youtubedl(sourceUrl, { dumpJson: true, noWarnings: true, noCheckCertificate: true } as any) as any;
+      const meta = await youtubedl(sourceUrl, { 
+        dumpJson: true, 
+        noWarnings: true, 
+        noCheckCertificate: true,
+        noCacheDir: true,
+        preferFreeFormats: true,
+      } as any) as any;
       const formats: any[] = meta.formats || [];
 
       const isGoodProtocol = (f: any) => f.url && (f.protocol === 'https' || f.protocol === 'http' || (f.protocol || '').includes('m3u8'));
