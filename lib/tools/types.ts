@@ -12,7 +12,8 @@ export type ToolType =
   | "editor"
   | "validator"
   | "viewer"
-  | "preview";
+  | "preview"
+  | "downloader";
 
 export interface FAQ {
   question: string;
