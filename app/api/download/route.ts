@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import youtubedl from 'youtube-dl-exec';
+import ytdl from '@distube/ytdl-core';
 
 export async function POST(request: Request) {
   try {
@@ -75,6 +76,36 @@ export async function POST(request: Request) {
     } else if (error.message) {
       msg = error.message;
     }
+
+    // Try ytdl-core fallback for YouTube if bot blocked
+    if ((url.includes('youtube.com') || url.includes('youtu.be')) && (msg.includes('Sign in') || msg.includes('bot'))) {
+      try {
+        console.log("Attempting ytdl-core fallback...");
+        const info = await ytdl.getInfo(url);
+        const videoDetails = info.videoDetails;
+        
+        const safeTitle = (videoDetails.title || 'video').replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_').slice(0, 100);
+        const downloadUrl = `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(safeTitle)}&fallback=true`;
+        
+        // Find a decent format for quality string
+        const videoFmt = info.formats.find(f => f.hasVideo && !f.hasAudio && f.height && f.height <= 720);
+        const quality = videoFmt?.height ? `${videoFmt.height}p` : 'HD';
+
+        return NextResponse.json({
+          status: 'success',
+          title: videoDetails.title || 'YouTube Video',
+          thumbnail: videoDetails.thumbnails?.[0]?.url || '',
+          duration: parseInt(videoDetails.lengthSeconds || '0', 10),
+          quality,
+          downloadUrl,
+          filename: `${safeTitle}.mp4`,
+        });
+      } catch (fallbackError: any) {
+        console.error("ytdl-core fallback error:", fallbackError);
+        // Fall through to original error if this also fails
+      }
+    }
+
     return NextResponse.json({ error: msg, fullError: error.toString(), stderr: error.stderr }, { status: 500 });
   }
 }

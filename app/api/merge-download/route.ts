@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 import { spawn } from 'child_process';
 import youtubedl from 'youtube-dl-exec';
+import ytdl from '@distube/ytdl-core';
 import ffmpegPath from 'ffmpeg-static';
 
 export const runtime = 'nodejs';
@@ -30,45 +31,71 @@ export async function GET(req: NextRequest) {
     }
 
     if (!targetVideoUrl) {
-      const meta = await youtubedl(sourceUrl, { 
-        dumpJson: true, 
-        noWarnings: true, 
-        noCheckCertificate: true,
-        noCacheDir: true,
-        preferFreeFormats: true,
-        extractorArgs: 'youtube:player_client=ios,tv,web', // Bypass bot block
-      } as any) as any;
-      const formats: any[] = meta.formats || [];
+      if (sp.get('fallback') === 'true') {
+        const info = await ytdl.getInfo(sourceUrl);
+        const formats = info.formats;
+        
+        // Find best video without audio
+        const videoFmt = formats.filter(f => f.hasVideo && !f.hasAudio)
+                                .sort((a, b) => (b.height || 0) - (a.height || 0))
+                                .find(f => (f.height || 9999) <= 720);
+                                
+        // Find best audio
+        const audioFmt = formats.filter(f => f.hasAudio && !f.hasVideo)
+                                .sort((a, b) => (b.audioBitrate || 0) - (a.audioBitrate || 0))[0];
 
-      const isGoodProtocol = (f: any) => f.url && (f.protocol === 'https' || f.protocol === 'http' || (f.protocol || '').includes('m3u8'));
+        // Or combined if separate fails
+        const combinedFmt = formats.filter(f => f.hasVideo && f.hasAudio)
+                                   .sort((a, b) => (b.height || 0) - (a.height || 0))
+                                   .find(f => (f.height || 9999) <= 720);
 
-      const combinedFmt = formats
-        .filter(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f) && f.ext === 'mp4')
-        .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
-        .find(f => (f.height ?? 9999) <= 720)
-        ?? formats.find(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f));
+        if (videoFmt && audioFmt) {
+          targetVideoUrl = videoFmt.url;
+          audioUrl = audioFmt.url;
+        } else if (combinedFmt) {
+          targetVideoUrl = combinedFmt.url;
+        }
+      } else {
+        const meta = await youtubedl(sourceUrl, { 
+          dumpJson: true, 
+          noWarnings: true, 
+          noCheckCertificate: true,
+          noCacheDir: true,
+          preferFreeFormats: true,
+          extractorArgs: 'youtube:player_client=ios,tv,web', // Bypass bot block
+        } as any) as any;
+        const formats: any[] = meta.formats || [];
 
-      const videoFmt = formats
-        .filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f) && f.ext === 'mp4')
-        .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
-        .find(f => (f.height ?? 9999) <= 720 && (f.vcodec || '').startsWith('avc'))
-        ?? formats.filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f))
-          .sort((a, b) => (b.height ?? 0) - (a.height ?? 0)).find(f => (f.height ?? 9999) <= 720)
-        ?? formats.find(f => f.vcodec !== 'none' && isGoodProtocol(f));
+        const isGoodProtocol = (f: any) => f.url && (f.protocol === 'https' || f.protocol === 'http' || (f.protocol || '').includes('m3u8'));
 
-      const audioFmt = formats.find(f => f.format_id === '140' && f.url) 
-        ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f) && f.ext === 'm4a')[0]
-        ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f))[0];
+        const combinedFmt = formats
+          .filter(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f) && f.ext === 'mp4')
+          .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
+          .find(f => (f.height ?? 9999) <= 720)
+          ?? formats.find(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f));
 
-      if (combinedFmt) {
-        targetVideoUrl = combinedFmt.url;
-        audioUrl = undefined;
-      } else if (videoFmt && audioFmt) {
-        targetVideoUrl = videoFmt.url;
-        audioUrl = audioFmt.url;
-      } else if (videoFmt) {
-        targetVideoUrl = videoFmt.url;
-        audioUrl = undefined;
+        const videoFmt = formats
+          .filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f) && f.ext === 'mp4')
+          .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
+          .find(f => (f.height ?? 9999) <= 720 && (f.vcodec || '').startsWith('avc'))
+          ?? formats.filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f))
+            .sort((a, b) => (b.height ?? 0) - (a.height ?? 0)).find(f => (f.height ?? 9999) <= 720)
+          ?? formats.find(f => f.vcodec !== 'none' && isGoodProtocol(f));
+
+        const audioFmt = formats.find(f => f.format_id === '140' && f.url) 
+          ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f) && f.ext === 'm4a')[0]
+          ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f))[0];
+
+        if (combinedFmt) {
+          targetVideoUrl = combinedFmt.url;
+          audioUrl = undefined;
+        } else if (videoFmt && audioFmt) {
+          targetVideoUrl = videoFmt.url;
+          audioUrl = audioFmt.url;
+        } else if (videoFmt) {
+          targetVideoUrl = videoFmt.url;
+          audioUrl = undefined;
+        }
       }
     }
 
