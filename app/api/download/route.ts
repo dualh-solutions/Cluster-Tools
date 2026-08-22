@@ -39,7 +39,7 @@ export async function POST(request: Request) {
       noCacheDir: true,
       preferFreeFormats: true,
       forceIpv4: true,
-      extractorArgs: 'youtube:player_client=ios,tv',
+      extractorArgs: 'youtube:player_client=default',
     };
 
     if (process.env.YOUTUBE_COOKIES) {
