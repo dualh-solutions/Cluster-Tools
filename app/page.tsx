@@ -57,7 +57,7 @@ export default function Home() {
     <div className="w-full flex-1 flex flex-col items-center pb-16 md:pb-24 overflow-x-hidden bg-transparent">
       
       {/* ─── Hero Section ─── */}
-      <div className="w-full relative px-4 md:px-margin-desktop pt-12 md:pt-20 pb-12 md:pb-16 text-center flex flex-col items-center overflow-hidden">
+      <div className="w-full relative px-4 md:px-margin-desktop pt-4 md:pt-8 pb-12 md:pb-16 text-center flex flex-col items-center overflow-hidden">
         
         {/* Floating Icons — hidden on mobile, visible on lg+ */}
         <FloatingIcon delay={0} yOffset={20} duration={6} className="absolute top-10 left-[15%] w-16 h-16 bg-surface rounded-2xl flex items-center justify-center rotate-[-12deg] shadow-[0_8px_30px_rgb(0,0,0,0.04)] z-0 hidden lg:flex border border-black/5">
