@@ -41,8 +41,8 @@ export function Header() {
 
   return (
     <>
-      <div className="sticky top-4 md:top-6 z-50 w-full px-4 md:px-6 pointer-events-none">
-        <header className="bg-surface/80 dark:bg-surface/90 backdrop-blur-xl border border-black/5 dark:border-outline-variant shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[28px] h-[72px] w-full max-w-[1440px] mx-auto flex justify-between items-center px-4 md:px-6 pointer-events-auto gap-2 md:gap-4">
+      <div className="sticky top-0 z-50 w-full px-4 md:px-6 pointer-events-none">
+        <header className="bg-surface/80 dark:bg-surface/90 backdrop-blur-xl border border-black/5 dark:border-outline-variant shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[28px] h-[72px] w-full max-w-[1440px] mx-auto flex justify-between items-center px-4 md:px-6 pointer-events-auto gap-2 md:gap-4 mt-2 md:mt-0">
           <div className="flex flex-1 items-center gap-2 md:gap-4 min-w-0">
             <button 
               onClick={() => setMobileMenuOpen(true)}
