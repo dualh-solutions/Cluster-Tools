@@ -37,11 +37,14 @@ export async function POST(request: Request) {
     });
 
   } catch (error: any) {
+    console.error("YouTube-DL Error:", error);
     let msg = 'Failed to process video. Make sure the URL is public.';
     if (error.stderr) {
       const line = (error.stderr as string).split('\n').find((l: string) => l.includes('ERROR:'));
       if (line) msg = line.replace('ERROR:', '').trim();
+    } else if (error.message) {
+      msg = error.message;
     }
-    return NextResponse.json({ error: msg }, { status: 500 });
+    return NextResponse.json({ error: msg, fullError: error.toString() }, { status: 500 });
   }
 }
