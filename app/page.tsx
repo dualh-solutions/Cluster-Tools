@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <div className="w-full flex-1 flex flex-col items-center pb-16 md:pb-24 overflow-x-hidden bg-transparent">
 
-      <div className="w-full relative px-4 md:px-margin-desktop pt-2 md:pt-2 pb-12 md:pb-16 text-center flex flex-col items-center overflow-hidden">
+      <div className="w-full relative px-4 md:px-margin-desktop py-12 md:py-0 text-center flex flex-col items-center justify-center overflow-hidden min-h-[calc(100vh-80px)]">
 
         {/* Floating Icons — hidden on mobile, visible on lg+ */}
         <FloatingIcon delay={0} yOffset={20} duration={6} className="absolute top-10 left-[15%] w-16 h-16 bg-surface rounded-2xl flex items-center justify-center rotate-[-12deg] shadow-[0_8px_30px_rgb(0,0,0,0.04)] z-0 hidden lg:flex border border-black/5">
@@ -86,7 +86,7 @@ export default function Home() {
 
           {/* Top Badge */}
           <StaggerItem>
-            <div className="flex items-center gap-1.5 bg-surface border border-[#F5C070] rounded-full px-4 py-1.5 mb-8 shadow-sm">
+            <div className="flex items-center gap-1.5 bg-surface border border-[#F5C070] rounded-full px-4 py-1.5 mb-0 shadow-sm">
               <Lock size={12} className="text-[#E38827]" />
               <span className="text-[11px] font-bold text-[#E38827] uppercase tracking-wide">
                 100% Private • No Uploads • Works Offline
@@ -96,7 +96,7 @@ export default function Home() {
 
           {/* Heading */}
           <StaggerItem>
-            <h1 className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[72px] leading-[1.1] font-extrabold text-ink tracking-[-0.02em] mb-6 px-2 text-center">
+            <h1 className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[72px] leading-[1.1] font-extrabold text-ink tracking-[-0.02em] mb-20 px-2 text-center">
               Fast, Free, <span className="text-[#2E5CFF]">Privacy-First</span> <br className="hidden sm:block" />
               Online Tools
             </h1>
@@ -104,13 +104,13 @@ export default function Home() {
 
           {/* Subtext */}
           <StaggerItem>
-            <p className="text-[15px] md:text-[20px] text-[#4B5563] font-medium max-w-[640px] mb-10 md:mb-12 px-2 leading-relaxed text-center mx-auto">
+            <p className="text-[15px] md:text-[20px] text-[#4B5563] font-medium max-w-[640px] mb-2.5 px-2 leading-relaxed text-center mx-auto">
               Convert, compress, and edit files entirely in your browser.<br className="hidden sm:block" /> No uploads, no servers, zero waiting.
             </p>
           </StaggerItem>
 
           {/* Search Bar */}
-          <StaggerItem className="w-full max-w-[640px] mx-auto mb-10 md:mb-12 relative px-0">
+          <StaggerItem className="w-full max-w-[640px] mx-auto mb-2.5 relative px-0">
             <GlobalSearch variant="hero" />
           </StaggerItem>
 
@@ -158,7 +158,7 @@ export default function Home() {
           </StaggerItem>
 
           {/* Features Box */}
-          <StaggerItem className="w-full max-w-[900px] mt-6 md:mt-10 px-2">
+          <StaggerItem className="w-full max-w-[900px] mt-2.5 px-2">
             <div className="bg-surface rounded-[20px] md:rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 p-4 md:px-8 md:py-5 grid grid-cols-2 lg:flex lg:flex-row justify-between gap-y-5 gap-x-3 lg:gap-4 lg:divide-x divide-gray-100">
               <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4">
                 <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-[#3B82F6] shrink-0">

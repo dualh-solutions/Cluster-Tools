@@ -10,7 +10,7 @@ import {
   Minimize, Crop, FileImage, ImagePlus, Maximize,
   ArrowDownToLine, Combine, SplitSquareHorizontal, RotateCw, FileOutput, FileMinus, Hash, FileSearch,
   Percent, CalendarDays, Landmark, Home, Tag, TrendingUp, LineChart, BadgeDollarSign,
-  WholeWord, CaseSensitive, ListX, FileDiff, Braces, ShieldCheck as ShieldCheckIcon, Minimize2, Calculator, Type, Code2, FileText, File
+  WholeWord, CaseSensitive, ListX, FileDiff, Braces, ShieldCheck as ShieldCheckIcon, Minimize2, Calculator, Type, Code2, FileText, File, Download
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -59,6 +59,7 @@ const getSpecificToolIcon = (slug: string, fallback: any) => {
     case "json-formatter": return Braces;
     case "json-validator": return ShieldCheckIcon;
     case "json-minifier": return Minimize2;
+    case "youtube-downloader": return Download;
     default: return fallback;
   }
 };
@@ -100,6 +101,7 @@ const getCategoryIcon = (id: string) => {
     case "calculators": return Calculator;
     case "text": return Type;
     case "developer": return Code2;
+    case "downloader": return Download;
     default: return LayoutGrid;
   }
 };
@@ -111,6 +113,7 @@ const getCategoryColor = (id: string) => {
     case "calculators": return "bg-indigo-50 text-[#6366F1]";
     case "text": return "bg-purple-50 text-[#A855F7]";
     case "developer": return "bg-green-50 text-[#22C55E]";
+    case "downloader": return "bg-pink-50 text-[#EC4899]";
     default: return "bg-blue-50 text-[#2E5CFF]";
   }
 };

@@ -1095,6 +1095,29 @@ export const TOOLS_REGISTRY: ToolDefinition[] = [
       { question: "Does this verify the JWT signature?", answer: "No. This tool only decodes the header and payload for inspection. Signature verification requires the secret or public key, which must be done server-side." },
       { question: "Is my JWT sent to a server?", answer: "No. All decoding happens in your browser using base64url decoding and JSON.parse. Nothing leaves your device." }
     ],
+  },
+  {
+    id: "youtube-downloader",
+    slug: "youtube-downloader",
+    name: "YouTube Video Downloader",
+    shortName: "YouTube Downloader",
+    category: "downloader",
+    toolType: "downloader",
+    tags: ["youtube", "download", "video", "social media"],
+    componentKey: "VideoDownloader",
+    processingMode: "server",
+    inputTypes: ["text/plain"],
+    inputFormats: [],
+    outputTypes: ["video/mp4"],
+    outputFormats: [".mp4"],
+    title: "YouTube Video Downloader | Download MP4 Free | Cluster Tools",
+    description: "Download videos from YouTube, TikTok, Instagram, Twitter, and more.",
+    keywords: ["youtube downloader", "tiktok downloader", "video downloader", "download mp4"],
+    aliases: ["video downloader", "youtube downloader"],
+    searchTerms: ["youtube", "download", "video", "mp4", "tiktok", "instagram"],
+    status: "live",
+    lastModified: "2024-01-01T00:00:00.000Z",
+    faqs: []
   }
 ];
 

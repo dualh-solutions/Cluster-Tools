@@ -148,6 +148,9 @@ const toolComponents: Record<string, ComponentType<unknown>> = {
   JwtDecoderTool: dynamic(() => import("@/components/tools/interfaces/JwtDecoderTool"), {
     loading: () => <ToolLoadingSkeleton />
   }),
+  VideoDownloader: dynamic(() => import("@/components/VideoDownloader").then((mod) => ({ default: mod.VideoDownloader })), {
+    loading: () => <ToolLoadingSkeleton />
+  }),
 };
 
 export function getToolComponent(componentKey: string): ComponentType<unknown> | null {

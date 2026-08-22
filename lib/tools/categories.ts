@@ -68,6 +68,12 @@ export const CATEGORIES: CategoryDefinition[] = [
     description: "Tools to help you get work done faster.",
   },
   {
+    id: "downloader",
+    slug: "downloader",
+    name: "Downloader Tools",
+    description: "Download videos and media from various social platforms.",
+  },
+  {
     id: "general",
     slug: "general",
     name: "General Tools",
