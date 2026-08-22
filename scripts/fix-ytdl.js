@@ -3,8 +3,8 @@ const https = require('https');
 const path = require('path');
 const { execSync } = require('child_process');
 
-if (process.env.VERCEL) {
-  console.log("Vercel detected. Downloading standalone yt-dlp_linux...");
+if (process.platform === 'linux') {
+  console.log("Linux detected. Downloading standalone yt-dlp_linux...");
   const destDir = path.join(__dirname, '../node_modules/youtube-dl-exec/bin');
   
   if (!fs.existsSync(destDir)) {
@@ -22,5 +22,5 @@ if (process.env.VERCEL) {
     console.error("Failed to download or set permissions for yt-dlp_linux:", error.message);
   }
 } else {
-  console.log("Not on Vercel, skipping yt-dlp fix.");
+  console.log("Not on Linux, skipping yt-dlp fix.");
 }
