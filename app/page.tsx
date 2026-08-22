@@ -10,6 +10,16 @@ import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer, StaggerItem } from "@/components/animations/Stagger";
 import { FloatingIcon } from "@/components/animations/FloatingIcon";
 import { MagicCardContainer, MagicCard } from "@/components/animations/MagicCard";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+  other: {
+    'og:updated_time': new Date().toISOString(),
+  },
+};
 
 export default function Home() {
   const popularTools = TOOLS_REGISTRY.filter(t => t.popular).slice(0, 6);
@@ -87,7 +97,7 @@ export default function Home() {
           {/* Heading */}
           <StaggerItem>
             <h1 className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[72px] leading-[1.1] font-extrabold text-ink tracking-[-0.02em] mb-6 px-2 text-center">
-              Fast, Free, <span className="text-[#2E5CFF]">Privacy-First</span><br className="hidden sm:block" />
+              Fast, Free, <span className="text-[#2E5CFF]">Privacy-First</span> <br className="hidden sm:block" />
               Online Tools
             </h1>
           </StaggerItem>

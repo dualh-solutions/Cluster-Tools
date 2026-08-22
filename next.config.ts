@@ -3,6 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async redirects() {
     return [
+      { 
+        source: '/:path*', 
+        has: [{ type: 'host', value: 'www.cluster-tools.dev' }], 
+        destination: 'https://cluster-tools.dev/:path*', 
+        permanent: true 
+      },
       { source: '/tools/compress-image', destination: '/tools/image/image-compressor', permanent: true },
       { source: '/tools/crop-image', destination: '/tools/image/image-cropper', permanent: true },
       { source: '/tools/jpg-to-pdf', destination: '/tools/pdf/jpg-to-pdf', permanent: true },

@@ -16,6 +16,9 @@ import {
 export const metadata: Metadata = {
   title: "All Online Tools | Cluster Tools",
   description: "Browse our complete collection of free, private, browser-based tools for images, PDFs, text, and more.",
+  alternates: {
+    canonical: "/tools",
+  }
 };
 
 const getSpecificToolIcon = (slug: string, fallback: any) => {
