@@ -52,7 +52,7 @@ export function Header() {
             >
               <Menu size={24} />
             </button>
-            <Link href="/" className="font-h2 text-[18px] sm:text-xl font-extrabold text-[#2E5CFF] flex items-center gap-2 sm:gap-2.5 active:opacity-70 z-50 shrink-0 min-w-0">
+            <Link href="/" className="font-sans tracking-[-0.02em] text-[18px] sm:text-xl font-extrabold text-[#2E5CFF] flex items-center gap-2 sm:gap-2.5 active:opacity-70 z-50 shrink-0 min-w-0">
               <div className="relative flex items-center justify-center shrink-0">
                 <Hexagon className="text-[#2E5CFF]" size={28} strokeWidth={2.5} />
                 <div className="absolute w-[6px] h-[6px] bg-[#2E5CFF] rounded-full"></div>
