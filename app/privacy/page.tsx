@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Privacy Policy | Cluster Tools',
   description: 'Our privacy policy is simple: your files never leave your device. Read the details of how Cluster Tools protects your data.',
   alternates: {
-    canonical: 'https://cluster-tools.dev/privacy',
+    canonical: 'https://clustertools.online/privacy',
   },
 };
 
@@ -51,7 +51,7 @@ export default function PrivacyPage() {
 
         <h2 className="text-xl md:text-2xl font-display font-semibold mt-10 md:mt-12 mb-3 md:mb-4 tracking-tight">5. Contact Us</h2>
         <p className="mb-5 md:mb-6">
-          If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at <a href="mailto:privacy@cluster-tools.dev" className="text-primary hover:underline">privacy@cluster-tools.dev</a>.
+          If you have any questions or suggestions about our Privacy Policy, do not hesitate to contact us at <a href="mailto:privacy@clustertools.online" className="text-primary hover:underline">privacy@clustertools.online</a>.
         </p>
       </div>
     </div>

@@ -19,14 +19,14 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://cluster-tools.dev'),
+  metadataBase: new URL('https://clustertools.online'),
   title: "Cluster Tools - Fast, Private Online Tools",
   description: "Convert, compress, and edit files entirely in your browser. No uploads, no servers, zero waiting.",
   keywords: ["online tools", "file converter", "pdf tools", "image compressor", "browser based tools", "privacy first tools"],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://cluster-tools.dev",
+    url: "https://clustertools.online",
     title: "Cluster Tools - Fast, Private Online Tools",
     description: "Convert, compress, and edit files entirely in your browser. 100% private.",
     siteName: "Cluster Tools",
@@ -63,11 +63,11 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "WebSite",
                 "name": "cluster-tools",
-                "url": "https://cluster-tools.dev",
+                "url": "https://clustertools.online",
                 "description": "Convert, compress, and edit files entirely in your browser. No uploads, no servers, zero waiting.",
                 "potentialAction": {
                   "@type": "SearchAction",
-                  "target": "https://cluster-tools.dev/tools?q={search_term_string}",
+                  "target": "https://clustertools.online/tools?q={search_term_string}",
                   "query-input": "required name=search_term_string"
                 }
               },
@@ -75,8 +75,8 @@ export default function RootLayout({
                 "@context": "https://schema.org",
                 "@type": "Organization",
                 "name": "cluster-tools",
-                "url": "https://cluster-tools.dev",
-                "logo": "https://cluster-tools.dev/favicon.ico",
+                "url": "https://clustertools.online",
+                "logo": "https://clustertools.online/favicon.ico",
                 "description": "Browser-based, privacy-first file conversion and editing tools. 100% private, no server uploads.",
                 "sameAs": []
               }

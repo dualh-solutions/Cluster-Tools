@@ -1,4 +1,4 @@
-# Final SEO Report - cluster-tools.dev
+# Final SEO Report - clustertools.online
 
 **Date:** 2026-08-20
 
@@ -22,7 +22,7 @@
 ## Manual Tasks Remaining (Action Required)
 > **The following tasks cannot be performed from the codebase and must be handled manually by you:**
 
-1. **Google Search Console Setup:** Submit the XML sitemap (`https://cluster-tools.dev/sitemap.xml`) to Google Search Console.
-2. **Domain Canonicalization:** Ensure your hosting provider (e.g., Vercel, Netlify, Cloudflare) is configured to redirect `www.cluster-tools.dev` to `cluster-tools.dev` (or vice-versa) at the edge level.
+1. **Google Search Console Setup:** Submit the XML sitemap (`https://clustertools.online/sitemap.xml`) to Google Search Console.
+2. **Domain Canonicalization:** Ensure your hosting provider (e.g., Vercel, Netlify, Cloudflare) is configured to redirect `www.clustertools.online` to `clustertools.online` (or vice-versa) at the edge level.
 3. **Backlinks:** The largest ranking factor you currently lack is off-site authority. You must manually acquire backlinks to the `/tools` directory or individual high-value tools.
 4. **Google Business Profile:** If there is a legal business entity behind Cluster Tools, registering a Google Business Profile will dramatically improve brand search presence.

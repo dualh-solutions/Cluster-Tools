@@ -1,4 +1,4 @@
-# SEO Audit - cluster-tools.dev
+# SEO Audit - clustertools.online
 
 **Date:** 2026-08-20
 

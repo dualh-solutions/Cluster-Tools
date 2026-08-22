@@ -6,6 +6,6 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: '*',
       allow: '/',
     },
-    sitemap: 'https://cluster-tools.dev/sitemap.xml',
+    sitemap: 'https://clustertools.online/sitemap.xml',
   };
 }

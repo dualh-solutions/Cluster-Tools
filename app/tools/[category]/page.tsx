@@ -240,11 +240,11 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
             "@type": "CollectionPage",
             "name": category.name,
             "description": category.description,
-            "url": `https://cluster-tools.dev/tools/${category.slug}`,
+            "url": `https://clustertools.online/tools/${category.slug}`,
             "hasPart": categoryTools.map(tool => ({
               "@type": "SoftwareApplication",
               "name": tool.name,
-              "url": `https://cluster-tools.dev/tools/${category.slug}/${tool.slug}`,
+              "url": `https://clustertools.online/tools/${category.slug}/${tool.slug}`,
               "applicationCategory": "BrowserApplication",
             }))
           })

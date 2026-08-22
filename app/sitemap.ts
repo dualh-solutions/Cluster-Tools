@@ -3,7 +3,7 @@ import { getAllTools } from '@/lib/tools/registry';
 import { CATEGORIES } from '@/lib/tools/categories';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://cluster-tools.dev';
+  const baseUrl = 'https://clustertools.online';
   
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: `${baseUrl}`, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },

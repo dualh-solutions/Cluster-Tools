@@ -4,7 +4,7 @@ export const metadata: Metadata = {
   title: 'Terms of Service | Cluster Tools',
   description: 'Terms of service and usage conditions for Cluster Tools.',
   alternates: {
-    canonical: 'https://cluster-tools.dev/terms',
+    canonical: 'https://clustertools.online/terms',
   },
 };
 
@@ -52,7 +52,7 @@ export default function TermsPage() {
 
         <h2 className="text-xl md:text-2xl font-display font-semibold mt-10 md:mt-12 mb-3 md:mb-4 tracking-tight">7. Contact</h2>
         <p className="mb-5 md:mb-6">
-          If you have any questions about these Terms, please contact us at <a href="mailto:hello@cluster-tools.dev" className="text-primary hover:underline">hello@cluster-tools.dev</a>.
+          If you have any questions about these Terms, please contact us at <a href="mailto:hello@clustertools.online" className="text-primary hover:underline">hello@clustertools.online</a>.
         </p>
       </div>
     </div>

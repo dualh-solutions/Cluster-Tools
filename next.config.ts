@@ -5,8 +5,8 @@ const nextConfig: NextConfig = {
     return [
       { 
         source: '/:path*', 
-        has: [{ type: 'host', value: 'www.cluster-tools.dev' }], 
-        destination: 'https://cluster-tools.dev/:path*', 
+        has: [{ type: 'host', value: 'www.clustertools.online' }], 
+        destination: 'https://clustertools.online/:path*', 
         permanent: true 
       },
       { source: '/tools/compress-image', destination: '/tools/image/image-compressor', permanent: true },

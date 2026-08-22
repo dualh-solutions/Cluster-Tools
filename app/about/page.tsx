@@ -5,12 +5,12 @@ export const metadata: Metadata = {
   title: 'About Cluster Tools — Browser-Based Tools Built for Privacy',
   description: 'Cluster Tools builds fast, free, privacy-first file tools that run entirely in your browser. No servers, no uploads, no data collected. Learn about our mission and how it works.',
   alternates: {
-    canonical: 'https://cluster-tools.dev/about',
+    canonical: 'https://clustertools.online/about',
   },
   openGraph: {
     title: 'About Cluster Tools — Browser-Based Tools Built for Privacy',
     description: 'No servers. No uploads. No accounts. Just powerful tools that run 100% in your browser.',
-    url: 'https://cluster-tools.dev/about',
+    url: 'https://clustertools.online/about',
   },
 };
 
@@ -175,10 +175,10 @@ export default function AboutPage() {
               Found a bug, have a feature request, or want to suggest a tool? We read every message.
             </p>
             <a
-              href="mailto:hello@cluster-tools.dev"
+              href="mailto:hello@clustertools.online"
               className="inline-flex items-center gap-2 bg-primary hover:bg-primary/90 text-white px-5 md:px-6 py-2.5 md:py-3 rounded-full font-semibold transition-colors text-[14px] md:text-sm"
             >
-              Contact us at hello@cluster-tools.dev
+              Contact us at hello@clustertools.online
             </a>
           </div>
 
@@ -193,10 +193,10 @@ export default function AboutPage() {
             "@context": "https://schema.org",
             "@type": "Organization",
             "name": "cluster-tools",
-            "url": "https://cluster-tools.dev",
-            "logo": "https://cluster-tools.dev/favicon.ico",
+            "url": "https://clustertools.online",
+            "logo": "https://clustertools.online/favicon.ico",
             "description": "Browser-based, privacy-first file conversion and editing tools. No server uploads. 100% free.",
-            "email": "hello@cluster-tools.dev",
+            "email": "hello@clustertools.online",
             "knowsAbout": [
               "PDF compression",
               "Image conversion",

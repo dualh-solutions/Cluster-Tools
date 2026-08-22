@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { ToolDefinition } from "./types";
 
 export function generateToolMetadata(tool: ToolDefinition): Metadata {
-  const url = `https://cluster-tools.dev/tools/${tool.category}/${tool.slug}`;
+  const url = `https://clustertools.online/tools/${tool.category}/${tool.slug}`;
   const ogImageUrl = `/og?title=${encodeURIComponent(tool.title)}&category=${encodeURIComponent(tool.category)}`;
 
   return {

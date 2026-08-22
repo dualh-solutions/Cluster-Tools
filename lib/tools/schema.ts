@@ -8,19 +8,19 @@ export function generateBreadcrumbSchema(tool: ToolDefinition) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://cluster-tools.dev/"
+        "item": "https://clustertools.online/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": tool.category.charAt(0).toUpperCase() + tool.category.slice(1) + " Tools",
-        "item": `https://cluster-tools.dev/tools/${tool.category}`
+        "item": `https://clustertools.online/tools/${tool.category}`
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": tool.name,
-        "item": `https://cluster-tools.dev/tools/${tool.category}/${tool.slug}`
+        "item": `https://clustertools.online/tools/${tool.category}/${tool.slug}`
       }
     ]
   };
