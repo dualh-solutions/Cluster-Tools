@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { TOOLS_REGISTRY, getToolUrl } from "@/lib/tools/registry";
 import { GlobalSearch } from "@/components/layout/GlobalSearch";
-import { 
-  ArrowRight, Sparkles, Image as ImageIcon, FileText, Type, Code2, 
+import {
+  ArrowRight, Sparkles, Image as ImageIcon, FileText, Type, Code2,
   TrendingUp, Calculator, LayoutGrid, Upload, Sliders, CheckCircle2,
   Lock, Zap, Users, Gift, ShieldCheck, Rocket, Globe, Heart
 } from "lucide-react";
@@ -13,7 +13,7 @@ import { MagicCardContainer, MagicCard } from "@/components/animations/MagicCard
 
 export default function Home() {
   const popularTools = TOOLS_REGISTRY.filter(t => t.popular).slice(0, 6);
-  
+
   const displayCategories = [
     { id: "image", name: "Image", icon: ImageIcon, color: "text-blue-500", bg: "bg-blue-50 dark:bg-blue-900/20" },
     { id: "pdf", name: "PDF", icon: FileText, color: "text-red-500", bg: "bg-red-50 dark:bg-red-900/20" },
@@ -55,10 +55,9 @@ export default function Home() {
 
   return (
     <div className="w-full flex-1 flex flex-col items-center pb-16 md:pb-24 overflow-x-hidden bg-transparent">
-      
-      {/* ─── Hero Section ─── */}
-      <div className="w-full relative px-4 md:px-margin-desktop pt-4 md:pt-8 pb-12 md:pb-16 text-center flex flex-col items-center overflow-hidden">
-        
+
+      <div className="w-full relative px-4 md:px-margin-desktop pt-2 md:pt-2 pb-12 md:pb-16 text-center flex flex-col items-center overflow-hidden">
+
         {/* Floating Icons — hidden on mobile, visible on lg+ */}
         <FloatingIcon delay={0} yOffset={20} duration={6} className="absolute top-10 left-[15%] w-16 h-16 bg-surface rounded-2xl flex items-center justify-center rotate-[-12deg] shadow-[0_8px_30px_rgb(0,0,0,0.04)] z-0 hidden lg:flex border border-black/5">
           <ImageIcon size={28} className="text-[#A855F7]" />
@@ -78,37 +77,37 @@ export default function Home() {
           {/* Top Badge */}
           <StaggerItem>
             <div className="flex items-center gap-1.5 bg-surface border border-[#F5C070] rounded-full px-4 py-1.5 mb-8 shadow-sm">
-               <Lock size={12} className="text-[#E38827]" />
-               <span className="text-[11px] font-bold text-[#E38827] uppercase tracking-wide">
-                 100% Private • No Uploads • Works Offline
-               </span>
+              <Lock size={12} className="text-[#E38827]" />
+              <span className="text-[11px] font-bold text-[#E38827] uppercase tracking-wide">
+                100% Private • No Uploads • Works Offline
+              </span>
             </div>
           </StaggerItem>
 
           {/* Heading */}
           <StaggerItem>
             <h1 className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[72px] leading-[1.1] font-extrabold text-ink tracking-[-0.02em] mb-6 px-2 text-center">
-              Fast, Free, <span className="text-[#2E5CFF]">Privacy-First</span><br className="hidden sm:block"/>
+              Fast, Free, <span className="text-[#2E5CFF]">Privacy-First</span><br className="hidden sm:block" />
               Online Tools
             </h1>
           </StaggerItem>
-          
+
           {/* Subtext */}
           <StaggerItem>
             <p className="text-[15px] md:text-[20px] text-[#4B5563] font-medium max-w-[640px] mb-10 md:mb-12 px-2 leading-relaxed text-center mx-auto">
-              Convert, compress, and edit files entirely in your browser.<br className="hidden sm:block"/> No uploads, no servers, zero waiting.
+              Convert, compress, and edit files entirely in your browser.<br className="hidden sm:block" /> No uploads, no servers, zero waiting.
             </p>
           </StaggerItem>
-          
+
           {/* Search Bar */}
           <StaggerItem className="w-full max-w-[640px] mx-auto mb-10 md:mb-12 relative px-0">
             <GlobalSearch variant="hero" />
           </StaggerItem>
-          
+
           {/* 3-Step Sequence */}
           <StaggerItem className="w-full px-2">
             <div className="bg-surface rounded-[20px] md:rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 px-3 md:px-6 py-3 md:py-4 max-w-max mx-auto flex flex-row items-center gap-1.5 md:gap-8">
-              
+
               <div className="flex items-center gap-1.5 md:gap-3">
                 <div className="w-7 h-7 md:w-10 md:h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-[#2E5CFF] shrink-0">
                   <Upload size={14} className="md:w-[18px] md:h-[18px]" />
@@ -118,7 +117,7 @@ export default function Home() {
                   <div className="hidden sm:block text-[10px] md:text-[12px] text-ink-muted font-medium leading-tight whitespace-nowrap">Select or drop your file</div>
                 </div>
               </div>
-              
+
               {/* Dashes */}
               <div className="text-[#2E5CFF] opacity-30 tracking-widest font-bold text-[8px] md:text-base">---<span className="hidden md:inline">---</span></div>
 
@@ -150,44 +149,44 @@ export default function Home() {
 
           {/* Features Box */}
           <StaggerItem className="w-full max-w-[900px] mt-6 md:mt-10 px-2">
-             <div className="bg-surface rounded-[20px] md:rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 p-4 md:px-8 md:py-5 grid grid-cols-2 lg:flex lg:flex-row justify-between gap-y-5 gap-x-3 lg:gap-4 lg:divide-x divide-gray-100">
-               <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-[#3B82F6] shrink-0">
-                    <Lock size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-ink text-[11px] sm:text-sm mb-0.5">100% Private</h3>
-                    <p className="text-[9px] sm:text-xs text-ink-muted font-medium leading-tight">Your files never leave your device.</p>
-                  </div>
-               </div>
-               <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4 lg:pl-6">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-[#A855F7] shrink-0">
-                    <Zap size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-ink text-[11px] sm:text-sm mb-0.5">Blazing Fast</h3>
-                    <p className="text-[9px] sm:text-xs text-ink-muted font-medium leading-tight">Browser-powered processing.</p>
-                  </div>
-               </div>
-               <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4 lg:pl-6">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-[#22C55E] shrink-0">
-                    <Users size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-ink text-[11px] sm:text-sm mb-0.5">No Sign Up</h3>
-                    <p className="text-[9px] sm:text-xs text-ink-muted font-medium leading-tight">No accounts, no emails.</p>
-                  </div>
-               </div>
-               <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4 lg:pl-6">
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-[#F97316] shrink-0">
-                    <Gift size={16} className="sm:w-[18px] sm:h-[18px]" />
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-ink text-[11px] sm:text-sm mb-0.5">Always Free</h3>
-                    <p className="text-[9px] sm:text-xs text-ink-muted font-medium leading-tight">Powerful tools at zero cost.</p>
-                  </div>
-               </div>
-             </div>
+            <div className="bg-surface rounded-[20px] md:rounded-[24px] shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-black/5 p-4 md:px-8 md:py-5 grid grid-cols-2 lg:flex lg:flex-row justify-between gap-y-5 gap-x-3 lg:gap-4 lg:divide-x divide-gray-100">
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-[#3B82F6] shrink-0">
+                  <Lock size={16} className="sm:w-[18px] sm:h-[18px]" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-ink text-[11px] sm:text-sm mb-0.5">100% Private</h3>
+                  <p className="text-[9px] sm:text-xs text-ink-muted font-medium leading-tight">Your files never leave your device.</p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4 lg:pl-6">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-[#A855F7] shrink-0">
+                  <Zap size={16} className="sm:w-[18px] sm:h-[18px]" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-ink text-[11px] sm:text-sm mb-0.5">Blazing Fast</h3>
+                  <p className="text-[9px] sm:text-xs text-ink-muted font-medium leading-tight">Browser-powered processing.</p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4 lg:pl-6">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-[#22C55E] shrink-0">
+                  <Users size={16} className="sm:w-[18px] sm:h-[18px]" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-ink text-[11px] sm:text-sm mb-0.5">No Sign Up</h3>
+                  <p className="text-[9px] sm:text-xs text-ink-muted font-medium leading-tight">No accounts, no emails.</p>
+                </div>
+              </div>
+              <div className="flex flex-col sm:flex-row items-center sm:items-start text-center sm:text-left gap-2 sm:gap-3 w-full lg:w-1/4 lg:pl-6">
+                <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-orange-50 dark:bg-orange-900/20 flex items-center justify-center text-[#F97316] shrink-0">
+                  <Gift size={16} className="sm:w-[18px] sm:h-[18px]" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-ink text-[11px] sm:text-sm mb-0.5">Always Free</h3>
+                  <p className="text-[9px] sm:text-xs text-ink-muted font-medium leading-tight">Powerful tools at zero cost.</p>
+                </div>
+              </div>
+            </div>
           </StaggerItem>
         </StaggerContainer>
       </div>
@@ -275,7 +274,7 @@ export default function Home() {
                     <div className="w-10 h-10 md:w-12 md:h-12 rounded-lg md:rounded-xl bg-surface-container flex items-center justify-center shrink-0 group-hover:bg-primary/5 transition-colors">
                       {getToolIcon(tool.category)}
                     </div>
-                    
+
                     {/* Content — middle on mobile, bottom on desktop */}
                     <div className="flex flex-col flex-1 min-w-0 md:w-full md:mt-4">
                       <div className="flex items-center justify-between mb-0.5 md:mb-2 gap-2">
@@ -292,12 +291,12 @@ export default function Home() {
                         {tool.description}
                       </p>
                     </div>
-                    
+
                     {/* Mobile-only arrow */}
                     <div className="md:hidden shrink-0 text-outline-variant group-hover:text-primary transition-colors ml-1">
                       <ArrowRight size={18} />
                     </div>
-                    
+
                     {/* Desktop-only CTA */}
                     <div className="hidden md:flex mt-6 text-sm font-bold text-primary items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       Use tool <ArrowRight size={16} />
@@ -318,46 +317,46 @@ export default function Home() {
 
         {/* ── Stats Bar: 2×2 on mobile, 4-col on lg ── */}
         <ScrollReveal delay={0.2} className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 py-8 md:py-10 border-t border-outline-variant/60 mb-0">
-           <div className="flex items-center gap-3">
-             <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shrink-0">
-               <ShieldCheck size={20} />
-             </div>
-             <div>
-               <h3 className="font-extrabold text-on-surface text-lg md:text-xl mb-0.5">100%</h3>
-               <p className="font-bold text-xs md:text-sm text-on-surface mb-0.5">Private & Secure</p>
-               <p className="text-[10px] md:text-xs text-on-surface-variant hidden sm:block">Files never leave your device</p>
-             </div>
-           </div>
-           <div className="flex items-center gap-3">
-             <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shrink-0">
-               <Rocket size={20} />
-             </div>
-             <div>
-               <h3 className="font-extrabold text-on-surface text-lg md:text-xl mb-0.5">0s</h3>
-               <p className="font-bold text-xs md:text-sm text-on-surface mb-0.5">Instant Processing</p>
-               <p className="text-[10px] md:text-xs text-on-surface-variant hidden sm:block">No waiting at all</p>
-             </div>
-           </div>
-           <div className="flex items-center gap-3">
-             <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shrink-0">
-               <Globe size={20} />
-             </div>
-             <div>
-               <h3 className="font-extrabold text-on-surface text-lg md:text-xl mb-0.5">{TOOLS_REGISTRY.length}+</h3>
-               <p className="font-bold text-xs md:text-sm text-on-surface mb-0.5">Powerful Tools</p>
-               <p className="text-[10px] md:text-xs text-on-surface-variant hidden sm:block">All in one place</p>
-             </div>
-           </div>
-           <div className="flex items-center gap-3">
-             <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500 shrink-0">
-               <Heart size={20} />
-             </div>
-             <div>
-               <h3 className="font-extrabold text-on-surface text-lg md:text-xl mb-0.5">Free</h3>
-               <p className="font-bold text-xs md:text-sm text-on-surface mb-0.5">Forever Free</p>
-               <p className="text-[10px] md:text-xs text-on-surface-variant hidden sm:block">All features, zero cost</p>
-             </div>
-           </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shrink-0">
+              <ShieldCheck size={20} />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-on-surface text-lg md:text-xl mb-0.5">100%</h3>
+              <p className="font-bold text-xs md:text-sm text-on-surface mb-0.5">Private & Secure</p>
+              <p className="text-[10px] md:text-xs text-on-surface-variant hidden sm:block">Files never leave your device</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shrink-0">
+              <Rocket size={20} />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-on-surface text-lg md:text-xl mb-0.5">0s</h3>
+              <p className="font-bold text-xs md:text-sm text-on-surface mb-0.5">Instant Processing</p>
+              <p className="text-[10px] md:text-xs text-on-surface-variant hidden sm:block">No waiting at all</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-500 shrink-0">
+              <Globe size={20} />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-on-surface text-lg md:text-xl mb-0.5">{TOOLS_REGISTRY.length}+</h3>
+              <p className="font-bold text-xs md:text-sm text-on-surface mb-0.5">Powerful Tools</p>
+              <p className="text-[10px] md:text-xs text-on-surface-variant hidden sm:block">All in one place</p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-red-50 dark:bg-red-900/20 flex items-center justify-center text-red-500 shrink-0">
+              <Heart size={20} />
+            </div>
+            <div>
+              <h3 className="font-extrabold text-on-surface text-lg md:text-xl mb-0.5">Free</h3>
+              <p className="font-bold text-xs md:text-sm text-on-surface mb-0.5">Forever Free</p>
+              <p className="text-[10px] md:text-xs text-on-surface-variant hidden sm:block">All features, zero cost</p>
+            </div>
+          </div>
         </ScrollReveal>
 
       </div>
