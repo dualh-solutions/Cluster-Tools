@@ -65,6 +65,7 @@ export async function GET(req: NextRequest) {
           noCacheDir: true,
           preferFreeFormats: true,
           forceIpv4: true,
+          extractorArgs: 'youtube:player_client=ios,tv',
         };
 
         if (process.env.YOUTUBE_COOKIES) {
