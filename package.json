@@ -6,7 +6,8 @@
     "dev": "next dev --webpack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "postinstall": "node scripts/fix-ytdl.js"
   },
   "dependencies": {
     "@vercel/analytics": "^2.0.1",
