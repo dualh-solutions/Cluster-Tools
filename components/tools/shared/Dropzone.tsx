@@ -23,8 +23,8 @@ export function Dropzone({
   acceptText = "Drop a file here",
 }: DropzoneProps) {
   let formats: string[] = [];
-  if (React.isValidElement(fileInputNode) && fileInputNode.props.accept) {
-    const acceptStr = fileInputNode.props.accept as string;
+  if (React.isValidElement(fileInputNode) && (fileInputNode.props as any).accept) {
+    const acceptStr = (fileInputNode.props as any).accept as string;
     const exts = acceptStr
       .split(",")
       .filter((a) => a.trim().startsWith("."))

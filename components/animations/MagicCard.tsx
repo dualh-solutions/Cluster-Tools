@@ -248,13 +248,13 @@ export const MagicCard = React.forwardRef<HTMLElement, {
       className={baseClassName}
       style={{
         '--glow-color': glowColor,
-      }}
-      ref={(el: HTMLElement) => {
+      } as any}
+      ref={(el: HTMLElement | null) => {
         // Handle forwarded ref if needed
         if (typeof forwardedRef === 'function') {
           forwardedRef(el);
         } else if (forwardedRef) {
-          (forwardedRef as React.MutableRefObject<HTMLElement>).current = el;
+          (forwardedRef as React.MutableRefObject<HTMLElement | null>).current = el;
         }
 
         if (!el) return;
