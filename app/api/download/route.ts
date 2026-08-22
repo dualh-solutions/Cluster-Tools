@@ -36,7 +36,8 @@ export async function POST(request: Request) {
       noCheckCertificate: true,
       noCacheDir: true,
       preferFreeFormats: true,
-      extractorArgs: 'youtube:player_client=ios,tv,web', // Bypass bot block
+      forceIpv4: true,
+      extractorArgs: 'youtube:player_client=default', // Bypass bot block
     } as any) as any;
 
     if (!meta) return NextResponse.json({ error: 'Failed to fetch video info.' }, { status: 400 });
