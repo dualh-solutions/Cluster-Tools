@@ -32,6 +32,39 @@ export async function GET(req: NextRequest) {
       }
     }
 
+    if (!targetVideoUrl && (sourceUrl.includes('youtube.com') || sourceUrl.includes('youtu.be'))) {
+      const extractVideoId = (u: string) => {
+        const match = u.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/);
+        return match ? match[1] : null;
+      };
+      
+      const videoId = extractVideoId(sourceUrl);
+      if (videoId) {
+        try {
+          const rapidApiRes = await fetch(`https://youtube-video-download-api1.p.rapidapi.com/?id=${videoId}`, {
+            headers: {
+              'X-RapidAPI-Key': process.env.RAPIDAPI_KEY || '613b59e82bmshd234789898ddeccp19f10cjsn8cf6030ff096',
+              'X-RapidAPI-Host': 'youtube-video-download-api1.p.rapidapi.com'
+            }
+          });
+          
+          if (rapidApiRes.ok) {
+            const meta = await rapidApiRes.json();
+            const formats = meta.links || meta.urls || meta.formats || [];
+            
+            // Look for a format with a URL
+            const bestVideo = formats.find((f: any) => (f.quality === '1080p' || f.quality === '720p') && f.url) || formats.find((f: any) => f.url);
+            
+            if (bestVideo && bestVideo.url) {
+              targetVideoUrl = bestVideo.url;
+            }
+          }
+        } catch (e: any) {
+          console.error("RapidAPI Error:", e.message);
+        }
+      }
+    }
+
     if (!targetVideoUrl) {
       if (sp.get('fallback') === 'true') {
         let agent;
