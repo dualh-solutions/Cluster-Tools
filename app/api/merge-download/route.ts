@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
 
     if (!targetVideoUrl && (sourceUrl.includes('youtube.com') || sourceUrl.includes('youtu.be'))) {
       const extractVideoId = (u: string) => {
-        const match = u.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/);
+        const match = u.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([^&]{11})/);
         return match ? match[1] : null;
       };
       
