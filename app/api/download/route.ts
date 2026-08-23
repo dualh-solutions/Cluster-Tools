@@ -124,9 +124,9 @@ export async function POST(request: Request) {
       extractorArgs: 'youtube:player_client=ios,tv,web_creator',
     };
 
-    if (process.env.YOUTUBE_COOKIES) {
-      const cookiePath = path.join('/tmp', 'youtube-cookies.txt');
-      fs.writeFileSync(cookiePath, process.env.YOUTUBE_COOKIES);
+    if (process.env.COOKIES || process.env.YOUTUBE_COOKIES) {
+      const cookiePath = path.join('/tmp', 'cookies.txt');
+      fs.writeFileSync(cookiePath, process.env.COOKIES || process.env.YOUTUBE_COOKIES || '');
       options.cookies = cookiePath;
     }
 

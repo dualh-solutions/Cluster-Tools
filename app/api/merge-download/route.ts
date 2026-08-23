@@ -26,6 +26,60 @@ export async function GET(req: NextRequest) {
     }
 
     if (!targetVideoUrl) {
+      const args = [
+        '--dump-json',
+        '--no-warnings',
+        '--no-check-certificate',
+        '--prefer-free-formats',
+        '--force-ipv4',
+        sourceUrl
+      ];
+
+      if (process.env.COOKIES || process.env.YOUTUBE_COOKIES) {
+        const cookiePath = require('path').join('/tmp', 'cookies.txt');
+        require('fs').writeFileSync(cookiePath, process.env.COOKIES || process.env.YOUTUBE_COOKIES || '');
+        args.push('--cookies', cookiePath);
+      }
+
+      const execAsync = require('util').promisify(require('child_process').execFile);
+      const binPath = require('youtube-dl-exec').create(require('youtube-dl-exec').constants.YOUTUBE_DL_DIR).catch(()=>'yt-dlp');
+      
+      try {
+        const { stdout } = await execAsync(await binPath, args);
+        const info = JSON.parse(stdout);
+        const isGoodProtocol = (f: any) => f.url && (f.protocol === 'https' || f.protocol === 'http' || (f.protocol || '').includes('m3u8'));
+        
+        const formats: any[] = info.formats || [];
+        const videoFmt = formats
+          .filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f))
+          .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
+          .find(f => (f.height ?? 9999) <= 720);
+        
+        const audioFmt = formats
+          .filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f))
+          .sort((a, b) => (b.abr ?? 0) - (a.abr ?? 0))[0];
+        
+        const combinedFmt = formats
+          .filter(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f))
+          .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
+          .find(f => (f.height ?? 9999) <= 720);
+
+        if (videoFmt && audioFmt) {
+           targetVideoUrl = videoFmt.url;
+           // audioUrl = audioFmt.url; // We don't merge audio in this fallback for simplicity to avoid ffmpeg timeout, rely on combined
+        }
+        
+        if (combinedFmt) {
+           targetVideoUrl = combinedFmt.url;
+        } else if (!targetVideoUrl && formats.length > 0) {
+           targetVideoUrl = formats[0].url;
+        }
+      } catch (e: any) {
+         console.error("youtube-dl-exec merge-download error:", e);
+      }
+    }
+
+    if (!targetVideoUrl) {
       return new Response('Failed to get playable video URL from source.', { status: 500 });
     }
 
