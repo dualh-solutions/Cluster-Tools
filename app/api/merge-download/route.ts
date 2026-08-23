@@ -31,8 +31,6 @@ export async function GET(req: NextRequest) {
         '--dump-json',
         '--no-warnings',
         '--no-check-certificate',
-        '--prefer-free-formats',
-        '--force-ipv4',
         sourceUrl
       ];
 

@@ -151,10 +151,7 @@ export async function POST(request: Request) {
       dumpJson: true,
       noWarnings: true,
       noCheckCertificate: true,
-      noCacheDir: true,
-      preferFreeFormats: true,
-      forceIpv4: true,
-      extractorArgs: 'youtube:player_client=ios,tv,web_creator',
+      extractorArgs: 'youtube:player_client=ios,tv,web_creator'
     };
 
     if (process.env.COOKIES || process.env.YOUTUBE_COOKIES) {
