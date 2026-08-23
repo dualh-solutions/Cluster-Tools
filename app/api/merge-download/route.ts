@@ -7,11 +7,13 @@ export async function GET(req: NextRequest) {
   const sp = new URL(req.url).searchParams;
   const sourceUrl = sp.get('url') || '';
   const title = sp.get('title') || 'video';
+  const quality = sp.get('quality') || '1080p';
 
   if (!sourceUrl) return new Response('Missing url', { status: 400 });
 
   const safeTitle = title.replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_').slice(0, 100) || 'video';
-  const filename = `${safeTitle}.mp4`;
+  const isAudio = quality === 'mp3';
+  const filename = `${safeTitle}.${isAudio ? 'mp3' : 'mp4'}`;
 
   try {
     let targetVideoUrl: string | undefined = undefined;
@@ -47,10 +49,10 @@ export async function GET(req: NextRequest) {
             const meta = await rapidApiRes.json();
             
             let statusUrl = null;
-            if (meta && meta.videos && meta.videos.length > 0) {
-              const bestVideo = meta.videos.find((v: any) => v.quality === '1080p') || 
-                                meta.videos.find((v: any) => v.quality === '720p') || 
-                                meta.videos[0];
+            if (isAudio && meta.audios && meta.audios.length > 0) {
+              statusUrl = meta.audios[0].status_url;
+            } else if (!isAudio && meta.videos && meta.videos.length > 0) {
+              const bestVideo = meta.videos.find((v: any) => v.quality === quality) || meta.videos[0];
               statusUrl = bestVideo.status_url;
             }
 
@@ -99,7 +101,7 @@ export async function GET(req: NextRequest) {
     }
 
     const headers = new Headers();
-    headers.set('Content-Type', 'video/mp4');
+    headers.set('Content-Type', isAudio ? 'audio/mpeg' : 'video/mp4');
     headers.set('Content-Disposition', `attachment; filename="${filename}"`);
     if (videoRes.headers.has('content-length')) {
       headers.set('Content-Length', videoRes.headers.get('content-length') as string);

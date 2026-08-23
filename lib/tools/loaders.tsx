@@ -151,6 +151,12 @@ const toolComponents: Record<string, ComponentType<unknown>> = {
   SocialMediaDownloaderTool: dynamic(() => import("@/components/tools/interfaces/SocialMediaDownloaderTool"), {
     loading: () => <ToolLoadingSkeleton />
   }),
+  YoutubeToMp3Tool: dynamic(() => import("@/components/tools/interfaces/YoutubeToMp3Tool"), {
+    loading: () => <ToolLoadingSkeleton />
+  }),
+  YoutubeThumbnailDownloaderTool: dynamic(() => import("@/components/tools/interfaces/YoutubeThumbnailDownloaderTool"), {
+    loading: () => <ToolLoadingSkeleton />
+  }),
 };
 
 export function getToolComponent(componentKey: string): ComponentType<unknown> | null {
