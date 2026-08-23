@@ -49,7 +49,7 @@ export default function YoutubeToMp3Tool() {
         let attempts = 0;
         let finalDownloadUrl = "";
         
-        while (attempts < 60) {
+        while (attempts < 600) {
           const res = await fetch(`/api/poll?status_url=${encodeURIComponent(mp3Format.status_url)}`);
           if (res.ok) {
             const data = await res.json();
@@ -58,12 +58,17 @@ export default function YoutubeToMp3Tool() {
               break;
             } else if (data.status === "error") {
               throw new Error("Server failed to extract audio.");
+            } else if (data.status === "processing" && data.percent !== undefined) {
+              setPollMessage(`Extracting: ${data.percent}%`);
+            } else if (data.status === "processing") {
+              setPollMessage("Extracting audio... please wait.");
             }
           }
           await new Promise(r => setTimeout(r, 2000));
           attempts++;
-          if (attempts > 5) setPollMessage("Still extracting... longer videos take more time.");
-          if (attempts > 20) setPollMessage("Almost there! Finalizing MP3...");
+          
+          if (attempts > 15 && !pollMessage.includes('%')) setPollMessage("Still extracting... longer videos take more time.");
+          if (attempts > 45 && !pollMessage.includes('%')) setPollMessage("Almost there! Finalizing MP3...");
         }
         
         setIsPolling(false);

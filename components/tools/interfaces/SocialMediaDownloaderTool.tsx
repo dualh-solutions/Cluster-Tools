@@ -66,7 +66,7 @@ export default function SocialMediaDownloaderTool() {
           let attempts = 0;
           let finalDownloadUrl = "";
           
-          while (attempts < 60) {
+          while (attempts < 600) {
             const res = await fetch(`/api/poll?status_url=${encodeURIComponent(selectedFormatObj.status_url)}`);
             if (res.ok) {
               const data = await res.json();
@@ -75,12 +75,18 @@ export default function SocialMediaDownloaderTool() {
                 break;
               } else if (data.status === "error") {
                 throw new Error("Server failed to process the video.");
+              } else if (data.status === "processing" && data.percent !== undefined) {
+                setPollMessage(`Processing: ${data.percent}%`);
+              } else if (data.status === "processing") {
+                setPollMessage("Processing video... please wait.");
               }
             }
             await new Promise(r => setTimeout(r, 2000));
             attempts++;
-            if (attempts > 5) setPollMessage("Still processing... larger files take longer.");
-            if (attempts > 20) setPollMessage("Almost there! Extracting media...");
+            
+            // Fallbacks in case API doesn't send percent
+            if (attempts > 15 && !pollMessage.includes('%')) setPollMessage("Still processing... larger files take longer.");
+            if (attempts > 45 && !pollMessage.includes('%')) setPollMessage("Almost there! Extracting media...");
           }
           
           setIsPolling(false);
