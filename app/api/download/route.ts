@@ -34,6 +34,39 @@ export async function POST(request: Request) {
       }
     }
 
+    // Instagram/Facebook/Twitter via snapsave-media-downloader (provides combined audio/video without rate limit issues)
+    if (url.includes('instagram.com') || url.includes('facebook.com') || url.includes('twitter.com') || url.includes('x.com')) {
+      try {
+        const snapsaveModule = await import('snapsave-media-downloader');
+        const res = await snapsaveModule.snapsave(url);
+        
+        if (res.success && res.data && res.data.media && res.data.media.length > 0) {
+          const media = res.data.media.find((m: any) => m.type === 'video') || res.data.media[0];
+          
+          if (media && media.url) {
+            const targetVideoUrl = media.url;
+            const title = url.includes('instagram') ? 'Instagram Video' : url.includes('facebook') ? 'Facebook Video' : 'Twitter Video';
+            const safeTitle = title.replace(/\s+/g, '_').toLowerCase();
+            
+            const downloadUrl = `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(safeTitle)}&finalUrl=${encodeURIComponent(targetVideoUrl)}`;
+            
+            return NextResponse.json({
+              status: 'success',
+              title: title,
+              thumbnail: media.thumbnail || '',
+              duration: 0,
+              quality: 'HD',
+              downloadUrl: downloadUrl,
+              filename: `${safeTitle}.mp4`,
+            });
+          }
+        }
+      } catch (err: any) {
+        console.error("SnapSave API Error:", err.message);
+        // Fallthrough to yt-dlp
+      }
+    }
+
     // YouTube API and RapidAPI Integration for fast metadata and download URL
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
       const extractVideoId = (u: string) => {
