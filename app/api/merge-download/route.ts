@@ -1,10 +1,4 @@
 import { NextRequest } from 'next/server';
-import { spawn } from 'child_process';
-import youtubedl from 'youtube-dl-exec';
-import ytdl from '@distube/ytdl-core';
-import ffmpegPath from 'ffmpeg-static';
-import fs from 'fs';
-import path from 'path';
 
 export const runtime = 'nodejs';
 export const maxDuration = 300;
@@ -16,13 +10,11 @@ export async function GET(req: NextRequest) {
 
   if (!sourceUrl) return new Response('Missing url', { status: 400 });
 
-  const ffmpeg = ffmpegPath as string;
   const safeTitle = title.replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_').slice(0, 100) || 'video';
   const filename = `${safeTitle}.mp4`;
 
   try {
     let targetVideoUrl: string | undefined = undefined;
-    let audioUrl: string | undefined = undefined;
 
     if (sourceUrl.includes('tiktok.com') || sp.get('isTikTok') === 'true') {
       const tikwmRes = await fetch(`https://www.tikwm.com/api/?url=${encodeURIComponent(sourceUrl)}`);
@@ -41,159 +33,85 @@ export async function GET(req: NextRequest) {
       const videoId = extractVideoId(sourceUrl);
       if (videoId) {
         try {
-          const rapidApiRes = await fetch(`https://youtube-video-download-api1.p.rapidapi.com/?id=${videoId}`, {
+          const rapidApiRes = await fetch(`https://youtube-video-download7.p.rapidapi.com/wp-json/rapid-api/v1/download`, {
+            method: 'POST',
             headers: {
-              'X-RapidAPI-Key': process.env.RAPIDAPI_KEY || '613b59e82bmshd234789898ddeccp19f10cjsn8cf6030ff096',
-              'X-RapidAPI-Host': 'youtube-video-download-api1.p.rapidapi.com'
-            }
+              'Content-Type': 'application/json',
+              'X-RapidAPI-Key': process.env.RAPIDAPI_KEY || '1a7c315d9cmsh54106b1f0d38f22p1037d2jsn6b85d26c5ef8',
+              'X-RapidAPI-Host': 'youtube-video-download7.p.rapidapi.com'
+            },
+            body: JSON.stringify({ url: sourceUrl })
           });
           
           if (rapidApiRes.ok) {
             const meta = await rapidApiRes.json();
-            const formats = meta.links || meta.urls || meta.formats || [];
             
-            // Look for a format with a URL
-            const bestVideo = formats.find((f: any) => (f.quality === '1080p' || f.quality === '720p') && f.url) || formats.find((f: any) => f.url);
-            
-            if (bestVideo && bestVideo.url) {
-              targetVideoUrl = bestVideo.url;
+            let statusUrl = null;
+            if (meta && meta.videos && meta.videos.length > 0) {
+              const bestVideo = meta.videos.find((v: any) => v.quality === '1080p') || 
+                                meta.videos.find((v: any) => v.quality === '720p') || 
+                                meta.videos[0];
+              statusUrl = bestVideo.status_url;
             }
+
+            if (statusUrl) {
+              let attempts = 0;
+              while (attempts < 60) {
+                const statusRes = await fetch(statusUrl);
+                if (statusRes.ok) {
+                  const statusData = await statusRes.json();
+                  if (statusData.status === 'done' && statusData.url) {
+                    targetVideoUrl = statusData.url;
+                    break;
+                  }
+                  if (statusData.status === 'error') {
+                    console.error("API returned processing error");
+                    break;
+                  }
+                }
+                await new Promise(r => setTimeout(r, 1500));
+                attempts++;
+              }
+            }
+          } else {
+             console.error("RapidAPI Error:", await rapidApiRes.text());
           }
         } catch (e: any) {
-          console.error("RapidAPI Error:", e.message);
+          console.error("RapidAPI Request Error:", e.message);
         }
       }
     }
 
     if (!targetVideoUrl) {
-      if (sp.get('fallback') === 'true') {
-        let agent;
-        if (process.env.YOUTUBE_COOKIES) {
-          const cookies = process.env.YOUTUBE_COOKIES.split('\n')
-            .filter(l => l && !l.startsWith('#'))
-            .map(line => {
-              const parts = line.split('\t');
-              if (parts.length >= 7) {
-                return { domain: parts[0], path: parts[2], secure: parts[3] === 'TRUE', expirationDate: parseInt(parts[4], 10), name: parts[5], value: parts[6].replace('\r', '') };
-              }
-              return null;
-            }).filter(Boolean);
-          if (cookies.length > 0) agent = ytdl.createAgent(cookies as any);
-        }
-        const info = await ytdl.getInfo(sourceUrl, { agent });
-        const formats = info.formats;
-        
-        // Find best video without audio
-        const videoFmt = formats.filter(f => f.hasVideo && !f.hasAudio)
-                                .sort((a, b) => (b.height || 0) - (a.height || 0))
-                                .find(f => (f.height || 9999) <= 720);
-                                
-        // Find best audio
-        const audioFmt = formats.filter(f => f.hasAudio && !f.hasVideo)
-                                .sort((a, b) => (b.audioBitrate || 0) - (a.audioBitrate || 0))[0];
+      return new Response('Failed to get playable video URL from source.', { status: 500 });
+    }
 
-        // Or combined if separate fails
-        const combinedFmt = formats.filter(f => f.hasVideo && f.hasAudio)
-                                   .sort((a, b) => (b.height || 0) - (a.height || 0))
-                                   .find(f => (f.height || 9999) <= 720);
-
-        if (videoFmt && audioFmt) {
-          targetVideoUrl = videoFmt.url;
-          audioUrl = audioFmt.url;
-        } else if (combinedFmt) {
-          targetVideoUrl = combinedFmt.url;
-        }
-      } else {
-        const options: any = { 
-          dumpJson: true, 
-          noWarnings: true, 
-          noCheckCertificate: true,
-          noCacheDir: true,
-          preferFreeFormats: true,
-          forceIpv4: true,
-          extractorArgs: 'youtube:player_client=ios,tv,web_creator',
-        };
-
-        if (process.env.YOUTUBE_COOKIES) {
-          const cookiePath = path.join('/tmp', 'youtube-cookies.txt');
-          fs.writeFileSync(cookiePath, process.env.YOUTUBE_COOKIES);
-          options.cookies = cookiePath;
-        }
-
-        const meta = await youtubedl(sourceUrl, options) as any;
-        const formats: any[] = meta.formats || [];
-
-        const isGoodProtocol = (f: any) => f.url && (f.protocol === 'https' || f.protocol === 'http' || (f.protocol || '').includes('m3u8'));
-
-        const combinedFmt = formats
-          .filter(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f) && f.ext === 'mp4')
-          .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
-          .find(f => (f.height ?? 9999) <= 720)
-          ?? formats.find(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f));
-
-        const videoFmt = formats
-          .filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f) && f.ext === 'mp4')
-          .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
-          .find(f => (f.height ?? 9999) <= 720 && (f.vcodec || '').startsWith('avc'))
-          ?? formats.filter(f => f.vcodec !== 'none' && f.acodec === 'none' && isGoodProtocol(f))
-            .sort((a, b) => (b.height ?? 0) - (a.height ?? 0)).find(f => (f.height ?? 9999) <= 720)
-          ?? formats.find(f => f.vcodec !== 'none' && isGoodProtocol(f));
-
-        const audioFmt = formats.find(f => f.format_id === '140' && f.url) 
-          ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f) && f.ext === 'm4a')[0]
-          ?? formats.filter(f => f.acodec !== 'none' && f.vcodec === 'none' && isGoodProtocol(f))[0];
-
-        if (combinedFmt) {
-          targetVideoUrl = combinedFmt.url;
-          audioUrl = undefined;
-        } else if (videoFmt && audioFmt) {
-          targetVideoUrl = videoFmt.url;
-          audioUrl = audioFmt.url;
-        } else if (videoFmt) {
-          targetVideoUrl = videoFmt.url;
-          audioUrl = undefined;
-        }
+    // Now pipe the video stream
+    const videoRes = await fetch(targetVideoUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
+        'Accept': '*/*'
       }
-    }
-
-    if (!targetVideoUrl) return new Response('No downloadable stream found.', { status: 400 });
-
-    const args: string[] = [
-      '-loglevel', 'warning',
-      '-user_agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-      '-i', targetVideoUrl,
-    ];
-
-    if (audioUrl) {
-      args.push('-user_agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36', '-i', audioUrl);
-      args.push('-c:v', 'copy', '-c:a', 'copy'); // Copy streams directly to save CPU
-    } else {
-      args.push('-c:v', 'copy', '-c:a', 'copy');
-    }
-
-    // frag_keyframe is critical so we can stream mp4 without waiting for the end of the file
-    args.push('-movflags', 'frag_keyframe+empty_moov+faststart', '-f', 'mp4', 'pipe:1');
-
-    const headers = new Headers({
-      'Content-Type': 'video/mp4',
-      'Content-Disposition': `attachment; filename="${filename}"; filename*=UTF-8''${encodeURIComponent(filename)}`,
-      'Cache-Control': 'no-store',
-      'X-Content-Type-Options': 'nosniff',
     });
 
-    const stream = new ReadableStream({
-      start(controller) {
-        const proc = spawn(ffmpeg, args, { stdio: ['ignore', 'pipe', 'pipe'] });
-        proc.stdout.on('data', (chunk: Buffer) => {
-          try { controller.enqueue(chunk); } catch {}
-        });
-        proc.stdout.on('end', () => { try { controller.close(); } catch {} });
-        proc.on('error', (err) => { try { controller.error(err); } catch {} });
-      },
+    if (!videoRes.ok) {
+      return new Response(`Failed to fetch video. Status: ${videoRes.status}`, { status: 500 });
+    }
+
+    const headers = new Headers();
+    headers.set('Content-Type', 'video/mp4');
+    headers.set('Content-Disposition', `attachment; filename="${filename}"`);
+    if (videoRes.headers.has('content-length')) {
+      headers.set('Content-Length', videoRes.headers.get('content-length') as string);
+    }
+
+    return new Response(videoRes.body as any, {
+      status: 200,
+      headers
     });
 
-    return new Response(stream, { status: 200, headers });
   } catch (err: any) {
+    console.error('Error in merge-download:', err);
     return new Response(err.message, { status: 500 });
   }
 }
