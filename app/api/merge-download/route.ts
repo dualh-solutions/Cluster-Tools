@@ -34,7 +34,20 @@ export async function GET(req: NextRequest) {
 
     if (!targetVideoUrl) {
       if (sp.get('fallback') === 'true') {
-        const info = await ytdl.getInfo(sourceUrl);
+        let agent;
+        if (process.env.YOUTUBE_COOKIES) {
+          const cookies = process.env.YOUTUBE_COOKIES.split('\n')
+            .filter(l => l && !l.startsWith('#'))
+            .map(line => {
+              const parts = line.split('\t');
+              if (parts.length >= 7) {
+                return { domain: parts[0], path: parts[2], secure: parts[3] === 'TRUE', expirationDate: parseInt(parts[4], 10), name: parts[5], value: parts[6].replace('\r', '') };
+              }
+              return null;
+            }).filter(Boolean);
+          if (cookies.length > 0) agent = ytdl.createAgent(cookies as any);
+        }
+        const info = await ytdl.getInfo(sourceUrl, { agent });
         const formats = info.formats;
         
         // Find best video without audio
@@ -65,7 +78,7 @@ export async function GET(req: NextRequest) {
           noCacheDir: true,
           preferFreeFormats: true,
           forceIpv4: true,
-          extractorArgs: 'youtube:player_client=android', // Bypasses PO token block but limits to 360p
+          extractorArgs: 'youtube:player_client=ios,tv,web_creator',
         };
 
         if (process.env.YOUTUBE_COOKIES) {

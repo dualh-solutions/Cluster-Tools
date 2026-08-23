@@ -4,6 +4,8 @@ import ytdl from '@distube/ytdl-core';
 import fs from 'fs';
 import path from 'path';
 
+const YOUTUBE_API_KEY = "AIzaSyD8r1iyKTdMfcLIUyulfKdMCX7pUI10L7M";
+
 export async function POST(request: Request) {
   let url = '';
   try {
@@ -32,6 +34,50 @@ export async function POST(request: Request) {
       }
     }
 
+    // YouTube Data API Integration for fast metadata
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
+      const extractVideoId = (u: string) => {
+        const match = u.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&]{11})/);
+        return match ? match[1] : null;
+      };
+      const videoId = extractVideoId(url);
+      if (videoId) {
+        try {
+          const ytApiRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`);
+          const ytData = await ytApiRes.json();
+          if (ytData.items && ytData.items.length > 0) {
+            const item = ytData.items[0];
+            const title = item.snippet.title;
+            const safeTitle = (title || 'video').replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_').slice(0, 100);
+            
+            const parseIsoDuration = (duration: string) => {
+              const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+              if (!match) return 0;
+              const h = parseInt(match[1] || '0');
+              const m = parseInt(match[2] || '0');
+              const s = parseInt(match[3] || '0');
+              return h * 3600 + m * 60 + s;
+            };
+            const duration = parseIsoDuration(item.contentDetails?.duration || '');
+            const thumbnail = item.snippet.thumbnails?.maxres?.url || item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url || '';
+
+            return NextResponse.json({
+              status: 'success',
+              title: title,
+              thumbnail: thumbnail,
+              duration: duration,
+              quality: 'HD',
+              downloadUrl: `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(safeTitle)}`,
+              filename: `${safeTitle}.mp4`,
+            });
+          }
+        } catch (e: any) {
+          console.error("YouTube Data API Error:", e.message);
+          // Fallback to youtube-dl-exec if API fails
+        }
+      }
+    }
+
     const options: any = {
       dumpJson: true,
       noWarnings: true,
@@ -39,7 +85,7 @@ export async function POST(request: Request) {
       noCacheDir: true,
       preferFreeFormats: true,
       forceIpv4: true,
-      extractorArgs: 'youtube:player_client=android', // Bypasses PO token block but limits to 360p
+      extractorArgs: 'youtube:player_client=ios,tv,web_creator',
     };
 
     if (process.env.YOUTUBE_COOKIES) {
@@ -90,11 +136,26 @@ export async function POST(request: Request) {
       msg = error.message;
     }
 
-    // Try ytdl-core fallback for YouTube if bot blocked
-    if ((url.includes('youtube.com') || url.includes('youtu.be')) && (msg.includes('Sign in') || msg.includes('bot'))) {
+    // Try ytdl-core fallback for YouTube if yt-dlp fails for ANY reason
+    if (url.includes('youtube.com') || url.includes('youtu.be')) {
       try {
         console.log("Attempting ytdl-core fallback...");
-        const info = await ytdl.getInfo(url);
+        let agent;
+        if (process.env.YOUTUBE_COOKIES) {
+          const cookies = process.env.YOUTUBE_COOKIES.split('\n')
+            .filter(l => l && !l.startsWith('#'))
+            .map(line => {
+              const parts = line.split('\t');
+              if (parts.length >= 7) {
+                return { domain: parts[0], path: parts[2], secure: parts[3] === 'TRUE', expirationDate: parseInt(parts[4], 10), name: parts[5], value: parts[6].replace('\r', '') };
+              }
+              return null;
+            }).filter(Boolean);
+          if (cookies.length > 0) {
+             agent = ytdl.createAgent(cookies as any);
+          }
+        }
+        const info = await ytdl.getInfo(url, { agent });
         const videoDetails = info.videoDetails;
         
         const safeTitle = (videoDetails.title || 'video').replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_').slice(0, 100);
@@ -115,7 +176,12 @@ export async function POST(request: Request) {
         });
       } catch (fallbackError: any) {
         console.error("ytdl-core fallback error:", fallbackError);
-        // Fall through to original error if this also fails
+        // Return both errors for better debugging on Vercel
+        return NextResponse.json({ 
+          error: msg, 
+          fallbackError: fallbackError.message,
+          debug: "ytdl-core fallback also failed" 
+        }, { status: 500 });
       }
     }
 
