@@ -65,7 +65,7 @@ export async function GET(req: NextRequest) {
           noCacheDir: true,
           preferFreeFormats: true,
           forceIpv4: true,
-          extractorArgs: 'youtube:player_client=default',
+          extractorArgs: 'youtube:player_client=android', // Bypasses PO token block but limits to 360p
         };
 
         if (process.env.YOUTUBE_COOKIES) {
