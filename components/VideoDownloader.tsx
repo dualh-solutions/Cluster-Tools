@@ -23,7 +23,7 @@ export function VideoDownloader() {
             if (data.status === 'processing') {
               setProgress(data.percent || 0);
             } else if (data.status === 'done' && data.url) {
-              setInfo((prev: any) => ({ ...prev, downloadUrl: `/api/merge-download?finalUrl=${encodeURIComponent(data.url)}&title=${encodeURIComponent(prev.title)}` }));
+              setInfo((prev: any) => ({ ...prev, downloadUrl: data.url }));
               setStage("ready");
             } else if (data.status === 'error') {
               setError("Processing failed on the server.");
@@ -65,12 +65,20 @@ export function VideoDownloader() {
 
   const handleSave = () => {
     if (!info) return;
-    const a = document.createElement("a");
-    a.href = info.downloadUrl;
-    a.download = info.filename;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
+    
+    // For RapidAPI YouTube direct URLs, bypass our Vercel proxy to prevent 60s timeouts on large videos
+    const isDirectUrl = info.downloadUrl.includes('speedlycdn.online') || info.downloadUrl.includes('googlevideo');
+    
+    if (isDirectUrl) {
+      window.open(info.downloadUrl, '_blank');
+    } else {
+      const a = document.createElement("a");
+      a.href = info.downloadUrl;
+      a.download = info.filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
     setClicked(true);
   };
 
@@ -123,9 +131,14 @@ export function VideoDownloader() {
                   <Download className="mr-2 h-5 w-5" /> Save MP4 to Device
                 </button>
               ) : (
-                <div className="text-center text-green-600 font-medium w-full">
-                  <CheckCircle2 className="mx-auto h-8 w-8 mb-2" />
-                  Download started! Check your browser's download bar.
+                <div className="text-center w-full bg-green-50 p-4 rounded-xl border border-green-100">
+                  <CheckCircle2 className="mx-auto h-8 w-8 mb-2 text-green-600" />
+                  <p className="text-green-700 font-medium">Download started!</p>
+                  {info.downloadUrl.includes('speedlycdn.online') || info.downloadUrl.includes('googlevideo') ? (
+                    <p className="text-sm text-green-600/80 mt-2">If the video opened in a new tab instead of downloading automatically, simply press <strong>Ctrl+S</strong> (or right-click and click "Save Video As...") to save it to your device.</p>
+                  ) : (
+                    <p className="text-sm text-green-600/80 mt-2">Check your browser's download bar.</p>
+                  )}
                 </div>
               )}
             </div>
