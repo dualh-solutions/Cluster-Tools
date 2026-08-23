@@ -34,6 +34,36 @@ export async function POST(request: Request) {
       }
     }
 
+    // Reddit via RapidSave (provides combined audio/video and bypasses Reddit rate limits)
+    if (url.includes('reddit.com') || url.includes('redd.it')) {
+      try {
+        const rapidSaveRes = await fetch('https://rapidsave.com/info?url=' + encodeURIComponent(url));
+        const rapidSaveHtml = await rapidSaveRes.text();
+        const match = rapidSaveHtml.match(/href="([^"]+sd\.rapidsave\.com[^"]+)"/);
+        
+        if (match && match[1]) {
+          const targetVideoUrl = match[1].replace(/&amp;/g, '&');
+          const title = 'Reddit Video';
+          const safeTitle = 'reddit_video';
+          
+          const downloadUrl = `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(safeTitle)}&finalUrl=${encodeURIComponent(targetVideoUrl)}`;
+          
+          return NextResponse.json({
+            status: 'success',
+            title: title,
+            thumbnail: '', // We can leave thumbnail empty or scrape it if needed
+            duration: 0,
+            quality: 'HD',
+            downloadUrl: downloadUrl,
+            filename: `${safeTitle}.mp4`,
+          });
+        }
+      } catch (err: any) {
+        console.error("RapidSave Error:", err.message);
+        // Fallthrough to yt-dlp
+      }
+    }
+
     // Instagram/Facebook/Twitter via snapsave-media-downloader (provides combined audio/video without rate limit issues)
     if (url.includes('instagram.com') || url.includes('facebook.com') || url.includes('twitter.com') || url.includes('x.com')) {
       try {
