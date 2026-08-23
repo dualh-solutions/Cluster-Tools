@@ -34,7 +34,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // YouTube API Integration for available qualities
+    // YouTube Data API Integration for fast metadata
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
       const extractVideoId = (u: string) => {
         const match = u.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([^&]{11})/);
@@ -43,39 +43,63 @@ export async function POST(request: Request) {
       const videoId = extractVideoId(url);
       if (videoId) {
         try {
-          const rapidRes = await fetch('https://youtube-video-download7.p.rapidapi.com/wp-json/rapid-api/v1/download', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-rapidapi-host': 'youtube-video-download7.p.rapidapi.com',
-              'x-rapidapi-key': '1a7c315d9cmsh54106b1f0d38f22p1037d2jsn6b85d26c5ef8'
-            },
-            body: JSON.stringify({ url: `https://www.youtube.com/watch?v=${videoId}` })
-          });
-          const rapidData = await rapidRes.json();
-          if (rapidData && rapidData.title) {
-            const title = rapidData.title;
+          const ytApiRes = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet,contentDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`);
+          const ytData = await ytApiRes.json();
+          if (ytData.items && ytData.items.length > 0) {
+            const item = ytData.items[0];
+            const title = item.snippet.title;
             const safeTitle = (title || 'video').replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_').slice(0, 100);
             
-            const duration = rapidData.duration || 0;
-            // Get highest quality thumbnail
-            const thumbnail = rapidData.thumbnail && rapidData.thumbnail.length > 0 
-              ? rapidData.thumbnail[rapidData.thumbnail.length - 1].url 
-              : '';
+            const parseIsoDuration = (duration: string) => {
+              const match = duration.match(/PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/);
+              if (!match) return 0;
+              const h = parseInt(match[1] || '0');
+              const m = parseInt(match[2] || '0');
+              const s = parseInt(match[3] || '0');
+              return h * 3600 + m * 60 + s;
+            };
+            const duration = parseIsoDuration(item.contentDetails?.duration || '');
+            const thumbnail = item.snippet.thumbnails?.maxres?.url || item.snippet.thumbnails?.high?.url || item.snippet.thumbnails?.medium?.url || item.snippet.thumbnails?.default?.url || '';
 
-            const formats = [...(rapidData.videos || []), ...(rapidData.audios || [])];
+            // Also initiate RapidAPI request right here to get the status_url
+            let statusUrl = undefined;
+            try {
+              const rapidApiRes = await fetch(`https://youtube-video-download7.p.rapidapi.com/wp-json/rapid-api/v1/download`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'X-RapidAPI-Key': process.env.RAPIDAPI_KEY || '1a7c315d9cmsh54106b1f0d38f22p1037d2jsn6b85d26c5ef8',
+                  'X-RapidAPI-Host': 'youtube-video-download7.p.rapidapi.com'
+                },
+                body: JSON.stringify({ url })
+              });
+              
+              if (rapidApiRes.ok) {
+                const meta = await rapidApiRes.json();
+                if (meta && meta.videos && meta.videos.length > 0) {
+                  const bestVideo = meta.videos.find((v: any) => v.quality === '1080p') || 
+                                    meta.videos.find((v: any) => v.quality === '720p') || 
+                                    meta.videos[0];
+                  statusUrl = bestVideo.status_url;
+                }
+              }
+            } catch (err) {
+              console.error("RapidAPI Error in download route:", err);
+            }
 
             return NextResponse.json({
               status: 'success',
               title: title,
               thumbnail: thumbnail,
               duration: duration,
-              formats: formats,
-              safeTitle: safeTitle
+              quality: 'HD',
+              statusUrl: statusUrl,
+              downloadUrl: `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(safeTitle)}`,
+              filename: `${safeTitle}.mp4`,
             });
           }
         } catch (e: any) {
-          console.error("YouTube RapidAPI Error:", e.message);
+          console.error("YouTube Data API Error:", e.message);
           // Fallback to youtube-dl-exec if API fails
         }
       }
