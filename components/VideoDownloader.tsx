@@ -38,13 +38,65 @@ export function VideoDownloader() {
     }
   };
 
-  const handleSave = () => {
+  const [isPolling, setIsPolling] = useState(false);
+  const [pollMessage, setPollMessage] = useState("");
+
+  const handleSave = async () => {
     if (!info) return;
     
+    // Check if we have formats (YouTube API)
+    if (info.formats && info.formats.length > 0) {
+      const selectedFormatObj = info.formats.find(f => f.quality === selectedFormat);
+      if (selectedFormatObj && selectedFormatObj.status_url) {
+        setIsPolling(true);
+        setPollMessage("Processing video on server... (Please wait)");
+        try {
+          let attempts = 0;
+          let finalDownloadUrl = "";
+          
+          while (attempts < 60) {
+            const res = await fetch(`/api/poll?status_url=${encodeURIComponent(selectedFormatObj.status_url)}`);
+            if (res.ok) {
+              const data = await res.json();
+              if (data.status === "done" && data.url) {
+                finalDownloadUrl = data.url;
+                break;
+              } else if (data.status === "error") {
+                throw new Error("Server failed to process the video.");
+              }
+            }
+            await new Promise(r => setTimeout(r, 2000));
+            attempts++;
+            if (attempts > 5) setPollMessage("Still processing... larger files take longer.");
+            if (attempts > 20) setPollMessage("Almost there! Extracting media...");
+          }
+          
+          setIsPolling(false);
+          
+          if (!finalDownloadUrl) throw new Error("Timed out waiting for video.");
+          
+          const a = document.createElement("a");
+          a.href = finalDownloadUrl;
+          // The API download URL usually forces a download, so we just click it
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setClicked(true);
+        } catch (err: any) {
+          setIsPolling(false);
+          setError(err.message || "Failed to download video.");
+          setStage("error");
+        }
+        return; // Exit early since we handled it
+      }
+    }
+
+    // Fallback for TikTok or others that just provide a direct downloadUrl
     const isAudio = selectedFormat === 'mp3';
     let finalUrl = info.downloadUrl;
     
     if (info.formats) {
+        // Fallback to proxy route if status_url wasn't found (should be rare)
         finalUrl = `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(info.safeTitle || 'video')}&quality=${selectedFormat}`;
     }
 
@@ -110,8 +162,12 @@ export function VideoDownloader() {
                     </div>
                   )}
 
-                  <button onClick={handleSave} className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold flex justify-center items-center transition-colors">
-                    <Download className="mr-2 h-5 w-5" /> Save {selectedFormat === 'mp3' ? 'MP3' : 'MP4'} to Device
+                  <button onClick={handleSave} disabled={isPolling} className="w-full py-3.5 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold flex justify-center items-center transition-colors disabled:opacity-75">
+                    {isPolling ? (
+                      <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> {pollMessage}</>
+                    ) : (
+                      <><Download className="mr-2 h-5 w-5" /> Save {selectedFormat === 'mp3' ? 'MP3' : 'MP4'} to Device</>
+                    )}
                   </button>
                 </div>
               ) : (
