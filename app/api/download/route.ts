@@ -87,6 +87,14 @@ export async function POST(request: Request) {
             }
             
             if (statusUrl) {
+              const formats = [];
+              if (meta.audios && meta.audios.length > 0) {
+                 const bestAudio = meta.audios.find((a: any) => a.quality === '128kbps') || meta.audios[0];
+                 if (bestAudio.status_url) {
+                    formats.push({ quality: 'mp3', status_url: bestAudio.status_url, size: bestAudio.size || '' });
+                 }
+              }
+
               return NextResponse.json({
                 status: 'success',
                 title: title,
@@ -96,6 +104,7 @@ export async function POST(request: Request) {
                 downloadUrl: statusUrl,
                 isStatusUrl: true,
                 filename: `${safeTitle}.mp4`,
+                formats: formats
               });
             }
           }
