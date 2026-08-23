@@ -22,9 +22,8 @@ export default function SocialMediaDownloaderTool() {
   const [url, setUrl] = useState("");
   const [stage, setStage] = useState<"idle" | "fetching-info" | "ready" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
-  const [info, setInfo] = useState<{ title: string; thumbnail?: string; quality?: string; downloadUrl?: string; formats?: any[]; safeTitle?: string; filename: string } | null>(null);
+  const [info, setInfo] = useState<{ title: string; thumbnail?: string; quality?: string; downloadUrl: string; filename: string; isStatusUrl?: boolean } | null>(null);
   const [clicked, setClicked] = useState(false);
-  const [selectedFormat, setSelectedFormat] = useState<string>("1080p");
 
   const handleGetLink = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,90 +39,47 @@ export default function SocialMediaDownloaderTool() {
       if (!res.ok || data.error) throw new Error(data.error || "Failed to process video.");
       
       setInfo({ ...data, filename: data.filename || "video.mp4" });
-      if (data.formats && data.formats.length > 0) {
-        const has1080p = data.formats.some((f: any) => f.quality === '1080p');
-        const has720p = data.formats.some((f: any) => f.quality === '720p');
-        setSelectedFormat(has1080p ? '1080p' : (has720p ? '720p' : data.formats[0].quality));
-      }
       setStage("ready");
     } catch (err: any) {
       setError(err.message); setStage("error");
     }
   };
 
-  const [isPolling, setIsPolling] = useState(false);
-  const [pollMessage, setPollMessage] = useState("");
-
-  const handleSave = async () => {
+  const handleSave = () => {
     if (!info) return;
+    setClicked(true);
 
-    if (info.formats && info.formats.length > 0) {
-      const selectedFormatObj = info.formats.find(f => f.quality === selectedFormat);
-      if (selectedFormatObj && selectedFormatObj.status_url) {
-        setIsPolling(true);
-        setPollMessage("Processing video on server... (Please wait)");
+    if (info.isStatusUrl) {
+      const poll = async () => {
         try {
-          let attempts = 0;
-          let finalDownloadUrl = "";
-          
-          while (attempts < 600) {
-            const res = await fetch(`/api/poll?status_url=${encodeURIComponent(selectedFormatObj.status_url)}`);
-            if (res.ok) {
-              const data = await res.json();
-              if (data.status === "done" && data.url) {
-                finalDownloadUrl = data.url;
-                break;
-              } else if (data.status === "error") {
-                throw new Error("Server failed to process the video.");
-              } else if (data.status === "processing" && data.percent !== undefined) {
-                setPollMessage(`Processing: ${data.percent}%`);
-              } else if (data.status === "processing") {
-                setPollMessage("Processing video... please wait.");
-              }
-            }
-            await new Promise(r => setTimeout(r, 2000));
-            attempts++;
-            
-            // Fallbacks in case API doesn't send percent
-            if (attempts > 15 && !pollMessage.includes('%')) setPollMessage("Still processing... larger files take longer.");
-            if (attempts > 45 && !pollMessage.includes('%')) setPollMessage("Almost there! Extracting media...");
+          const res = await fetch(info.downloadUrl);
+          const data = await res.json();
+          if (data.status === 'done' && data.url) {
+            window.location.href = data.url;
+            setStage("ready");
+          } else if (data.status === 'processing' || data.status === 'downloading' || data.status === 'converting') {
+            setTimeout(poll, 1500);
+          } else {
+            setError("Failed to process video");
+            setStage("error");
+            setClicked(false);
           }
-          
-          setIsPolling(false);
-          
-          if (!finalDownloadUrl) throw new Error("Timed out waiting for video.");
-          
-          const a = document.createElement("a");
-          a.href = finalDownloadUrl;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          setClicked(true);
-        } catch (err: any) {
-          setIsPolling(false);
-          setError(err.message || "Failed to download video.");
+        } catch (e) {
+          setError("Network error while polling");
           setStage("error");
+          setClicked(false);
         }
-        return;
-      }
+      };
+      poll();
+      return;
     }
-
-    const isAudio = selectedFormat === 'mp3';
-    let finalUrl = info.downloadUrl;
-    
-    if (info.formats) {
-        finalUrl = `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(info.safeTitle || 'video')}&quality=${selectedFormat}`;
-    }
-
-    const filename = info.filename || `${info.safeTitle || 'video'}.${isAudio ? 'mp3' : 'mp4'}`;
 
     const a = document.createElement("a");
-    a.href = finalUrl as string;
-    a.download = filename;
+    a.href = info.downloadUrl;
+    a.download = info.filename;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-    setClicked(true);
   };
 
   return (
@@ -174,35 +130,12 @@ export default function SocialMediaDownloaderTool() {
               <div className="p-5 space-y-4">
                 <h3 className="font-medium text-lg text-ink">{info.title}</h3>
                 {!clicked ? (
-                  <div className="space-y-3">
-                    {info.formats && info.formats.length > 0 && (
-                      <div className="w-full">
-                        <label className="block text-[13px] font-medium text-ink-muted mb-1.5">Select Quality:</label>
-                        <select 
-                          value={selectedFormat}
-                          onChange={(e) => setSelectedFormat(e.target.value)}
-                          className="w-full p-3 rounded-xl border border-border bg-transparent text-ink text-[14px] focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
-                        >
-                          {info.formats.map((f: any, idx: number) => (
-                            <option key={idx} value={f.quality}>
-                              {f.quality === 'mp3' ? 'MP3 Audio' : f.quality} {f.size ? `(${f.size})` : ''}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    )}
-
-                    <button onClick={handleSave} disabled={isPolling} className="w-full py-3.5 bg-[#2563EB] text-white rounded-xl font-medium flex justify-center items-center hover:bg-[#1D4ED8] transition-colors disabled:opacity-75">
-                      {isPolling ? (
-                        <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> {pollMessage}</>
-                      ) : (
-                        <><Download className="mr-2 h-5 w-5" /> Save {selectedFormat === 'mp3' ? 'MP3' : 'MP4'} to Device</>
-                      )}
-                    </button>
-                  </div>
+                  <button onClick={handleSave} className="w-full py-3.5 bg-[#2563EB] text-white rounded-xl font-medium flex justify-center items-center hover:bg-[#1D4ED8] transition-colors">
+                    <Download className="mr-2 h-5 w-5" /> Save MP4 to Device
+                  </button>
                 ) : (
                   <div className="text-center w-full mt-2">
-                    <p className="text-[14px] font-medium text-ink mb-3">Download started!</p>
+                    <p className="text-[14px] font-medium text-ink mb-3">Download started! Preparing your file...</p>
                     <div className="w-full h-1.5 bg-success/20 rounded-full overflow-hidden relative">
                        <div className="h-full w-1/3 bg-success rounded-full absolute top-0 left-0 animate-progress-slide"></div>
                     </div>
