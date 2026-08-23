@@ -142,11 +142,24 @@ export async function POST(request: Request) {
       .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
       .find(f => (f.height ?? 9999) <= 720);
 
-    const quality = videoFmt?.height ? `${videoFmt.height}p` : 'Best';
+    const combinedFmt = formats
+      .filter(f => f.vcodec !== 'none' && f.acodec !== 'none' && isGoodProtocol(f))
+      .sort((a, b) => (b.height ?? 0) - (a.height ?? 0))
+      .find(f => (f.height ?? 9999) <= 720);
+
+    let targetVideoUrl = null;
+    if (combinedFmt) targetVideoUrl = combinedFmt.url;
+    else if (videoFmt) targetVideoUrl = videoFmt.url;
+    else if (formats.length > 0) targetVideoUrl = formats[0].url;
+
+    const quality = combinedFmt?.height || videoFmt?.height ? `${combinedFmt?.height || videoFmt?.height}p` : 'Best';
     const safeTitle = (meta.title || 'video').replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_').slice(0, 100);
 
-    // Pass the original URL to the merge endpoint so it fetches fresh CDN links at download time
-    const downloadUrl = `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(safeTitle)}`;
+    // Pass the original URL and the targetVideoUrl (finalUrl) to the merge endpoint
+    let downloadUrl = `/api/merge-download?url=${encodeURIComponent(url)}&title=${encodeURIComponent(safeTitle)}`;
+    if (targetVideoUrl) {
+      downloadUrl += `&finalUrl=${encodeURIComponent(targetVideoUrl)}`;
+    }
 
     return NextResponse.json({
       status: 'success',

@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
+export const maxDuration = 300;
 
 export async function GET(req: NextRequest) {
   const sp = new URL(req.url).searchParams;
