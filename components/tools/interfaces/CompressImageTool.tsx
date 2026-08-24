@@ -24,7 +24,7 @@ export default function CompressImagePage() {
     removeFile,
     clearQueue
   } = useFileQueue({
-    accept: [".jpg", ".jpeg", ".png", ".webp", "image/jpeg", "image/png", "image/webp"],
+    accept: [".jpg", ".jpeg", ".png", ".webp", ".bmp", ".gif", "image/jpeg", "image/png", "image/webp", "image/bmp", "image/gif"],
     maxSizeMB: 25,
   });
 
@@ -88,17 +88,33 @@ export default function CompressImagePage() {
     setIsComplete(true);
   };
 
+  const getExtension = (mimeType: string, originalName: string) => {
+     if (mimeType === 'image/webp') return '.webp';
+     if (mimeType === 'image/jpeg') return '.jpg';
+     if (mimeType === 'image/png') return '.png';
+     const dotIndex = originalName.lastIndexOf('.');
+     return dotIndex !== -1 ? originalName.substring(dotIndex) : '';
+  };
+
+  const getFinalName = (f: any) => {
+     if (!f.resultBlob) return f.file.name;
+     const ext = getExtension(f.resultBlob.type, f.file.name);
+     const dotIndex = f.file.name.lastIndexOf('.');
+     const nameWithoutExt = dotIndex !== -1 ? f.file.name.substring(0, dotIndex) : f.file.name;
+     return `${nameWithoutExt}${ext}`;
+  };
+
   const handleDownloadAll = async () => {
     const doneFiles = files.filter(f => f.status === "done" && f.resultBlob);
     if (doneFiles.length === 1) {
-      downloadResult(doneFiles[0].resultBlob!, `compressed_${doneFiles[0].file.name}`);
+      downloadResult(doneFiles[0].resultBlob!, `compressed_${getFinalName(doneFiles[0])}`);
       return;
     }
 
     if (doneFiles.length > 1) {
       const zip = new JSZip();
       doneFiles.forEach(f => {
-        zip.file(`compressed_${f.file.name}`, f.resultBlob!);
+        zip.file(`compressed_${getFinalName(f)}`, f.resultBlob!);
       });
       const content = await zip.generateAsync({ type: "blob" });
       downloadResult(content, "compressed_images.zip");
@@ -131,7 +147,7 @@ export default function CompressImagePage() {
           className="hidden"
           ref={fileInputRef}
           onChange={handleFileInput}
-          accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
+          accept=".jpg,.jpeg,.png,.webp,.bmp,.gif,image/jpeg,image/png,image/webp,image/bmp,image/gif"
             />
           }
         />

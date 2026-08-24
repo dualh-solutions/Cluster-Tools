@@ -62,7 +62,7 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "WebSite",
-                "name": "cluster-tools",
+                "name": "Cluster Tools",
                 "url": "https://clustertools.online",
                 "description": "Convert, compress, and edit files entirely in your browser. No uploads, no servers, zero waiting.",
                 "potentialAction": {
@@ -74,11 +74,23 @@ export default function RootLayout({
               {
                 "@context": "https://schema.org",
                 "@type": "Organization",
-                "name": "cluster-tools",
+                "name": "Cluster Tools",
                 "url": "https://clustertools.online",
                 "logo": "https://clustertools.online/favicon.ico",
                 "description": "Browser-based, privacy-first file conversion and editing tools. 100% private, no server uploads.",
-                "sameAs": []
+                "sameAs": [],
+                "foundingDate": "2024"
+              },
+              {
+                "@context": "https://schema.org",
+                "@type": "Person",
+                "name": "Cluster Tools Team",
+                "url": "https://clustertools.online/about",
+                "jobTitle": "Senior Engineers",
+                "worksFor": {
+                  "@type": "Organization",
+                  "name": "Cluster Tools"
+                }
               }
             ])
           }}

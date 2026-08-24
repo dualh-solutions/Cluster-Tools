@@ -11,10 +11,15 @@ self.onmessage = async (e: MessageEvent) => {
       throw new Error('Could not get 2d context for OffscreenCanvas');
     }
 
-    // Default to a white background if compressing PNG -> JPEG (which we might do if they want a smaller file size, though usually PNG stays PNG. In Compressor we keep same format)
-    if (type === 'image/jpeg') {
+    let outType = type;
+    // Default to a white background if compressing to JPEG
+    if (type === 'image/jpeg' || type === 'image/jpg') {
+      outType = 'image/jpeg';
       ctx.fillStyle = '#FFFFFF';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
+    } else {
+      // For PNG, GIF, BMP, etc., we convert to WebP to support quality compression and transparency
+      outType = 'image/webp';
     }
     
     ctx.drawImage(imageBitmap, 0, 0);
@@ -28,38 +33,31 @@ self.onmessage = async (e: MessageEvent) => {
       let bestBlob: Blob | null = null;
       let currentQ = 0.5;
 
-      // We only do binary search for formats that support lossy compression (JPEG, WebP)
-      if (type === 'image/jpeg' || type === 'image/webp') {
-        for (let i = 0; i < 7; i++) { // 7 iterations usually enough for precision
-          const tempBlob = await canvas.convertToBlob({ type, quality: currentQ });
-          if (!bestBlob || Math.abs(tempBlob.size - targetSize) < Math.abs(bestBlob.size - targetSize)) {
-            // Keep the one closest to target size that is ideally under the target size
-            if (tempBlob.size <= targetSize || !bestBlob) {
-               bestBlob = tempBlob;
-            }
+      for (let i = 0; i < 7; i++) {
+        const tempBlob = await canvas.convertToBlob({ type: outType, quality: currentQ });
+        if (!bestBlob || Math.abs(tempBlob.size - targetSize) < Math.abs(bestBlob.size - targetSize)) {
+          if (tempBlob.size <= targetSize || !bestBlob) {
+             bestBlob = tempBlob;
           }
-          
-          if (tempBlob.size > targetSize) {
-            maxQ = currentQ;
-          } else {
-            minQ = currentQ;
-          }
-          currentQ = (minQ + maxQ) / 2;
         }
-        resultBlob = bestBlob || await canvas.convertToBlob({ type, quality: 0.5 });
-      } else {
-        // PNG doesn't use quality parameter in canvas.convertToBlob the same way, but we can just re-encode
-        resultBlob = await canvas.convertToBlob({ type });
+        
+        if (tempBlob.size > targetSize) {
+          maxQ = currentQ;
+        } else {
+          minQ = currentQ;
+        }
+        currentQ = (minQ + maxQ) / 2;
       }
+      resultBlob = bestBlob || await canvas.convertToBlob({ type: outType, quality: 0.5 });
     } else {
       // Direct quality setting
       resultBlob = await canvas.convertToBlob({ 
-        type, 
+        type: outType, 
         quality: quality !== undefined ? quality / 100 : undefined 
       });
     }
 
-    self.postMessage({ type: 'done', result: resultBlob });
+    self.postMessage({ type: 'done', result: resultBlob, mimeType: resultBlob.type });
     
   } catch (error: unknown) {
     self.postMessage({ type: 'error', message: error instanceof Error ? error.message : String(error) });

@@ -82,21 +82,65 @@ export default async function ToolPage({ params }: PageProps) {
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify({
-              "@context": "https://schema.org",
-              "@type": "SoftwareApplication",
-              "name": tool.name,
-              "description": tool.description,
-              "applicationCategory": "UtilitiesApplication",
-              "operatingSystem": "All",
-              "offers": {
-                "@type": "Offer",
-                "price": "0",
-                "priceCurrency": "USD"
+            __html: JSON.stringify([
+              {
+                "@context": "https://schema.org",
+                "@type": "SoftwareApplication",
+                "name": tool.name,
+                "description": tool.description,
+                "applicationCategory": "UtilitiesApplication",
+                "operatingSystem": "All",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "0",
+                  "priceCurrency": "USD"
+                },
+                "url": `https://clustertools.online/tools/${tool.category}/${tool.slug}`,
+                "dateModified": tool.lastModified ? new Date(tool.lastModified).toISOString() : undefined
               },
-              "url": `https://clustertools.online/tools/${tool.category}/${tool.slug}`,
-              "dateModified": tool.lastModified ? new Date(tool.lastModified).toISOString() : undefined
-            })
+              {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://clustertools.online/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Tools",
+                    "item": "https://clustertools.online/tools"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 3,
+                    "name": tool.category,
+                    "item": `https://clustertools.online/tools/${tool.category}`
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 4,
+                    "name": tool.name,
+                    "item": `https://clustertools.online/tools/${tool.category}/${tool.slug}`
+                  }
+                ]
+              },
+              ...(tool.faqs && tool.faqs.length > 0 ? [{
+                "@context": "https://schema.org",
+                "@type": "FAQPage",
+                "mainEntity": tool.faqs.map(faq => ({
+                  "@type": "Question",
+                  "name": faq.question,
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": faq.answer
+                  }
+                }))
+              }] : [])
+            ])
           }}
         />
 
@@ -106,7 +150,7 @@ export default async function ToolPage({ params }: PageProps) {
               <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" />
               <path d="M12 6v6l4 2" />
             </svg>
-            Last Updated: {new Date(tool.lastModified).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+            Last Updated: {new Date(tool.lastModified).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric', timeZone: 'UTC' })}
             <span className="ml-2 px-2 py-0.5 rounded-md bg-green-500/10 text-green-600 dark:text-green-400 text-xs font-bold uppercase tracking-wider">Verified</span>
           </div>
         )}

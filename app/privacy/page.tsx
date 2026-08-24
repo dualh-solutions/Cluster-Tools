@@ -13,7 +13,7 @@ export default function PrivacyPage() {
     <div className="w-full max-w-[768px] mx-auto px-5 md:px-4 py-10 md:py-24 text-ink motion-safe:animate-in motion-safe:fade-in motion-safe:slide-in-from-bottom-4 motion-safe:duration-300 ease-out text-left">
       <div className="prose prose-slate max-w-none prose-p:text-[15px] md:prose-p:text-base prose-p:leading-[1.7] prose-li:text-[15px] md:prose-li:text-base prose-li:leading-[1.7]">
         <h1 className="text-3xl md:text-5xl font-display font-bold mb-4 md:mb-8 tracking-tight">Privacy Policy</h1>
-        <p className="text-ink-muted mb-6 md:mb-8 text-[13px] md:text-base">Last Updated: August 20, 2026</p>
+        <p className="text-ink-muted mb-6 md:mb-8 text-[13px] md:text-base">Last Updated: August 24, 2026</p>
         
         <p className="text-lg md:text-xl font-medium mb-8 md:mb-10 leading-[1.6] md:leading-snug">
           Our privacy policy can be summarized in one sentence:<br className="hidden sm:block" /> <strong>Your files never leave your device.</strong>

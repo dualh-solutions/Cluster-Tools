@@ -89,9 +89,9 @@ export default function Home() {
 
           {/* Top Badge */}
           <StaggerItem>
-            <div className="flex items-center gap-1.5 bg-surface border border-[#F5C070] rounded-full px-4 py-1.5 mb-0 shadow-sm">
-              <Lock size={12} className="text-[#E38827]" />
-              <span className="text-[11px] font-bold text-[#E38827] uppercase tracking-wide">
+            <div className="flex items-center gap-1 sm:gap-1.5 bg-surface border border-[#F5C070] rounded-full px-2.5 py-1 sm:px-4 sm:py-1.5 mb-4 sm:mb-6 shadow-sm">
+              <Lock className="w-[10px] h-[10px] sm:w-[12px] sm:h-[12px] text-[#E38827]" />
+              <span className="text-[9px] sm:text-[11px] font-bold text-[#E38827] uppercase tracking-wide">
                 100% Private • No Uploads • Works Offline
               </span>
             </div>
