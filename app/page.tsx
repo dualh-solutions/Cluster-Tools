@@ -85,37 +85,32 @@ export default function Home() {
           <ShieldCheck size={28} className="text-[#22C55E]" />
         </FloatingIcon>
 
-        <StaggerContainer className="relative z-10 flex flex-col items-center w-full max-w-[896px]">
+        <div className="relative z-10 flex flex-col items-center w-full max-w-[896px]">
 
           {/* Top Badge */}
-          <StaggerItem>
-            <div className="flex items-center gap-1 sm:gap-1.5 bg-surface border border-[#F5C070] rounded-full px-2.5 py-1 sm:px-4 sm:py-1.5 mb-4 sm:mb-6 shadow-sm">
-              <Lock className="w-[10px] h-[10px] sm:w-[12px] sm:h-[12px] text-[#E38827]" />
-              <span className="text-[9px] sm:text-[11px] font-bold text-[#E38827] uppercase tracking-wide">
-                100% Private • No Uploads • Works Offline
-              </span>
-            </div>
-          </StaggerItem>
+          <div className="flex items-center gap-1 sm:gap-1.5 bg-surface border border-[#F5C070] rounded-full px-2.5 py-1 sm:px-4 sm:py-1.5 mb-4 sm:mb-6 shadow-sm">
+            <Lock className="w-[10px] h-[10px] sm:w-[12px] sm:h-[12px] text-[#E38827]" />
+            <span className="text-[9px] sm:text-[11px] font-bold text-[#E38827] uppercase tracking-wide">
+              100% Private • No Uploads • Works Offline
+            </span>
+          </div>
 
           {/* Heading */}
-          <StaggerItem>
-            <h1 className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[72px] leading-[1.1] font-extrabold text-ink tracking-[-0.02em] mb-20 px-2 text-center">
-              Fast, Free, <span className="text-[#2E5CFF]">Privacy-First</span> <br className="hidden sm:block" />
-              Online Tools
-            </h1>
-          </StaggerItem>
+          <h1 className="text-[32px] sm:text-[44px] md:text-[56px] lg:text-[72px] leading-[1.1] font-extrabold text-ink tracking-[-0.02em] mb-20 px-2 text-center">
+            Fast, Free, <span className="text-[#2E5CFF]">Privacy-First</span> <br className="hidden sm:block" />
+            Online Tools
+          </h1>
 
           {/* Subtext */}
-          <StaggerItem>
-            <p className="text-[15px] md:text-[20px] text-[#4B5563] font-medium max-w-[640px] mb-2.5 px-2 leading-relaxed text-center mx-auto">
-              Convert, compress, and edit files entirely in your browser.<br className="hidden sm:block" /> No uploads, no servers, zero waiting.
-            </p>
-          </StaggerItem>
+          <p className="text-[15px] md:text-[20px] text-[#4B5563] font-medium max-w-[640px] mb-2.5 px-2 leading-relaxed text-center mx-auto">
+            Convert, compress, and edit files entirely in your browser.<br className="hidden sm:block" /> No uploads, no servers, zero waiting.
+          </p>
 
-          {/* Search Bar */}
-          <StaggerItem className="w-full max-w-[640px] mx-auto mb-2.5 relative px-0">
-            <GlobalSearch variant="hero" />
-          </StaggerItem>
+          <StaggerContainer className="flex flex-col items-center w-full">
+            {/* Search Bar */}
+            <StaggerItem className="w-full max-w-[640px] mx-auto mb-2.5 relative px-0">
+              <GlobalSearch variant="hero" />
+            </StaggerItem>
 
           {/* 3-Step Sequence */}
           <StaggerItem className="w-full px-2">
