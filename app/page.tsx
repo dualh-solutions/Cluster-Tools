@@ -197,6 +197,7 @@ export default function Home() {
             </div>
           </StaggerItem>
         </StaggerContainer>
+        </div>
       </div>
       {/* ─── Content below hero ─── */}
       <div className="w-full max-w-[1440px] px-4 md:px-margin-desktop mb-16 md:mb-24 mt-8 md:mt-12">
