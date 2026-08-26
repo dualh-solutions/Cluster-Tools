@@ -113,17 +113,7 @@ export function ToolLayout({
         </div>
       )}
 
-      <div className="w-full text-center mb-8 flex flex-col items-center mt-6">
-        <div className="w-[52px] h-[52px] rounded-2xl bg-[#F4F0FF] dark:bg-[#F4F0FF]/10 flex items-center justify-center text-[#6D28D9] dark:text-[#A78BFA] mb-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
-          <MainIcon size={26} strokeWidth={2} />
-        </div>
-        <h1 className="text-[32px] font-extrabold text-ink tracking-tight leading-tight mb-3">
-          {displayTitle}
-        </h1>
-        <p className="text-[15px] text-ink-muted max-w-[400px] mx-auto leading-relaxed">
-          {description}
-        </p>
-      </div>
+
 
       {noChildrenBox ? (
         <div className="w-full flex flex-col mb-4">

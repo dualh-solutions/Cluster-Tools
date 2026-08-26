@@ -1,4 +1,6 @@
-import { Home, ChevronRight } from "lucide-react";
+import { 
+  Home, ChevronRight, Shrink, RefreshCw, Calculator, Zap, Code, Search, PenTool, CheckCircle, Eye, Settings
+} from "lucide-react";
 import { notFound } from "next/navigation";
 import { getToolBySlug, TOOLS_REGISTRY } from "@/lib/tools/registry";
 import React from "react";
@@ -45,6 +47,21 @@ export function generateStaticParams() {
   }));
 }
 
+const getToolIcon = (toolType: string) => {
+  switch (toolType) {
+    case "compressor": return Shrink;
+    case "converter": return RefreshCw;
+    case "calculator": return Calculator;
+    case "generator": return Zap;
+    case "formatter": return Code;
+    case "analyzer": return Search;
+    case "editor": return PenTool;
+    case "validator": return CheckCircle;
+    case "viewer": return Eye;
+    default: return Settings;
+  }
+};
+
 export default async function ToolPage({ params }: PageProps) {
   const resolvedParams = await params;
   // 1. Resolve the tool & 2. Validate
@@ -62,6 +79,9 @@ export default async function ToolPage({ params }: PageProps) {
   const relatedTools = getRelatedTools(tool);
   const mdxContent = getToolMDXContent(tool.slug);
 
+  const displayTitle = tool.title.split(' | ')[0];
+  const MainIcon = getToolIcon(tool.toolType);
+
   // 4 & 5. Render the standard tool page and relevant content
   return (
     <div className="w-full flex-1 flex flex-col motion-safe:animate-in motion-safe:fade-in motion-safe:duration-300 ease-out">
@@ -77,6 +97,19 @@ export default async function ToolPage({ params }: PageProps) {
         <Link href={`/tools/${tool.category}`} className="hover:text-[#2E5CFF] transition-colors capitalize">{tool.category}</Link>
         <ChevronRight size={14} className="text-gray-400" />
         <span className="text-[#2E5CFF] font-semibold">{tool.name}</span>
+      </div>
+
+      {/* Shared Header (SEO H1) */}
+      <div className="w-full text-center mb-2 flex flex-col items-center mt-8 px-4">
+        <div className="w-[52px] h-[52px] rounded-2xl bg-[#F4F0FF] dark:bg-[#F4F0FF]/10 flex items-center justify-center text-[#6D28D9] dark:text-[#A78BFA] mb-4 shadow-[0_2px_8px_rgba(0,0,0,0.02)]">
+          <MainIcon size={26} strokeWidth={2} />
+        </div>
+        <h1 className="text-[32px] font-extrabold text-ink tracking-tight leading-tight mb-3 max-w-[768px] mx-auto">
+          {displayTitle}
+        </h1>
+        <p className="text-[15px] text-ink-muted max-w-[400px] mx-auto leading-relaxed">
+          {tool.description}
+        </p>
       </div>
 
       {/* Tool Interface */}
