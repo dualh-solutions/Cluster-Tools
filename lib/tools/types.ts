@@ -77,4 +77,5 @@ export interface CategoryDefinition {
   name: string;
   description: string;
   icon?: string;
+  lastModified: string;
 }

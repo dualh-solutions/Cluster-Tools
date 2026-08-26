@@ -13,13 +13,14 @@ import {
   WholeWord, CaseSensitive, ListX, FileDiff, Braces, ShieldCheck as ShieldCheckIcon, Minimize2, Calculator, Type, Code2, FileText, File, Download
 } from "lucide-react";
 
-export const metadata: Metadata = {
+import { constructMetadata } from "@/lib/tools/metadata";
+
+export const metadata: Metadata = constructMetadata({
   title: "All Online Tools | Cluster Tools",
   description: "Browse our complete collection of free, private, browser-based tools for images, PDFs, text, and more.",
-  alternates: {
-    canonical: "/tools",
-  }
-};
+  url: "https://clustertools.online/tools",
+  category: "Tools Hub",
+});
 
 const getSpecificToolIcon = (slug: string, fallback: any) => {
   switch (slug) {

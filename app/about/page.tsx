@@ -1,18 +1,14 @@
 import { Metadata } from 'next';
 import { Shield, Zap, Lock, Code2, Globe, Heart, Server, Eye, Check } from 'lucide-react';
 
-export const metadata: Metadata = {
+import { constructMetadata } from '@/lib/tools/metadata';
+
+export const metadata: Metadata = constructMetadata({
   title: 'About Cluster Tools — Browser-Based Tools Built for Privacy',
   description: 'Cluster Tools builds fast, free, privacy-first file tools that run entirely in your browser. No servers, no uploads, no data collected. Learn about our mission and how it works.',
-  alternates: {
-    canonical: 'https://clustertools.online/about',
-  },
-  openGraph: {
-    title: 'About Cluster Tools — Browser-Based Tools Built for Privacy',
-    description: 'No servers. No uploads. No accounts. Just powerful tools that run 100% in your browser.',
-    url: 'https://clustertools.online/about',
-  },
-};
+  url: 'https://clustertools.online/about',
+  category: 'About',
+});
 
 export default function AboutPage() {
   return (

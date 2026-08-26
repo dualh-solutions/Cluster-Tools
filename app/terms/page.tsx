@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
+import { constructMetadata } from '@/lib/tools/metadata';
+
+export const metadata: Metadata = constructMetadata({
   title: 'Terms of Service | Cluster Tools',
   description: 'Terms of service and usage conditions for Cluster Tools.',
-  alternates: {
-    canonical: 'https://clustertools.online/terms',
-  },
-};
+  url: 'https://clustertools.online/terms',
+  category: 'Terms',
+});
 
 export default function TermsPage() {
   return (

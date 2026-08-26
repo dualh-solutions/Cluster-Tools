@@ -1,12 +1,13 @@
 import { Metadata } from 'next';
 
-export const metadata: Metadata = {
+import { constructMetadata } from '@/lib/tools/metadata';
+
+export const metadata: Metadata = constructMetadata({
   title: 'Privacy Policy | Cluster Tools',
   description: 'Our privacy policy is simple: your files never leave your device. Read the details of how Cluster Tools protects your data.',
-  alternates: {
-    canonical: 'https://clustertools.online/privacy',
-  },
-};
+  url: 'https://clustertools.online/privacy',
+  category: 'Privacy',
+});
 
 export default function PrivacyPage() {
   return (

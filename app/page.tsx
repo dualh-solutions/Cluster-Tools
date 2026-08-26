@@ -12,14 +12,17 @@ import { FloatingIcon } from "@/components/animations/FloatingIcon";
 import { MagicCardContainer, MagicCard } from "@/components/animations/MagicCard";
 import type { Metadata } from "next";
 
-export const metadata: Metadata = {
-  alternates: {
-    canonical: "/",
-  },
+import { constructMetadata } from "@/lib/tools/metadata";
+
+export const metadata: Metadata = constructMetadata({
+  title: "Cluster Tools - Fast, Private Online Tools",
+  description: "Convert, compress, and edit files entirely in your browser. No uploads, no servers, zero waiting.",
+  url: "https://clustertools.online",
+  category: "Home",
   other: {
     'og:updated_time': new Date().toISOString(),
   },
-};
+});
 
 export default function Home() {
   const popularTools = TOOLS_REGISTRY.filter(t => t.popular).slice(0, 6);

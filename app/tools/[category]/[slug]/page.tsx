@@ -1,6 +1,6 @@
 import { Home, ChevronRight } from "lucide-react";
 import { notFound } from "next/navigation";
-import { getToolBySlug } from "@/lib/tools/registry";
+import { getToolBySlug, TOOLS_REGISTRY } from "@/lib/tools/registry";
 import React from "react";
 import { getToolComponent } from "@/lib/tools/loaders";
 import { getRelatedTools } from "@/lib/tools/relationships";
@@ -36,6 +36,13 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return { title: "Tool Not Found | Cluster Tools" };
   }
   return generateToolMetadata(tool);
+}
+
+export function generateStaticParams() {
+  return TOOLS_REGISTRY.filter(t => t.status === "live").map((tool) => ({
+    category: tool.category,
+    slug: tool.slug,
+  }));
 }
 
 export default async function ToolPage({ params }: PageProps) {

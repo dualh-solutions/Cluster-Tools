@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev --webpack",
-    "build": "next build",
+    "build": "next build && node scripts/check-canonicals.js",
     "start": "next start",
     "lint": "eslint",
     "postinstall": "node scripts/fix-ytdl.js"

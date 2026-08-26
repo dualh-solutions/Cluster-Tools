@@ -1,20 +1,26 @@
 import { Metadata } from "next";
 import { ToolDefinition } from "./types";
 
-export function generateToolMetadata(tool: ToolDefinition): Metadata {
-  const url = `https://clustertools.online/tools/${tool.category}/${tool.slug}`;
-  const ogImageUrl = `/og?title=${encodeURIComponent(tool.title)}&category=${encodeURIComponent(tool.category)}`;
+export interface BaseMetadataProps {
+  title: string;
+  description: string;
+  url: string;
+  category?: string;
+  [key: string]: any;
+}
+
+export function constructMetadata({ title, description, url, category = "Tools", ...rest }: BaseMetadataProps): Metadata {
+  const ogImageUrl = `/og?title=${encodeURIComponent(title)}&category=${encodeURIComponent(category)}`;
 
   return {
-    title: tool.title,
-    description: tool.description,
-    keywords: tool.keywords.join(", "),
+    title,
+    description,
     alternates: {
       canonical: url,
     },
     openGraph: {
-      title: tool.title,
-      description: tool.description,
+      title,
+      description,
       url,
       type: "website",
       images: [
@@ -22,15 +28,28 @@ export function generateToolMetadata(tool: ToolDefinition): Metadata {
           url: ogImageUrl,
           width: 1200,
           height: 630,
-          alt: tool.title,
+          alt: title,
         }
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: tool.title,
-      description: tool.description,
+      title,
+      description,
       images: [ogImageUrl],
-    }
+    },
+    ...rest,
   };
+}
+
+export function generateToolMetadata(tool: ToolDefinition): Metadata {
+  const url = `https://clustertools.online/tools/${tool.category}/${tool.slug}`;
+  
+  return constructMetadata({
+    title: tool.title,
+    description: tool.description,
+    url,
+    category: tool.category,
+    keywords: tool.keywords.join(", "),
+  });
 }

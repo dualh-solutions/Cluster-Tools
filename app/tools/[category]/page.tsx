@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { TOOLS_REGISTRY, getToolUrl } from "@/lib/tools/registry";
-import { getCategoryBySlug } from "@/lib/tools/categories";
+import { getCategoryBySlug, CATEGORIES } from "@/lib/tools/categories";
 import Link from "next/link";
 import { Metadata } from "next";
 import { 
@@ -33,6 +33,8 @@ interface CategoryPageProps {
   params: Promise<{ category: string }>;
 }
 
+import { constructMetadata } from "@/lib/tools/metadata";
+
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const resolvedParams = await params;
   const category = getCategoryBySlug(resolvedParams.category);
@@ -41,10 +43,27 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
     return { title: "Category Not Found | Cluster Tools" };
   }
   
-  return {
+  const categoryToolsCount = TOOLS_REGISTRY.filter(t => t.category === category.id).length;
+  const url = `https://clustertools.online/tools/${category.slug}`;
+
+  return constructMetadata({
     title: `${category.name} | Cluster Tools`,
     description: category.description,
-  };
+    url,
+    category: category.name,
+    ...(categoryToolsCount === 0 && {
+      robots: {
+        index: false,
+        follow: false,
+      }
+    })
+  });
+}
+
+export function generateStaticParams() {
+  return CATEGORIES.map((category) => ({
+    category: category.slug,
+  }));
 }
 
 const getCategoryIcon = (categoryId: string) => {

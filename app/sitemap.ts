@@ -6,21 +6,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://clustertools.online';
   
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${baseUrl}`, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
-    { url: `${baseUrl}/about`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${baseUrl}/privacy`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${baseUrl}/terms`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${baseUrl}`, lastModified: new Date('2026-08-24T00:00:00.000Z'), changeFrequency: 'weekly', priority: 1.0 },
+    { url: `${baseUrl}/about`, lastModified: new Date('2026-08-24T00:00:00.000Z'), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${baseUrl}/privacy`, lastModified: new Date('2026-08-24T00:00:00.000Z'), changeFrequency: 'monthly', priority: 0.5 },
+    { url: `${baseUrl}/terms`, lastModified: new Date('2026-08-24T00:00:00.000Z'), changeFrequency: 'monthly', priority: 0.5 },
   ];
 
-  const categories: MetadataRoute.Sitemap = CATEGORIES.map((category) => ({
+  const liveTools = getAllTools().filter(t => t.status === 'live');
+
+  const categories: MetadataRoute.Sitemap = CATEGORIES.filter(category => 
+    liveTools.some(tool => tool.category === category.id)
+  ).map((category) => ({
     url: `${baseUrl}/tools/${category.slug}`,
-    lastModified: new Date(),
+    lastModified: new Date(category.lastModified),
     changeFrequency: 'weekly',
     priority: 0.8,
   }));
 
-  const tools: MetadataRoute.Sitemap = getAllTools()
-    .filter(t => t.status === 'live')
+  const tools: MetadataRoute.Sitemap = liveTools
     .map((tool) => ({
       url: `${baseUrl}/tools/${tool.category}/${tool.slug}`,
       lastModified: tool.lastModified ? new Date(tool.lastModified) : new Date(),
