@@ -322,8 +322,8 @@ export default function Home() {
           {/* CTA button — full width on mobile */}
           <div className="flex justify-center">
             <Link href="/tools" className="inline-flex items-center justify-center w-full md:w-auto px-8 py-4 md:py-3.5 bg-primary hover:bg-primary-fixed-variant text-white font-bold rounded-full transition-colors shadow-lg shadow-primary/25 text-base min-h-[48px]">
-              Explore all {TOOLS_REGISTRY.length} tools <ArrowRight size={18} className="ml-2" />
-            </Link>
+            Discover all {TOOLS_REGISTRY.length} free utilities <ArrowRight size={18} className="ml-2" />
+          </Link>
           </div>
         </div>
 

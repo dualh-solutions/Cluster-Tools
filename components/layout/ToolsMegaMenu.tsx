@@ -154,7 +154,7 @@ export function ToolsMegaMenu({ isActive }: { isActive: boolean }) {
               onClick={() => setIsOpen(false)}
               className="inline-flex items-center gap-2 text-sm font-bold text-primary hover:text-primary-fixed-variant transition-colors"
             >
-              Explore all {TOOLS_REGISTRY.length} tools <ArrowRight size={16} />
+              View complete tools directory <ArrowRight size={16} />
             </Link>
           </div>
         </div>
