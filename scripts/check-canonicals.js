@@ -9,6 +9,7 @@ if (!fs.existsSync(NEXT_SERVER_APP_DIR)) {
 }
 
 let missingCanonicalCount = 0;
+let missingOgUrlCount = 0;
 
 function scanDirectory(dir) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
@@ -25,9 +26,15 @@ function scanDirectory(dir) {
       }
       
       const content = fs.readFileSync(fullPath, 'utf8');
+      
       if (!content.includes('<link rel="canonical"')) {
         console.error(`\x1b[31m[SEO ERROR]\x1b[0m Missing canonical tag in statically generated page: ${fullPath.replace(NEXT_SERVER_APP_DIR, '').replace(/\\/g, '/')}`);
         missingCanonicalCount++;
+      }
+
+      if (!content.includes('property="og:url"')) {
+        console.error(`\x1b[31m[SEO ERROR]\x1b[0m Missing og:url in statically generated page: ${fullPath.replace(NEXT_SERVER_APP_DIR, '').replace(/\\/g, '/')}`);
+        missingOgUrlCount++;
       }
     }
   }
@@ -36,9 +43,14 @@ function scanDirectory(dir) {
 console.log('Scanning statically generated pages for canonical tags...');
 scanDirectory(NEXT_SERVER_APP_DIR);
 
-if (missingCanonicalCount > 0) {
-  console.error(`\x1b[31m[SEO ERROR]\x1b[0m Found ${missingCanonicalCount} page(s) missing a canonical tag.`);
+if (missingCanonicalCount > 0 || missingOgUrlCount > 0) {
+  if (missingCanonicalCount > 0) {
+    console.error(`\x1b[31m[SEO ERROR]\x1b[0m Found ${missingCanonicalCount} page(s) missing a canonical tag.`);
+  }
+  if (missingOgUrlCount > 0) {
+    console.error(`\x1b[31m[SEO ERROR]\x1b[0m Found ${missingOgUrlCount} page(s) missing an og:url tag.`);
+  }
   process.exit(1);
 } else {
-  console.log('\x1b[32m[SEO SUCCESS]\x1b[0m All static pages contain a canonical tag.');
+  console.log('\x1b[32m[SEO SUCCESS]\x1b[0m All static pages contain a canonical tag and an og:url tag.');
 }
