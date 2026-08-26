@@ -206,9 +206,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   </div>
                   <div className="flex-1 w-full sm:pt-1">
                     <div className="flex items-start justify-between gap-2">
-                      <h3 className="font-bold text-ink text-[14px] sm:text-[17px] leading-tight group-hover:text-primary transition-colors">
+                      <h2 className="font-bold text-ink text-[14px] sm:text-[17px] leading-tight group-hover:text-primary transition-colors">
                         {tool.name}
-                      </h3>
+                      </h2>
                       {tool.popular && (
                         <span className="shrink-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-[#EFF6FF] text-[#3B82F6] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">
                           POPULAR

@@ -132,7 +132,7 @@ export function ToolLayout({
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
         </div>
         <div className="flex flex-col text-left">
-          <h4 className="text-[15px] font-bold text-ink mb-1">Your files are safe with us</h4>
+          <h2 className="text-[15px] font-bold text-ink mb-1">Your files are safe with us</h2>
           <p className="text-[14px] text-ink-muted leading-relaxed">
             100% private. Files are processed in your browser and never uploaded to any server.
           </p>

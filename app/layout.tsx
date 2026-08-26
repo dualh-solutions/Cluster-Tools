@@ -127,11 +127,11 @@ export default function RootLayout({
               </p>
             </div>
             <div className="flex flex-col gap-md">
-              <h4 className="font-label-md text-label-md text-on-surface font-bold">Tools</h4>
+              <h2 className="font-label-md text-label-md text-on-surface font-bold">Tools</h2>
               <Link href="/tools" className="font-metadata text-metadata text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center">All Tools</Link>
             </div>
             <div className="flex flex-col gap-md">
-              <h4 className="font-label-md text-label-md text-on-surface font-bold">Company</h4>
+              <h2 className="font-label-md text-label-md text-on-surface font-bold">Company</h2>
               <Link href="/about" className="font-metadata text-metadata text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center">About Us</Link>
               <Link href="/privacy" className="font-metadata text-metadata text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center">Privacy Policy</Link>
               <Link href="/terms" className="font-metadata text-metadata text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center">Terms of Service</Link>

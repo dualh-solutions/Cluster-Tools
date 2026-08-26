@@ -234,7 +234,7 @@ export default async function ToolPage({ params }: PageProps) {
 
           {relatedTools.length > 0 && (
             <div className="mt-12 pt-8 border-t border-outline-variant">
-              <h3 className="text-xl font-h3 font-bold mb-6 text-on-surface">Related Tools</h3>
+              <h2 className="text-xl font-h3 font-bold mb-6 text-on-surface">Related Tools</h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {relatedTools.map(t => (
                   <Link 
@@ -242,7 +242,7 @@ export default async function ToolPage({ params }: PageProps) {
                     href={`/tools/${t.category}/${t.slug}`}
                     className="block bg-surface border border-outline-variant rounded-xl p-4 hover:border-primary transition-all duration-200 group shadow-sm hover:shadow-md hover:-translate-y-1"
                   >
-                    <h4 className="font-bold text-on-surface group-hover:text-primary transition-colors">{t.name}</h4>
+                    <h3 className="font-bold text-on-surface group-hover:text-primary transition-colors">{t.name}</h3>
                     <p className="text-sm text-on-surface-variant mt-1 line-clamp-1">{t.shortName}</p>
                   </Link>
                 ))}
