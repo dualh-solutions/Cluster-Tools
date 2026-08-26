@@ -12,7 +12,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { ScrollToBottom } from "@/components/ui/ScrollToBottom";
 
 const mdxComponents = {
-  h1: (props: any) => <h1 className="text-[24px] md:text-[32px] font-extrabold mt-8 md:mt-12 mb-4 text-on-surface" {...props} />,
+  h1: (props: any) => <h2 className="text-[24px] md:text-[32px] font-extrabold mt-8 md:mt-12 mb-4 text-on-surface" {...props} />,
   h2: (props: any) => <h2 className="text-[20px] md:text-[28px] font-extrabold mt-8 md:mt-12 mb-4 text-on-surface tracking-tight" {...props} />,
   h3: (props: any) => <h3 className="text-[18px] md:text-[22px] font-bold mt-6 md:mt-8 mb-4 text-on-surface" {...props} />,
   p: (props: any) => <p className="mb-4 md:mb-6 text-on-surface-variant text-[16px] md:text-[18px] leading-[1.6]" {...props} />,

@@ -2,7 +2,7 @@
 
 import React from "react";
 import Link from "next/link";
-import { useParams } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { getToolBySlug } from '@/lib/tools/registry';
 import { 
   ArrowLeft, Shrink, UploadCloud, Download, Lock, Zap,
@@ -31,12 +31,11 @@ export function ToolLayout({
   noChildrenBox,
 }: ToolLayoutProps) {
   const params = useParams();
-  const slug = params?.slug as string;
+  const pathname = usePathname();
+  const slug = (params?.slug as string) || (pathname?.split('/').pop() as string);
   const tool = slug ? getToolBySlug(slug) : null;
 
-  const words = title.split(" ");
-  const firstWord = words[0];
-  const restWords = words.slice(1).join(" ");
+  const displayTitle = tool ? tool.title.split(' | ')[0] : title;
 
   // Determine Main Icon based on toolType
   const getMainIcon = () => {
@@ -119,7 +118,7 @@ export function ToolLayout({
           <MainIcon size={26} strokeWidth={2} />
         </div>
         <h1 className="text-[32px] font-extrabold text-ink tracking-tight leading-tight mb-3">
-          {firstWord} <span className="text-primary">{restWords}</span>
+          {displayTitle}
         </h1>
         <p className="text-[15px] text-ink-muted max-w-[400px] mx-auto leading-relaxed">
           {description}

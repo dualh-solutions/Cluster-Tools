@@ -61,9 +61,3 @@ They're the same thing. GUID (Globally Unique Identifier) is Microsoft's name fo
 
 **Should I use UUID v4 or v7 for database primary keys?**
 UUID v7 is better for databases because it's time-ordered — this means new rows are inserted at the end of the index, reducing B-tree fragmentation (the "UUID primary key performance problem" with v4). UUID v7 support is growing as of 2024.
-
-## Related Tools
-
-- [Password Generator](/tools/developer/password-generator) — generate secure random strings for secrets and API keys.
-- [Base64 Encoder/Decoder](/tools/developer/base64-encoder-decoder) — encode UUID bytes as Base64 for compact storage.
-- [JSON Formatter](/tools/developer/json-formatter) — format JSON documents that include UUID fields.

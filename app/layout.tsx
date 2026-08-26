@@ -10,19 +10,20 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+  adjustFontFallback: false,
 });
 
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
   weight: ["600", "700", "800"],
+  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://clustertools.online'),
   title: "Cluster Tools - Fast, Private Online Tools",
   description: "Convert, compress, and edit files entirely in your browser. No uploads, no servers, zero waiting.",
-  keywords: ["online tools", "file converter", "pdf tools", "image compressor", "browser based tools", "privacy first tools"],
   openGraph: {
     type: "website",
     locale: "en_US",
