@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { useParams, usePathname } from 'next/navigation';
 import { getToolBySlug } from '@/lib/tools/registry';
+import { SocialShare } from './SocialShare';
 import { 
   ArrowLeft, Shrink, UploadCloud, Download, Lock, Zap,
   RefreshCw, Calculator, Code, Search, PenTool, CheckCircle, Eye, Settings, Copy
@@ -118,10 +119,12 @@ export function ToolLayout({
       {noChildrenBox ? (
         <div className="w-full flex flex-col mb-4">
           {children}
+          <SocialShare title={displayTitle} />
         </div>
       ) : (
         <div className="w-full bg-surface rounded-[24px] shadow-[0_2px_12px_rgba(0,0,0,0.03)] border border-border p-6 flex flex-col mb-4">
           {children}
+          <SocialShare title={displayTitle} />
         </div>
       )}
 
