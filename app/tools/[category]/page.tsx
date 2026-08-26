@@ -163,7 +163,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           <p className="text-gray-500 font-medium">No tools available in this category yet.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 mb-12">
           {categoryTools.map((tool) => {
             const ToolIcon = getToolIcon(tool.toolType);
             
@@ -179,19 +179,19 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               <Link
                 key={tool.id}
                 href={getToolUrl(tool)}
-                className="group relative flex flex-col bg-surface border border-gray-200 rounded-[24px] p-6 hover:border-transparent transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] overflow-hidden"
+                className="group relative flex flex-col bg-surface border border-gray-200 rounded-[16px] sm:rounded-[24px] p-4 sm:p-6 hover:border-transparent transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] overflow-hidden"
               >
-                <div className="flex items-start gap-4 mb-4">
-                  <div className={`w-14 h-14 rounded-[16px] ${iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300`}>
-                    <ToolIcon size={26} className={iconColor} strokeWidth={2} />
+                <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4 mb-3 sm:mb-4">
+                  <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-[12px] sm:rounded-[16px] ${iconBg} flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform duration-300`}>
+                    <ToolIcon className={`w-5 h-5 sm:w-[26px] sm:h-[26px] ${iconColor}`} strokeWidth={2} />
                   </div>
-                  <div className="flex-1 pt-1">
-                    <div className="flex items-start justify-between">
-                      <h3 className="font-bold text-ink text-[17px] leading-tight group-hover:text-primary transition-colors pr-2">
+                  <div className="flex-1 w-full sm:pt-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3 className="font-bold text-ink text-[14px] sm:text-[17px] leading-tight group-hover:text-primary transition-colors">
                         {tool.name}
                       </h3>
                       {tool.popular && (
-                        <span className="shrink-0 text-[10px] font-bold uppercase tracking-wider bg-[#EFF6FF] text-[#3B82F6] px-2 py-1 rounded-md">
+                        <span className="shrink-0 text-[9px] sm:text-[10px] font-bold uppercase tracking-wider bg-[#EFF6FF] text-[#3B82F6] px-1.5 sm:px-2 py-0.5 sm:py-1 rounded-md">
                           POPULAR
                         </span>
                       )}
@@ -199,19 +199,19 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                   </div>
                 </div>
                 
-                <p className="text-[14px] text-ink-muted leading-relaxed mb-6 flex-1 pr-4">
+                <p className="text-[12px] sm:text-[14px] text-ink-muted leading-relaxed mb-4 sm:mb-6 flex-1 line-clamp-3 sm:line-clamp-none">
                   {tool.description}
                 </p>
                 
-                <div className="flex items-center justify-between mt-auto pt-4">
-                  <div className="flex flex-wrap gap-2.5">
+                <div className="flex items-center justify-between mt-auto pt-3 sm:pt-4 border-t sm:border-t-0 border-gray-100">
+                  <div className="flex flex-wrap gap-1.5 sm:gap-2.5 hidden sm:flex">
                     {tool.tags?.slice(0, 3).map(tag => (
                       <span key={tag} className="text-[12px] font-medium text-[#9CA3AF]">
                         #{tag}
                       </span>
                     ))}
                   </div>
-                  <ArrowRight size={20} className="text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300 shrink-0" strokeWidth={2} />
+                  <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5 text-gray-300 group-hover:text-primary group-hover:translate-x-1 transition-all duration-300 shrink-0 ml-auto sm:ml-0" strokeWidth={2} />
                 </div>
               </Link>
             );
