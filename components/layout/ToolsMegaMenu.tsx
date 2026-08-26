@@ -18,7 +18,7 @@ const CATEGORIES = [
   { id: "calculators", name: "Calculators", icon: Calculator, color: "text-indigo-500", bg: "bg-indigo-50 dark:bg-indigo-900/20" },
   { id: "text", name: "Text", icon: Type, color: "text-purple-500", bg: "bg-purple-50 dark:bg-purple-900/20" },
   { id: "developer", name: "Developer", icon: Code2, color: "text-green-500", bg: "bg-green-50 dark:bg-green-900/20" },
-  { id: "downloader", name: "Downloader", icon: Download, color: "text-pink-500", bg: "bg-pink-50 dark:bg-pink-900/20" },
+
 ];
 
 const getSpecificToolIcon = (slug: string, fallback: any) => {
@@ -59,7 +59,7 @@ const getSpecificToolIcon = (slug: string, fallback: any) => {
     case "json-formatter": return Braces;
     case "json-validator": return ShieldCheck;
     case "json-minifier": return Minimize2;
-    case "youtube-downloader": return Download;
+
     default: return fallback;
   }
 };
