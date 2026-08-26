@@ -78,13 +78,7 @@ export const CATEGORIES: CategoryDefinition[] = [
     description: "Tools to help you get work done faster.",
     lastModified: "2026-08-24T00:00:00.000Z",
   },
-  {
-    id: "downloader",
-    slug: "downloader",
-    name: "Social Media Downloaders",
-    description: "Download videos and media from various social platforms.",
-    lastModified: "2026-08-24T00:00:00.000Z",
-  },
+
   {
     id: "general",
     slug: "general",
