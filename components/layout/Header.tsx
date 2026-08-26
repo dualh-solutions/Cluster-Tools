@@ -43,16 +43,19 @@ export function Header() {
     <>
       <div className="sticky top-0 pt-[5px] z-50 w-full px-4 md:px-6 pointer-events-none">
         <header className="relative bg-surface/80 dark:bg-surface/90 backdrop-blur-xl border border-black/5 dark:border-outline-variant shadow-[0_8px_30px_rgb(0,0,0,0.04)] rounded-[28px] h-[72px] w-full max-w-[1440px] mx-auto flex justify-between items-center px-4 md:px-6 pointer-events-auto gap-2 md:gap-4 mt-2 md:mt-0">
-          <div className="flex flex-1 items-center gap-2 md:gap-4 min-w-0">
+          <div className="flex md:hidden items-center min-w-0">
             <button 
               onClick={() => setMobileMenuOpen(true)}
-              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-ink-muted hover:text-primary transition-colors cursor-pointer active:opacity-70 md:hidden shrink-0" 
+              className="min-w-[44px] min-h-[44px] flex items-center justify-center text-ink-muted hover:text-primary transition-colors cursor-pointer active:opacity-70 shrink-0" 
               aria-label="Open Menu"
               aria-expanded={mobileMenuOpen}
             >
               <Menu size={24} />
             </button>
-            <Link href="/" className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 md:static md:translate-x-0 md:translate-y-0 md:left-auto md:top-auto font-sans tracking-[-0.02em] text-[22px] sm:text-2xl font-extrabold text-[#2E5CFF] flex items-center gap-2 sm:gap-2.5 active:opacity-70 z-50 shrink-0 min-w-0">
+          </div>
+
+          <div className="flex md:flex-1 items-center min-w-0">
+            <Link href="/" className="font-sans tracking-[-0.02em] text-[22px] sm:text-2xl font-extrabold text-[#2E5CFF] flex items-center gap-2 sm:gap-2.5 active:opacity-70 z-50 shrink-0 min-w-0">
               <div className="relative flex items-center justify-center shrink-0">
                 <Hexagon className="text-[#2E5CFF]" size={34} strokeWidth={2.5} />
                 <div className="absolute w-[8px] h-[8px] bg-[#2E5CFF] rounded-full"></div>
@@ -73,7 +76,7 @@ export function Header() {
             </Link>
           </nav>
           
-          <div className="flex flex-1 justify-end items-center gap-2 md:gap-4 min-w-0">
+          <div className="flex md:flex-1 justify-end items-center gap-2 md:gap-4 min-w-0">
             {!isHome && <GlobalSearch variant="header" />}
             <div className="w-11 h-11 rounded-full bg-surface dark:bg-surface-container flex items-center justify-center border border-black/5 shadow-sm text-ink-muted hover:text-ink transition-colors cursor-pointer">
               <ThemeToggle />
