@@ -45,6 +45,17 @@ export const metadata: Metadata = {
     description: "Convert, compress, and edit files entirely in your browser. 100% private.",
     images: ["/og?title=Cluster Tools+-+Fast%2C+Private+Online+Tools&category=Tools"],
   },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 };
 
 export default function RootLayout({

@@ -38,6 +38,17 @@ export function constructMetadata({ title, description, url, category = "Tools",
       description,
       images: [ogImageUrl],
     },
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     ...rest,
   };
 }
