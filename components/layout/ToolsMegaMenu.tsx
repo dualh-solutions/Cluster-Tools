@@ -108,7 +108,7 @@ export function ToolsMegaMenu({ isActive }: { isActive: boolean }) {
       {isOpen && (
         <div className="fixed top-[96px] left-1/2 -translate-x-1/2 w-[95vw] lg:w-[1150px] xl:w-[1300px] bg-surface border border-outline-variant shadow-2xl rounded-2xl animate-in fade-in slide-in-from-top-2 duration-200 z-[100] cursor-default flex flex-col max-h-[85vh]">
           
-          <div className="p-6 lg:p-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 overflow-y-auto overflow-x-hidden">
+          <div className="p-6 lg:p-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 overflow-y-auto overflow-x-hidden">
             {CATEGORIES.map((cat) => {
               const categoryTools = TOOLS_REGISTRY.filter(t => t.category === cat.id);
               const Icon = cat.icon;
