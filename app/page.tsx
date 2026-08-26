@@ -210,7 +210,7 @@ export default function Home() {
           <div className="flex items-center justify-between mb-5 md:mb-8">
             <h2 className="text-xl md:text-[24px] font-bold text-on-surface">Browse by Category</h2>
             <Link href="/tools" className="text-sm font-bold text-primary hover:text-primary-fixed-variant transition-colors flex items-center gap-1 shrink-0 min-h-[44px] flex items-center">
-              View all <ArrowRight size={16} />
+              View all online tools <ArrowRight size={16} />
             </Link>
           </div>
 
@@ -269,7 +269,7 @@ export default function Home() {
               <Sparkles size={20} className="text-primary md:w-6 md:h-6" /> Popular Tools
             </h2>
             <Link href="/tools" className="text-sm font-bold text-primary hover:text-primary-fixed-variant transition-colors flex items-center gap-1 shrink-0 min-h-[44px] flex items-center">
-              Browse all <ArrowRight size={16} />
+              Browse all popular tools <ArrowRight size={16} />
             </Link>
           </div>
 

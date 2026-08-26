@@ -192,7 +192,7 @@ export default function AllToolsPage() {
                   href={`/tools/${category.slug}`}
                   className="hidden md:flex items-center text-[14px] font-bold text-[#2E5CFF] hover:text-blue-700 transition-colors"
                 >
-                  View all {categoryTools.length} {categoryTools.length === 1 ? 'tool' : 'tools'} <ArrowRight size={16} className="ml-1" />
+                  View all {categoryTools.length} {category.name} {categoryTools.length === 1 ? 'tool' : 'tools'} <ArrowRight size={16} className="ml-1" />
                 </Link>
               </div>
 

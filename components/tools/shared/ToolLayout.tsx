@@ -108,7 +108,7 @@ export function ToolLayout({
             className="inline-flex items-center gap-1.5 text-[13px] font-medium text-gray-500 hover:text-gray-900 transition-colors"
           >
             <ArrowLeft size={16} />
-            Back to {categoryName}
+            Back to {categoryName} tools
           </Link>
         </div>
       )}
