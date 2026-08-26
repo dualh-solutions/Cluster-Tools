@@ -21,7 +21,8 @@ const mdxComponents = {
   ul: (props: any) => <ul className="list-disc pl-5 space-y-2 mb-6 md:mb-8 text-[16px] md:text-[18px] text-on-surface-variant leading-[1.6]" {...props} />,
   ol: (props: any) => <ol className="list-decimal pl-5 space-y-2 md:space-y-3 mb-8 md:mb-10 text-[16px] md:text-[18px] text-on-surface-variant leading-[1.6]" {...props} />,
   li: (props: any) => <li className="pl-1 md:pl-2" {...props} />,
-  strong: (props: any) => <strong className="text-on-surface font-bold" {...props} />,
+  strong: (props: any) => <span className="text-on-surface font-bold" {...props} />,
+  b: (props: any) => <span className="text-on-surface font-bold" {...props} />,
 };
 
 interface PageProps {
@@ -209,7 +210,7 @@ export default async function ToolPage({ params }: PageProps) {
                   <ol className="list-decimal pl-5 space-y-2 md:space-y-3 mb-8 md:mb-10 text-[16px] md:text-[18px] text-on-surface-variant leading-[1.6]">
                     {tool.howTo.map((step, i) => (
                       <li key={i} className="pl-1 md:pl-2">
-                        <strong className="text-on-surface">{step.name}:</strong> {step.text}
+                        <span className="text-on-surface font-bold">{step.name}:</span> {step.text}
                       </li>
                     ))}
                   </ol>
@@ -222,7 +223,7 @@ export default async function ToolPage({ params }: PageProps) {
                   <div className="space-y-4 md:space-y-6 mb-8 md:mb-10">
                     {tool.faqs.map((faq, i) => (
                       <div key={i} className="bg-surface border border-outline-variant rounded-xl p-4 md:p-5 shadow-sm">
-                        <strong className="block text-on-surface font-bold text-[16px] md:text-[18px] mb-2">{faq.question}</strong>
+                        <div className="block text-on-surface font-bold text-[16px] md:text-[18px] mb-2">{faq.question}</div>
                         <p className="text-on-surface-variant text-[15px] md:text-[16px] m-0 leading-[1.6]">{faq.answer}</p>
                       </div>
                     ))}
