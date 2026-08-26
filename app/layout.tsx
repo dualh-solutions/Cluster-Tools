@@ -94,6 +94,7 @@ export default function RootLayout({
             ])
           }}
         />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
       </head>
       <body className={`${inter.variable} ${manrope.variable} font-body-md min-h-screen flex flex-col antialiased bg-background text-ink overflow-x-hidden`} suppressHydrationWarning>
         <ThemeProvider
