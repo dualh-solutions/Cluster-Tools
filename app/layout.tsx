@@ -6,6 +6,7 @@ import "./globals.css";
 import { Hexagon, Globe, ChevronDown } from "lucide-react";
 import { Header } from "@/components/layout/Header";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { SocialShare } from "@/components/tools/shared/SocialShare";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -136,6 +137,10 @@ export default function RootLayout({
               <Link href="/about" className="font-metadata text-metadata text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center">About Us</Link>
               <Link href="/privacy" className="font-metadata text-metadata text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center">Privacy Policy</Link>
               <Link href="/terms" className="font-metadata text-metadata text-on-surface-variant hover:text-primary transition-colors min-h-[44px] flex items-center">Terms of Service</Link>
+            </div>
+            <div className="flex flex-col gap-md">
+              <h2 className="font-label-md text-label-md text-on-surface font-bold">Share</h2>
+              <SocialShare title="Cluster Tools - Fast, Private Online Tools" hideLabel className="mt-2" />
             </div>
           </div>
           

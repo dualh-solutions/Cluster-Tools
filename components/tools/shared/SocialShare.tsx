@@ -3,7 +3,15 @@
 import React, { useState, useEffect } from 'react';
 import { Link2, Check, MessageCircle } from 'lucide-react';
 
-export function SocialShare({ title }: { title?: string }) {
+export function SocialShare({ 
+  title,
+  hideLabel = false,
+  className = "pt-4 border-t border-border mt-4 w-full justify-center sm:justify-start"
+}: { 
+  title?: string;
+  hideLabel?: boolean;
+  className?: string;
+}) {
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
 
@@ -29,8 +37,8 @@ export function SocialShare({ title }: { title?: string }) {
   if (!url) return null;
 
   return (
-    <div className="flex items-center gap-3 pt-4 border-t border-border mt-4 w-full justify-center sm:justify-start">
-      <span className="text-[13px] font-bold text-ink-muted">Share this tool:</span>
+    <div className={`flex items-center gap-3 ${className}`}>
+      {!hideLabel && <span className="text-[13px] font-bold text-ink-muted">Share this tool:</span>}
       <div className="flex items-center gap-2">
         <a 
           href={`https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`}
