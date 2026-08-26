@@ -50,6 +50,5 @@ export function generateToolMetadata(tool: ToolDefinition): Metadata {
     description: tool.description,
     url,
     category: tool.category,
-    keywords: tool.keywords.join(", "),
   });
 }

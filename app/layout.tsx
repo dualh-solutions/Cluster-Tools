@@ -10,14 +10,12 @@ import { ThemeProvider } from "@/components/ThemeProvider";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  adjustFontFallback: false,
 });
 
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
   weight: ["600", "700", "800"],
-  adjustFontFallback: false,
 });
 
 export const metadata: Metadata = {
