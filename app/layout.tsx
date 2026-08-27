@@ -87,7 +87,7 @@ export default function RootLayout({
                 "@type": "Organization",
                 "name": "Cluster Tools",
                 "url": "https://clustertools.online",
-                "logo": "https://clustertools.online/favicon.ico",
+                "logo": "https://clustertools.online/icon.svg",
                 "description": "Browser-based, privacy-first file conversion and editing tools. 100% private, no server uploads.",
                 "sameAs": [],
                 "foundingDate": "2024"
