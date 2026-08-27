@@ -15,22 +15,34 @@ export const TOOLS_REGISTRY: ToolDefinition[] = [
     inputFormats: [".jpg", ".jpeg", ".png", ".webp"],
     outputTypes: ["image/jpeg", "image/png", "image/webp"],
     outputFormats: [".jpg", ".jpeg", ".png", ".webp"],
-    title: "Compress Image Online, Free & Private | Cluster Tools",
-    description: "Reduce image file size instantly in your browser. Compress JPG, PNG, and WebP without quality guesswork. No upload, free, and private.",
-    keywords: ["compress jpg", "compress image", "reduce image size", "image compressor online"],
-    aliases: ["image compressor", "jpg compressor"],
-    searchTerms: ["compress", "shrink", "reduce", "size", "kb", "mb", "image"],
+    title: "JPEG Compressor to 200KB - Free, Fast & Private | Cluster Tools",
+    description: "Use our free JPEG compressor to 200KB. Reduce image file size instantly in your browser. No signup, 100% private, and fast.",
+    keywords: ["jpeg compressor to 200kb", "compress jpeg to 200kb online", "reduce jpeg file size to 200kb", "jpg compressor 200kb free", "how to compress image to 200kb", "jpeg to 200kb converter"],
+    aliases: ["image compressor", "jpg compressor", "jpeg compressor to 200kb"],
+    searchTerms: ["compress", "shrink", "reduce", "size", "kb", "mb", "image", "200kb"],
     popular: true,
     status: "live",
-    lastModified: "2026-08-24T00:00:00.000Z",
+    lastModified: "2026-08-27T00:00:00.000Z",
     faqs: [
       {
-        question: "How does the target size feature work?",
-        answer: "The compressor runs a fast binary search algorithm locally on your device to find the optimal quality setting that brings your image down to the requested file size."
+        question: "How do I compress a JPEG to under 200KB?",
+        answer: "Simply upload your image, select 'Target Size', type '200' in the KB field, and the tool will automatically find the best quality setting to hit your goal."
+      },
+      {
+        question: "Does compressing a JPEG to 200KB reduce image quality?",
+        answer: "The visual difference is typically unnoticeable to the human eye, especially for web use. Our JPEG compressor to 200KB removes redundant data while preserving visual fidelity."
+      },
+      {
+        question: "Is this JPEG to 200KB converter really free?",
+        answer: "Yes, it is completely free to use with no sign-ups or artificial limits. Because it runs locally in your browser, we have no server costs to pass on to you."
+      },
+      {
+        question: "How fast is it to reduce JPEG file size to 200KB?",
+        answer: "It takes just a few milliseconds. The tool runs a fast binary search algorithm locally on your device to instantly find the optimal quality setting."
       },
       {
         question: "Do you store my compressed images?",
-        answer: "No. Processing happens entirely on your device. We do not have servers to store your images."
+        answer: "No. Processing happens entirely on your device in real-time. We do not have servers to store your images."
       },
       {
         question: "Can I compress multiple images at once?",

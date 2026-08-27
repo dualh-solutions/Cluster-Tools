@@ -47,6 +47,9 @@ Cluster Tools's "maintain aspect ratio" mode is enabled by default for this reas
 **Will resizing upscale (enlarge) an image?**
 Yes, but with caveats. Upscaling rasterizes the image at a larger size using interpolation — the algorithm guesses what the new pixels should look like. This makes images softer and less detailed at large upscale factors (above 2×). There's no AI upscaling here; for that you'd need specialized tools.
 
+**How can I make the file size even smaller after resizing?**
+Resizing reduces dimensions, which naturally reduces file size. However, if you need to hit a specific file size limit, you can run your resized image through our [jpeg compressor to 200kb](/tools/image/image-compressor) tool to optimize the file size without losing visual quality.
+
 **Does resizing change the file format?**
 No — if you input a JPG you get a JPG back, same for PNG. To change format, use the dedicated converter tools.
 
